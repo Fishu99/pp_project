@@ -7,12 +7,14 @@ public class Visibility : MonoBehaviour{
     public class ViewCastInfo{
         public bool hit;
         public Vector3 point;
+        public Vector3 normal;
         public float dst;
         public float angle;
 
-        public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle){
+        public ViewCastInfo(bool _hit, Vector3 _point, Vector3 _normal, float _dst, float _angle){
             hit = _hit;
             point = _point;
+            normal = _normal;
             dst = _dst;
             angle = _angle;
         }
@@ -34,7 +36,7 @@ public class Visibility : MonoBehaviour{
     float viewRadius;
 
     [SerializeField]
-    [Range(0,360)]
+    [Range(0,380)]
     float viewAngle;
 
     [SerializeField]
@@ -54,6 +56,9 @@ public class Visibility : MonoBehaviour{
 
     [SerializeField]
     MeshFilter meshFilter;
+
+    [SerializeField]
+    float maskCutawayDst = .1f;
 
     Mesh viewMesh;
     List<Transform> visibleTargets = new List<Transform>();
@@ -120,13 +125,14 @@ public class Visibility : MonoBehaviour{
             viewPoints.Add(newViewCastInfo.point);
             oldViewCastInfo = newViewCastInfo;
         }
+
         int vertexCount = viewPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCount];
         int[] triangles = new int[(vertexCount-2)*3];
 
         vertices[0] = Vector3.zero;
         for(int i =0; i < vertexCount -1; i++){
-            vertices[i+1] = transform.InverseTransformPoint(viewPoints[i]);
+            vertices[i+1] = transform.InverseTransformPoint(viewPoints[i]) + Vector3.forward * maskCutawayDst;
 
             if(i < vertexCount - 2){
                 triangles[i * 3] = 0;
@@ -168,9 +174,9 @@ public class Visibility : MonoBehaviour{
         RaycastHit hit;
 
         if(Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask)){
-            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+            return new ViewCastInfo(true, hit.point, hit.normal, hit.distance, globalAngle);
         }else{
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * viewRadius, Vector3.zero , viewRadius, globalAngle);
         }
     }
 
