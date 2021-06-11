@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class Gun : MonoBehaviour
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject muzzle;
+    public bool unlimitedShots = false;
     public int ammunition = 20;
     private int shotsBeforeReload = 5;
     public int reloadCounter;
@@ -15,7 +16,7 @@ public class Weapon : MonoBehaviour
         Reload();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         
@@ -23,19 +24,16 @@ public class Weapon : MonoBehaviour
 
     public bool CanShoot()
     {
-        return ammunition > 0 && reloadCounter > 0;
+        return unlimitedShots || (ammunition > 0 && reloadCounter > 0);
     }
 
-    public bool Shoot()
+    public void Shoot()
     {
-        bool canShoot = CanShoot();
-        if (canShoot)
+        if (CanShoot())
         {
             FireProjectile();
-            reloadCounter--;
-            ammunition--;
+            DecrementCounters();
         }
-        return canShoot;
     }
 
     public void Reload()
@@ -57,5 +55,14 @@ public class Weapon : MonoBehaviour
         projectile.transform.rotation = Quaternion.FromToRotation(projectile.transform.forward, direction);
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.Shoot();
+    }
+
+    private void DecrementCounters()
+    {
+        if (!unlimitedShots)
+        {
+            reloadCounter--;
+            ammunition--;
+        }
     }
 }

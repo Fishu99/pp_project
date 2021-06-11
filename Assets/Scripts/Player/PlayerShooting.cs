@@ -4,44 +4,87 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    [SerializeField] private GameObject weapon;
-    private Weapon weaponComponent;
+    [SerializeField] private GameObject gun;
+    [SerializeField] private GameObject knife;
+    private GameObject activeWeapon;
+    private Gun gunComponent;
+    private Knife knifeComponent;
     private PlayerMovement playerMovement;
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        weaponComponent = weapon.GetComponent<Weapon>();
+        SetActiveWeapon(gun);
+        GetComponentOfActiveWeapon();
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Shoot();
+            Attack();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             Reload();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetActiveWeapon(gun);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetActiveWeapon(knife);
+        }
+    }
+
+    public void SetActiveWeapon(GameObject newWeaponPrefab)
+    {
+        if(activeWeapon != null)
+        {
+            Destroy(activeWeapon);
+        }
+        GameObject newWeapon = Instantiate(newWeaponPrefab);
+        newWeapon.transform.position = playerMovement.weaponGrip.transform.position;
+        newWeapon.transform.rotation = transform.rotation;
+        newWeapon.transform.SetParent(playerMovement.weaponGrip.transform);
+        activeWeapon = newWeapon;
+        GetComponentOfActiveWeapon();
     }
 
     public int GetAmmunition()
     {
-        return weaponComponent.ammunition;
+        return gunComponent != null ? gunComponent.ammunition : 0;
     }
 
     public int GetShotsBeforeReload()
     {
-        return weaponComponent.reloadCounter;
+        return gunComponent != null ? gunComponent.reloadCounter : 0;
     }
 
-    private void Shoot()
+    private void Attack()
     {
-        weaponComponent.Shoot();
+        if (gunComponent != null)
+        {
+            gunComponent.Shoot();
+        }
+        else if(knifeComponent != null)
+        {
+            Vector3 direction = transform.forward;
+            knifeComponent.Attack(direction);
+        }
     }
 
     private void Reload()
     {
-        weapon.GetComponent<Weapon>().Reload();
+        if (gunComponent != null)
+        {
+            gunComponent.Reload();
+        }
+    }
+
+    private void GetComponentOfActiveWeapon()
+    {
+        gunComponent = activeWeapon.GetComponent<Gun>();
+        knifeComponent = activeWeapon.GetComponent<Knife>();
     }
 }

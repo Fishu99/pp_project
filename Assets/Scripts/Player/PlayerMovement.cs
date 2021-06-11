@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private new GameObject camera;
-    [SerializeField] private GameObject weaponGrip;
+    [SerializeField] public GameObject weaponGrip;
     [SerializeField] private float speed = 1f;
     private new Rigidbody rigidbody;
     private Camera cameraComponent;
@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 lookAtPoint = ray.GetPoint(enter);
         return lookAtPoint;
     }
+
 
     private void SetVelocity()
     {

@@ -48,6 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3762304032935779439, guid: a3bb856786849b947b7dadf83de5f5a1, type: 3}
   muzzle: {fileID: 2939755872447895944}
+  unlimitedShots: 0
+  ammunition: 20
+  reloadCounter: 0
 --- !u!1 &2939755872447895944
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +75,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2939755872447895944}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0044, y: 0.1222, z: 0.9304}
+  m_LocalPosition: {x: -0.0044, y: 0.15, z: 0.238}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4184278597458572586}
@@ -104,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5452844353977692851}
   m_LocalRotation: {x: 0.23045848, y: -0, z: -0, w: 0.9730822}
-  m_LocalPosition: {x: 0, y: 0, z: 0.704}
+  m_LocalPosition: {x: 0, y: 0.027800009, z: 0.011599839}
   m_LocalScale: {x: 0.078528, y: 0.3, z: 0.1}
   m_Children: []
   m_Father: {fileID: 4184278597458572586}
@@ -185,7 +188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6335364833980048201}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.12, z: 0.794}
+  m_LocalPosition: {x: 0, y: 0.1478, z: 0.10159987}
   m_LocalScale: {x: 0.09404994, y: 0.09039555, z: 0.27193}
   m_Children: []
   m_Father: {fileID: 4184278597458572586}
