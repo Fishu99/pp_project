@@ -51,7 +51,6 @@ public class Pick : MonoBehaviour
         slotFull = true;
 
         //Make weapon a child of the camera and move it to default position
-        transform.SetParent(gunContainer);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
         transform.localScale = Vector3.one;
@@ -60,8 +59,7 @@ public class Pick : MonoBehaviour
         rb.isKinematic = true;
         coll.isTrigger = true;
 
-        player.GetComponent<PlayerShooting>().weapon = weapon;
-        player.GetComponent<PlayerShooting>().weaponComponent = weapon.GetComponent<Gun>();
+        player.GetComponent<PlayerShooting>().SetActiveWeapon(weapon);
 
         //Enable script
         gunScript.enabled = true;
@@ -72,6 +70,7 @@ public class Pick : MonoBehaviour
         equipped = false;
         slotFull = false;
 
+        player.GetComponent<PlayerShooting>().SetActiveWeaponKnife();
         //Set parent to null
         transform.SetParent(null);
 

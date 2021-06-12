@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 857381953446659169}
   - component: {fileID: 857381953446659174}
   - component: {fileID: 857381953446659175}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 857381954570349256}
   - component: {fileID: 857381954570349257}
   - component: {fileID: 857381954570349262}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 857381955057610611}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeaponGrip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 857381955110486337}
   - component: {fileID: 857381955110486342}
   - component: {fileID: 857381955110486343}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 857381955119289865}
   - component: {fileID: 857381955119289870}
   - component: {fileID: 857381955119289871}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 857381955210244906}
   - component: {fileID: 731562335562765464}
   - component: {fileID: 857381955210244907}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TestPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24fd39f0752345a4e8c243b3cbb1d45f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 1875862019921183240, guid: 96ff1aab3e1695d49bc7c48e18b250f9, type: 3}
+  knife: {fileID: 0}
 --- !u!114 &731562335562765464
 MonoBehaviour:
   m_ObjectHideFlags: 0
