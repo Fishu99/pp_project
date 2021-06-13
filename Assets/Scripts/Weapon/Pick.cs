@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class Pick : MonoBehaviour
 {
-    public Gun gunScript;
-    public GameObject weapon;
-    public Rigidbody rb;
-    public BoxCollider coll;
-    public Transform gunContainer, fpsCam;
-    public GameObject player;
+    [SerializeField] private Gun gunScript;
+    [SerializeField] private GameObject weapon;
+    [SerializeField] private Rigidbody weaponRigidbody;
+    [SerializeField] private BoxCollider weaponCollider;
+    [SerializeField] private Transform gunContainer, fpsCam;
+    [SerializeField] private GameObject player;
 
-    public float pickUpRange;
-    public float dropForwardForce, dropUpwardForce;
+    [SerializeField] private float pickUpRange;
+    [SerializeField] private float dropForwardForce, dropUpwardForce;
 
-    public bool equipped;
-    public static bool slotFull;
+    [SerializeField] private bool equipped;
 
     private void Start()
     {
@@ -23,15 +22,14 @@ public class Pick : MonoBehaviour
         if (!equipped)
         {
             gunScript.enabled = false;
-            rb.isKinematic = false;
-            coll.isTrigger = false;
+            weaponRigidbody.isKinematic = false;
+            weaponCollider.isTrigger = false;
         }
         if (equipped)
         {
             gunScript.enabled = true;
-            rb.isKinematic = true;
-            coll.isTrigger = true;
-            slotFull = true;
+            weaponRigidbody.isKinematic = true;
+            weaponCollider.isTrigger = true;
         }
     }
 
@@ -39,7 +37,7 @@ public class Pick : MonoBehaviour
     {
         //Check if player is in range and "E" is pressed
         Vector3 distanceToPlayer = player.transform.position - transform.position;
-        if (!equipped && distanceToPlayer.magnitude <= pickUpRange && Input.GetKeyDown(KeyCode.E) && !slotFull) PickUp();
+        if (!equipped && distanceToPlayer.magnitude <= pickUpRange && Input.GetKeyDown(KeyCode.E)) PickUp();
 
         //Drop if equipped and "Q" is pressed
         if (equipped && Input.GetKeyDown(KeyCode.Q)) Drop();
@@ -48,17 +46,17 @@ public class Pick : MonoBehaviour
     private void PickUp()
     {
         equipped = true;
-        slotFull = true;
 
         //Make weapon a child of the camera and move it to default position
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(Vector3.zero);
-        transform.localScale = Vector3.one;
+        //transform.SetParent(gunContainer);
+        transform.localPosition = Vector3.up;
+        transform.localRotation = Quaternion.Euler(0, 180, 0);
 
-        //Make Rigidbody kinematic and BoxCollider a trigger
-        rb.isKinematic = true;
-        coll.isTrigger = true;
+        //Make weaponRigidbody kinematic and BoxCollider a trigger
+        weaponRigidbody.isKinematic = true;
+        weaponCollider.isTrigger = true;
 
+        player.GetComponent<PlayerInventory>().Add(weapon);
         player.GetComponent<PlayerShooting>().SetActiveWeapon(weapon);
 
         //Enable script
@@ -68,25 +66,27 @@ public class Pick : MonoBehaviour
     private void Drop()
     {
         equipped = false;
-        slotFull = false;
 
-        player.GetComponent<PlayerShooting>().SetActiveWeaponKnife();
         //Set parent to null
         transform.SetParent(null);
 
-        //Make Rigidbody not kinematic and BoxCollider normal
-        rb.isKinematic = false;
-        coll.isTrigger = false;
+        //Make weaponRigidbody not kinematic and BoxCollider normal
+        weaponRigidbody.isKinematic = false;
+        weaponCollider.isTrigger = false;
 
         //Gun carries momentum of player
-        rb.velocity = player.GetComponent<Rigidbody>().velocity;
+        weaponRigidbody.velocity = player.GetComponent<Rigidbody>().velocity;
 
         //AddForce
-        rb.AddForce(fpsCam.forward * dropForwardForce, ForceMode.Impulse);
-        rb.AddForce(fpsCam.up * dropUpwardForce, ForceMode.Impulse);
+        weaponRigidbody.AddForce(fpsCam.forward * dropForwardForce, ForceMode.Impulse);
+        weaponRigidbody.AddForce(fpsCam.up * dropUpwardForce, ForceMode.Impulse);
         //Add random rotation
         float random = Random.Range(-1f, 1f);
-        rb.AddTorque(new Vector3(random, random, random) * 10);
+        weaponRigidbody.AddTorque(new Vector3(random, random, random) * 10);
+
+        //remove
+        player.GetComponent<PlayerInventory>().Remove(weapon);
+        player.GetComponent<PlayerShooting>().activeWeapon = null;
 
         //Disable script
         gunScript.enabled = false;

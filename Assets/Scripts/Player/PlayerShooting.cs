@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    
+    public GameObject activeWeapon;
     [SerializeField] private GameObject knife;
-    private GameObject activeWeapon;
     private Gun gunComponent;
     private Knife knifeComponent;
     private PlayerMovement playerMovement;
@@ -38,10 +37,15 @@ public class PlayerShooting : MonoBehaviour
         {
             knife.SetActive(false);
         }
+        if(activeWeapon != null)
+        {
+            activeWeapon.SetActive(false);
+        }
         newWeapon.transform.position = playerMovement.weaponGrip.transform.position;
         newWeapon.transform.rotation = transform.rotation;
         newWeapon.transform.SetParent(playerMovement.weaponGrip.transform);
         activeWeapon = newWeapon;
+        newWeapon.SetActive(true);
         GetComponentOfActiveWeapon();
     }
 
