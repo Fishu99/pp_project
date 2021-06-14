@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     public GameObject activeWeapon;
+    //[SerializeField] private GameObject sight;
     [SerializeField] private GameObject knife;
     private Gun gunComponent;
     private Knife knifeComponent;
@@ -64,6 +65,8 @@ public class PlayerShooting : MonoBehaviour
     {
         return gunComponent != null ? gunComponent.reloadCounter : 0;
     }
+
+    
 
     private void Attack()
     {

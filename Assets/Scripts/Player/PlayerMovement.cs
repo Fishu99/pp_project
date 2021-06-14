@@ -7,15 +7,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private new GameObject camera;
     [SerializeField] public GameObject weaponGrip;
     [SerializeField] private float speed = 1f;
+    [SerializeField] private GameObject sight;
     private new Rigidbody rigidbody;
     private Camera cameraComponent;
+    private FollowPlayer cameraFollow;
     private float horizontalInput;
     private float verticalInput;
     
     void Start()
     {
         GetTheComponents();
-        camera.GetComponent<FollowPlayer>().player = gameObject;
+        cameraFollow.player = gameObject;
     }
 
     
@@ -24,7 +26,9 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         SetVelocity();
+        cameraFollow.updatePosition();
         SetRotation();
+        PlaceSight();
     }
 
     public Vector3 GetShootPoint()
@@ -46,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 lookAtPoint = GetShootPoint();
         Vector3 forwardDirection = lookAtPoint - transform.position;
+        //Vector3 forwardDirection = lookAtPoint - weaponGrip.transform.position;
         transform.rotation = Quaternion.LookRotation(forwardDirection);
     }
 
@@ -63,5 +68,14 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         cameraComponent = camera.GetComponent<Camera>();
+        cameraFollow = camera.GetComponent<FollowPlayer>();
+    }
+
+    private void PlaceSight()
+    {
+        if (sight != null)
+        {
+            sight.transform.position = GetShootPoint();
+        }
     }
 }
