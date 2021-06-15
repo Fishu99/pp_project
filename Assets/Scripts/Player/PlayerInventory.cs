@@ -6,11 +6,16 @@ public class PlayerInventory : MonoBehaviour
 {
     private List<GameObject> weaponSlots;
     private int size = 3;
+    [SerializeField] private int firstAidKitHealth = 50;
+    [SerializeField] private float pickRadius = 1f;
+    private int firstAidKits = 0;
+    private Health health;
 
     // Start is called before the first frame update
     void Start()
     {
         weaponSlots = new List<GameObject>();
+        health = GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -31,6 +36,15 @@ public class PlayerInventory : MonoBehaviour
            //GetComponent<PlayerShooting>().activeWeapon.SetActive(false);
             GetComponent<PlayerShooting>().SetActiveWeapon(weaponSlots[2]);
         }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            UseFirstAid();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            CheckForCollectibles();
+        }
     }
 
     public void Add(GameObject weapon)
@@ -48,6 +62,30 @@ public class PlayerInventory : MonoBehaviour
         if (Equals(weapon, GetComponent<PlayerShooting>().activeWeapon))
         {
             weaponSlots.Remove(weapon);
+        }
+    }
+
+    private void CheckForCollectibles()
+    {
+        int layerMask = 1 << LayerMask.NameToLayer("Collectible");
+        Collider[] colliders = Physics.OverlapSphere(transform.position, pickRadius, layerMask);
+        foreach(var collider in colliders)
+        {
+            FirstAidKit firstAidKit = collider.GetComponent<FirstAidKit>();
+            if (firstAidKit != null)
+            {
+                firstAidKit.Pick();
+                firstAidKits++;
+            }
+        }
+    }
+
+    private void UseFirstAid()
+    {
+        if(firstAidKits > 0)
+        {
+            health.Restore(firstAidKitHealth);
+            firstAidKits--;
         }
     }
 }
