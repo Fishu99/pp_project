@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TimerManager : MonoBehaviour
-{
-    [SerializeField] public Dictionary<string, Timer> timers;
+{   
+    private Dictionary<string, Timer> timers = new Dictionary<string, Timer>();
 
     void Start()
     {
-        timers = new Dictionary<string, Timer>();
     }
 
     void FixedUpdate()

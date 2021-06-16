@@ -6,12 +6,13 @@ public class EnemyWaypoints : MonoBehaviour
 {
     private List<EnemyWaypoint> waypoints;
 
-    void Start()
+    void Awake()
     {
         LoadWaypoints();
     }
 
     public EnemyWaypoint GetWaypoint(int index) {
+        Debug.Log(waypoints);
         return waypoints[index];
     }
 

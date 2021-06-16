@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MonoBehaviour
+public enum EnemyStates
+{
+    UNDETECTED,
+    DETECTED,
+}
+
+public abstract class EnemyMovement : MonoBehaviour
 {
     [SerializeField] public GameObject weaponGrip;
-    [SerializeField] private EnemyWaypoints waypointSystem;
-    private TimerManager timerManager;
-    [SerializeField] private float waypointReachDistance;
-    private int myWaypointSystemID;
-    private Rigidbody rigidbody;
+    [SerializeField] protected EnemyWaypoints waypointSystem;
+    protected TimerManager timerManager;
+    protected NavMeshAgent navMeshAgent;
+    protected Rigidbody rigidbody;
 
+
+    [SerializeField] protected float waypointReachDistance;
+    protected int myWaypointSystemID;
+    
+    
     //TODO: Wyluskiwanie z managera
-    [SerializeField] private GameObject player;
-    [SerializeField] private float playerDetectRange;
+    [SerializeField] protected GameObject player;
+    [SerializeField] protected float playerDetectRange;
+    protected EnemyStates state;
 
-    private NavMeshAgent navMeshAgent;
 
     void Start()
     {
@@ -24,7 +34,86 @@ public class EnemyMovement : MonoBehaviour
         InitValues();
     }
 
+	protected void SetState(EnemyStates newstate)
+	{
+		switch (newstate)
+		{
+			case EnemyStates.UNDETECTED:
+                UnsetStateDetectedValues();
+                SetStateUndetectedValues();
+
+				state = newstate;
+				break;
+			case EnemyStates.DETECTED:
+                UnsetStateUndetectedValues();
+                SetStateDetectedValues();
+
+				state = newstate;
+				break;
+        }
+    }
+
     void Update() {
+        switch (state)
+		{
+			case EnemyStates.UNDETECTED:
+				Undetected();
+				break;
+			case EnemyStates.DETECTED:
+				Detected();
+				break;
+        }
+    }
+
+    private void GetTheComponents()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        timerManager = GetComponent<TimerManager>();
+    }
+
+
+
+    private void InitValues() {
+        myWaypointSystemID = 0;
+        state = EnemyStates.UNDETECTED;
+
+        TimerToZero destinationReachedCooldown = new TimerToZero(500f, 500f);
+        destinationReachedCooldown.locked = true;
+        timerManager.AddTimer("DRC", destinationReachedCooldown);
+
+        Debug.Log(waypointSystem);
+        Debug.Log(waypointSystem.GetWaypoint(0));
+        SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
+    }
+
+    protected abstract void SetStateDetectedValues();
+    protected abstract void UnsetStateDetectedValues();
+
+    private void SetStateUndetectedValues() {
+        navMeshAgent.isStopped = false;
+    }
+    private void UnsetStateUndetectedValues() {
+        timerManager.SetLock("DRC", true);
+        timerManager.ResetTimer("DRC");
+        navMeshAgent.isStopped = true;
+    }
+
+
+
+
+    private void SetDestination(EnemyWaypoint waypoint)
+    {
+        if(waypoint != null)
+        {
+            Vector3 destinationPosition = waypoint.transform.position;
+            navMeshAgent.SetDestination(destinationPosition);
+        }
+    }
+
+
+
+    protected void Undetected() {
         if(
             waypointSystem.IsWaypointInReach(myWaypointSystemID, this.transform, waypointReachDistance) &&
             timerManager.IsTimerLocked("DRC")
@@ -44,41 +133,16 @@ public class EnemyMovement : MonoBehaviour
             timerManager.ResetTimer("DRC");
         }
 
-        //TODO: Inna akcja w zaleznosci od broni, to jest do celow testowych
         if((player.transform.position-transform.position).magnitude <= playerDetectRange)
-            navMeshAgent.isStopped = true;
-        else
-            navMeshAgent.isStopped = false;
+            SetState(EnemyStates.DETECTED);
     }
 
-    private void GetTheComponents()
-    {
-        rigidbody = GetComponent<Rigidbody>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        timerManager = GetComponent<TimerManager>();
-    }
+    protected abstract void Detected();
 
-    private void InitValues() {
-        myWaypointSystemID = 0;
 
-        TimerToZero destinationReachedCooldown = new TimerToZero(500f, 500f);
-        destinationReachedCooldown.locked = true;
-        timerManager.AddTimer("DRC", destinationReachedCooldown);
 
-        SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
-    }
-
-    private void SetDestination(EnemyWaypoint waypoint)
-    {
-        if(waypoint != null)
-        {
-            Vector3 destinationPosition = waypoint.transform.position;
-            navMeshAgent.SetDestination(destinationPosition);
-        }
-    }
-
-    [SerializeField] private bool debugGizmos;
-    void OnDrawGizmos() {
+    [SerializeField] protected bool debugGizmos;
+    protected virtual void OnDrawGizmos() {
         if(debugGizmos)
 		{
             Gizmos.color = Color.red;
