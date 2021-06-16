@@ -45,22 +45,25 @@ public class Pick : MonoBehaviour
 
     private void PickUp()
     {
-        equipped = true;
+        if (!player.GetComponent<PlayerInventory>().full)
+        {
+            equipped = true;
 
-        //Make weapon a child of the camera and move it to default position
-        //transform.SetParent(gunContainer);
-        transform.localPosition = Vector3.up;
-        transform.localRotation = Quaternion.Euler(0, 180, 0);
+            //Make weapon a child of the camera and move it to default position
+            //transform.SetParent(gunContainer);
+            transform.localPosition = Vector3.up;
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
 
-        //Make weaponRigidbody kinematic and BoxCollider a trigger
-        weaponRigidbody.isKinematic = true;
-        weaponCollider.isTrigger = true;
+            //Make weaponRigidbody kinematic and BoxCollider a trigger
+            weaponRigidbody.isKinematic = true;
+            weaponCollider.isTrigger = true;
 
-        player.GetComponent<PlayerInventory>().Add(weapon);
-        player.GetComponent<PlayerShooting>().SetActiveWeapon(weapon);
+            player.GetComponent<PlayerInventory>().Add(weapon);
+            player.GetComponent<PlayerShooting>().SetActiveWeapon(weapon);
 
-        //Enable script
-        gunScript.enabled = true;
+            //Enable script
+            gunScript.enabled = true;
+        }
     }
 
     private void Drop()

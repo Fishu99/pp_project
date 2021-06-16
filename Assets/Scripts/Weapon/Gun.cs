@@ -7,9 +7,9 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject muzzle;
     public bool unlimitedShots = false;
-    public int ammunition = 20;
     private int shotsBeforeReload = 5;
     public int reloadCounter;
+    public PlayerInventory playerInventory;
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class Gun : MonoBehaviour
 
     public bool CanShoot()
     {
-        return unlimitedShots || (ammunition > 0 && reloadCounter > 0);
+        return unlimitedShots || (playerInventory.ammunition > 0 && reloadCounter > 0);
     }
 
     public void Shoot()
@@ -43,7 +43,7 @@ public class Gun : MonoBehaviour
 
     public void AddAmmunition(int amount)
     {
-        ammunition += amount;
+        playerInventory.ammunition += amount;
     }
 
     private void FireProjectile()
@@ -62,7 +62,7 @@ public class Gun : MonoBehaviour
         if (!unlimitedShots)
         {
             reloadCounter--;
-            ammunition--;
+            playerInventory.ammunition--;
         }
     }
 }

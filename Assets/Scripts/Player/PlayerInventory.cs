@@ -10,6 +10,8 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private float pickRadius = 1f;
     private int firstAidKits = 0;
     private Health health;
+    public bool full = false;
+    public int ammunition = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -23,17 +25,14 @@ public class PlayerInventory : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1) && weaponSlots.Count >= 1)
         {
-           // GetComponent<PlayerShooting>().activeWeapon.SetActive(false);
             GetComponent<PlayerShooting>().SetActiveWeapon(weaponSlots[0]);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha2) && weaponSlots.Count >= 2)
         {
-            //GetComponent<PlayerShooting>().activeWeapon.SetActive(false);
             GetComponent<PlayerShooting>().SetActiveWeapon(weaponSlots[1]);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3) && weaponSlots.Count >= 3)
         {
-           //GetComponent<PlayerShooting>().activeWeapon.SetActive(false);
             GetComponent<PlayerShooting>().SetActiveWeapon(weaponSlots[2]);
         }
 
@@ -51,9 +50,12 @@ public class PlayerInventory : MonoBehaviour
     {
         if(weaponSlots.Count < size)
         {
-            //sGetComponent<PlayerShooting>().activeWeapon.SetActive(false);
             GetComponent<PlayerShooting>().SetActiveWeapon(weapon);
             weaponSlots.Add(weapon);
+            if (weaponSlots.Count == 3)
+            {
+                full = true;
+            }
         }
     }
 
@@ -62,6 +64,10 @@ public class PlayerInventory : MonoBehaviour
         if (Equals(weapon, GetComponent<PlayerShooting>().activeWeapon))
         {
             weaponSlots.Remove(weapon);
+        }
+        if (weaponSlots.Count < size)
+        {
+            full = false;
         }
     }
 
@@ -77,9 +83,14 @@ public class PlayerInventory : MonoBehaviour
                 firstAidKit.Pick();
                 firstAidKits++;
             }
+            Ammunition magazine = collider.GetComponent<Ammunition>();
+            if (magazine != null)
+            {
+                int collectedAmmunition = magazine.Pick();
+                ammunition += collectedAmmunition;
+            }
         }
     }
-
     private void UseFirstAid()
     {
         if(firstAidKits > 0)
