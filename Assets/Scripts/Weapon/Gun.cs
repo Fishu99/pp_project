@@ -11,6 +11,16 @@ public class Gun : MonoBehaviour
     public int reloadCounter;
     public PlayerInventory playerInventory;
 
+    public bool enableMuzzleflash = true;
+    public ParticleSystem muzzleParticles;
+    public bool enableSparks = true;
+    public ParticleSystem sparkParticles;
+    public int minSparkEmission = 1;
+    public int maxSparkEmission = 7;
+
+    [Header("Muzzleflash Light Settings")]
+    public Light muzzleflashLight;
+    public float lightDuration = 0.02f;
     void Start()
     {
         Reload();
@@ -33,6 +43,23 @@ public class Gun : MonoBehaviour
         {
             FireProjectile();
             DecrementCounters();
+            if (enableMuzzleflash == true)
+            {
+                muzzleParticles.Emit(1);
+                //Light flash start
+                StartCoroutine(MuzzleFlashLight());
+            }
+            if (enableSparks == true)
+            {
+                //Emit random amount of spark particles
+                sparkParticles.Emit(Random.Range(minSparkEmission, maxSparkEmission));
+            }
+            if (enableMuzzleflash == true)
+            {
+                muzzleParticles.Emit(1);
+                //Light flash start
+                StartCoroutine(MuzzleFlashLight());
+            }
         }
     }
 
@@ -64,5 +91,12 @@ public class Gun : MonoBehaviour
             reloadCounter--;
             playerInventory.ammunition--;
         }
+    }
+
+    private IEnumerator MuzzleFlashLight()
+    {
+        muzzleflashLight.enabled = true;
+        yield return new WaitForSeconds(lightDuration);
+        muzzleflashLight.enabled = false;
     }
 }
