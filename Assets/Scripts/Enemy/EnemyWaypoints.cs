@@ -12,7 +12,6 @@ public class EnemyWaypoints : MonoBehaviour
     }
 
     public EnemyWaypoint GetWaypoint(int index) {
-        Debug.Log(waypoints);
         return waypoints[index];
     }
 

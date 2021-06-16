@@ -25,7 +25,7 @@ public class TestHealthBar : MonoBehaviour
 
     private void SetBarFill(float fill)
     {
-        Debug.Log(fill);
+        //Debug.Log(fill);
         Vector3 oldScale = barFill.transform.localScale;
         Vector3 newScale = new Vector3(fill, oldScale.y, oldScale.z);
         barFill.transform.localScale = newScale;

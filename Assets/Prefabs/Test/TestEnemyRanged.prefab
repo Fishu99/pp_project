@@ -236,6 +236,8 @@ GameObject:
   - component: {fileID: 6423976808042449169}
   - component: {fileID: 6312182855141941089}
   - component: {fileID: 589764083057728204}
+  - component: {fileID: 6084071489678308193}
+  - component: {fileID: 3302916285659544623}
   m_Layer: 10
   m_Name: TestEnemyRanged
   m_TagString: Untagged
@@ -259,6 +261,7 @@ Transform:
   - {fileID: 6423976807931980848}
   - {fileID: 6423976808490455283}
   - {fileID: 6423976807923242319}
+  - {fileID: 331758881178977551}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -276,7 +279,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &6406243570894974628
 MonoBehaviour:
@@ -357,6 +360,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &6084071489678308193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6423976808042449170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f95a0df189d0742abe6acfa1ee495b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootObjects: []
+  lootChances: 
+  maxLootSpreadRadius: 0
+--- !u!114 &3302916285659544623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6423976808042449170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d74d32286cdcce4c997a94504fd678d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6423976808490455280
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,3 +579,69 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &4473049887510442270
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6423976808042449173}
+    m_Modifications:
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6360520894712849996, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: monitoredHealth
+      value: 
+      objectReference: {fileID: 6406243570894974628}
+    - target: {fileID: 9050305865657165719, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+      propertyPath: m_Name
+      value: TestHealthBar
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+--- !u!4 &331758881178977551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4218135475110032401, guid: 4c4f726e323f6df469a62fb187e04a7c, type: 3}
+  m_PrefabInstance: {fileID: 4473049887510442270}
+  m_PrefabAsset: {fileID: 0}

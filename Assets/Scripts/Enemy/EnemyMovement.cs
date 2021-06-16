@@ -16,6 +16,8 @@ public abstract class EnemyMovement : MonoBehaviour
     protected TimerManager timerManager;
     protected NavMeshAgent navMeshAgent;
     protected Rigidbody rigidbody;
+    private Health health;
+    private Loottable loottable;
 
 
     [SerializeField] protected float waypointReachDistance;
@@ -54,6 +56,12 @@ public abstract class EnemyMovement : MonoBehaviour
     }
 
     void Update() {
+        if (!health.IsAlive())
+        {
+            loottable.DropItems();
+            Destroy(gameObject);
+        }
+
         switch (state)
 		{
 			case EnemyStates.UNDETECTED:
@@ -70,6 +78,8 @@ public abstract class EnemyMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         timerManager = GetComponent<TimerManager>();
+        health = GetComponent<Health>();
+        loottable = GetComponent<Loottable>();
     }
 
 
@@ -82,8 +92,6 @@ public abstract class EnemyMovement : MonoBehaviour
         destinationReachedCooldown.locked = true;
         timerManager.AddTimer("DRC", destinationReachedCooldown);
 
-        Debug.Log(waypointSystem);
-        Debug.Log(waypointSystem.GetWaypoint(0));
         SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
     }
 

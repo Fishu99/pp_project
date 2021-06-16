@@ -17,7 +17,7 @@ public class EnemyMovementMelee : EnemyMovement
     protected override void Detected() {
         Vector3 dir = (player.transform.position - rigidbody.transform.position).normalized;
         Quaternion q = Quaternion.LookRotation(dir);
-        rigidbody.transform.rotation = Quaternion.RotateTowards(rigidbody.transform.rotation, q, Time.fixedDeltaTime * navMeshAgent.angularSpeed * 0.1f);
+        rigidbody.transform.rotation = Quaternion.RotateTowards(rigidbody.transform.rotation, q, Time.fixedDeltaTime * navMeshAgent.angularSpeed * 0.5f);
 
         if((player.transform.position-transform.position).magnitude > playerCloseToAttackRange)
             transform.Translate(Vector3.forward * Time.deltaTime);
