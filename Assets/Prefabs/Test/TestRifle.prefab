@@ -9788,6 +9788,9 @@ GameObject:
   m_Component:
   - component: {fileID: 458745771433804915}
   - component: {fileID: 7211289480435674163}
+  - component: {fileID: 1860073867}
+  - component: {fileID: 1860073866}
+  - component: {fileID: 1860073868}
   m_Layer: 0
   m_Name: TestRifle
   m_TagString: Untagged
@@ -9825,7 +9828,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8604153276841818824, guid: 87f4261ede5105047b779314c1bcf679, type: 3}
   muzzle: {fileID: 8694110773166916511}
   unlimitedShots: 0
-  reloadCounter: 0
+  reloadCounter: 5
   playerInventory: {fileID: 0}
   enableMuzzleflash: 1
   muzzleParticles: {fileID: 3076291735814566817}
@@ -9835,6 +9838,58 @@ MonoBehaviour:
   maxSparkEmission: 10
   muzzleflashLight: {fileID: 8966175943342720967}
   lightDuration: 0.02
+--- !u!54 &1860073867
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936263956541603680}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1860073866
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936263956541603680}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.5, z: 2}
+  m_Center: {x: 0, y: 0, z: 0.3}
+--- !u!114 &1860073868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936263956541603680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf91a3a1a6b01e546a2b8ff178b50406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunScript: {fileID: 7211289480435674163}
+  weapon: {fileID: 6936263956541603680}
+  weaponRigidbody: {fileID: 1860073867}
+  weaponCollider: {fileID: 1860073866}
+  gunContainer: {fileID: 0}
+  fpsCam: {fileID: 0}
+  player: {fileID: 0}
+  pickUpRange: 1
+  dropForwardForce: 1
+  dropUpwardForce: 1
+  equipped: 0
 --- !u!1 &8694110773166916511
 GameObject:
   m_ObjectHideFlags: 0

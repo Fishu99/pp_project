@@ -8,7 +8,7 @@ public class Pick : MonoBehaviour
     [SerializeField] private GameObject weapon;
     [SerializeField] private Rigidbody weaponRigidbody;
     [SerializeField] private BoxCollider weaponCollider;
-    [SerializeField] private Transform gunContainer, fpsCam;
+    [SerializeField] private Transform weaponGrip;
     [SerializeField] private GameObject player;
 
     [SerializeField] private float pickUpRange;
@@ -49,8 +49,7 @@ public class Pick : MonoBehaviour
         {
             equipped = true;
 
-            //Make weapon a child of the camera and move it to default position
-            //transform.SetParent(gunContainer);
+            transform.SetParent(weaponGrip);
             transform.localPosition = Vector3.up;
             transform.localRotation = Quaternion.Euler(0, 180, 0);
 
@@ -81,8 +80,9 @@ public class Pick : MonoBehaviour
         weaponRigidbody.velocity = player.GetComponent<Rigidbody>().velocity;
 
         //AddForce
-        weaponRigidbody.AddForce(fpsCam.forward * dropForwardForce, ForceMode.Impulse);
-        weaponRigidbody.AddForce(fpsCam.up * dropUpwardForce, ForceMode.Impulse);
+        weaponRigidbody.AddForce(player.transform.forward * dropForwardForce, ForceMode.Impulse);
+        weaponRigidbody.AddForce(player.transform.up * dropUpwardForce, ForceMode.Impulse);
+
         //Add random rotation
         float random = Random.Range(-1f, 1f);
         weaponRigidbody.AddTorque(new Vector3(random, random, random) * 10);
