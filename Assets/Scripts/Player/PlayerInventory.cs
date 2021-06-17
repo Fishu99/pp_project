@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     private List<GameObject> weaponSlots;
-    private const int knifeSlot = 3;
-    private int currentWeaponSlot = knifeSlot;
-    private int size = 3;
+    private int currentWeaponSlot = 0;
+    private int size = 4;
     [SerializeField] private int firstAidKitHealth = 50;
     [SerializeField] private float pickRadius = 1f;
+    [SerializeField] private GameObject knife;
     private int firstAidKits = 0;
     private Health health;
     public bool Full {
@@ -24,6 +24,8 @@ public class PlayerInventory : MonoBehaviour
         weaponSlots = new List<GameObject>();
         health = GetComponent<Health>();
         playerShooting = GetComponent<PlayerShooting>();
+        weaponSlots.Add(knife);
+        SetActiveWeapon(0);
     }
 
     // Update is called once per frame
@@ -31,19 +33,19 @@ public class PlayerInventory : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ChangeWeapon(0);
+            ChangeWeapon(1);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ChangeWeapon(1);
+            ChangeWeapon(2);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ChangeWeapon(2);
+            ChangeWeapon(3);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            ChangeWeapon(knifeSlot);
+            ChangeWeapon(0);
         }
 
         if (Input.GetKeyDown(KeyCode.H))
@@ -65,7 +67,7 @@ public class PlayerInventory : MonoBehaviour
         if(!Full)
         {
             weaponSlots.Add(weapon);
-            SetActiveWeapon(weaponSlots.Count - 1);
+            ChangeWeapon(weaponSlots.Count - 1);
         }
     }
 
@@ -79,23 +81,17 @@ public class PlayerInventory : MonoBehaviour
 
     private void ChangeWeapon(int slot)
     {
-        if (currentWeaponSlot != knifeSlot)
+        if (slot < weaponSlots.Count)
         {
             weaponSlots[currentWeaponSlot].SetActive(false);
             weaponSlots[currentWeaponSlot].transform.SetParent(null);
+            SetActiveWeapon(slot);
         }
-        SetActiveWeapon(slot);
     }
 
     private void SetActiveWeapon(int slot)
     {
-
-        if (slot == knifeSlot)
-        {
-            currentWeaponSlot = slot;
-            playerShooting.SetActiveWeaponKnife();
-        }
-        else if (slot < weaponSlots.Count)
+        if (slot < weaponSlots.Count)
         {
             currentWeaponSlot = slot;
             playerShooting.SetActiveWeapon(weaponSlots[slot]);
@@ -148,7 +144,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void DropActiveWeapon()
     {
-        if (currentWeaponSlot != knifeSlot)
+        if (currentWeaponSlot != 0)
         {
             GameObject weaponToDrop = weaponSlots[currentWeaponSlot];
             weaponSlots.RemoveAt(currentWeaponSlot);
@@ -161,15 +157,14 @@ public class PlayerInventory : MonoBehaviour
 
     private int FindActiveWeaponSlotAfterRemove()
     {
-        if (weaponSlots.Count == 0)
-        {
-            return knifeSlot;
-        }
-        else if (currentWeaponSlot >= weaponSlots.Count)
+        if (currentWeaponSlot >= weaponSlots.Count)
         {
             return weaponSlots.Count - 1;
         }
-        return currentWeaponSlot;
+        else
+        {
+            return currentWeaponSlot;
+        }
     }
 
     private void UseFirstAid()

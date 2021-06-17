@@ -6,18 +6,20 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     public GameObject activeWeapon;
-    //[SerializeField] private GameObject sight;
-    [SerializeField] private GameObject knife;
     private Gun gunComponent;
     private Knife knifeComponent;
     private PlayerMovement playerMovement;
     private PlayerInventory playerInventory;
-    void Start()
+
+    private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
         playerInventory = GetComponent<PlayerInventory>();
-        SetActiveWeapon(knife);
-        GetComponentOfActiveWeapon();
+    }
+    void Start()
+    {
+        
+        
     }
 
     void Update()
@@ -35,28 +37,14 @@ public class PlayerShooting : MonoBehaviour
 
     public void SetActiveWeapon(GameObject newWeapon)
     {
-        //Je¿eli poprzednia broñ to by³ nó¿ to go ukrywamy (rozwi¹zanie tymczasowe)
-        if(knifeComponent != null)
-        {
-            knife.SetActive(false);
-        }
-        /*
-        if(activeWeapon != null)
-        {
-            activeWeapon.SetActive(false);
-        }*/
+        if (playerMovement == null)
+            Debug.Log("null");
         newWeapon.transform.position = playerMovement.weaponGrip.transform.position;
         newWeapon.transform.rotation = transform.rotation;
         newWeapon.transform.SetParent(playerMovement.weaponGrip.transform);
         activeWeapon = newWeapon;
         newWeapon.SetActive(true);
         GetComponentOfActiveWeapon();
-    }
-
-    public void SetActiveWeaponKnife()
-    {
-        knife.SetActive(true);
-        SetActiveWeapon(knife);
     }
 
     public int GetAmmunition()
