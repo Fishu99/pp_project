@@ -9883,8 +9883,7 @@ MonoBehaviour:
   weapon: {fileID: 6936263956541603680}
   weaponRigidbody: {fileID: 1860073867}
   weaponCollider: {fileID: 1860073866}
-  gunContainer: {fileID: 0}
-  fpsCam: {fileID: 0}
+  weaponGrip: {fileID: 0}
   player: {fileID: 0}
   pickUpRange: 1
   dropForwardForce: 1
