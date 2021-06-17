@@ -19,6 +19,8 @@ public class Pick : MonoBehaviour
     private void Start()
     {
         //Setup
+        player = FindObjectOfType<PlayerInventory>().gameObject;
+        weaponGrip = player.transform.Find("WeaponGrip");
         if (!equipped)
         {
             gunScript.enabled = false;
