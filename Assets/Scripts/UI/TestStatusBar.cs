@@ -10,6 +10,7 @@ public class TestStatusBar : MonoBehaviour
     [SerializeField] private GameObject healthDisplay;
     [SerializeField] private GameObject player;
     private PlayerShooting playerShooting;
+    private PlayerInventory playerInventory;
     private Health playerHealth;
     private TMP_Text ammunitionText;
     private TMP_Text reloadText;
@@ -18,6 +19,7 @@ public class TestStatusBar : MonoBehaviour
     void Start()
     {
         playerShooting = player.GetComponent<PlayerShooting>();
+        playerInventory = player.GetComponent<PlayerInventory>();
         playerHealth = player.GetComponent<Health>();
         Debug.Log(playerShooting);
         ammunitionText = ammunitionDisplay.GetComponent<TMP_Text>();
@@ -28,7 +30,8 @@ public class TestStatusBar : MonoBehaviour
     
     void Update()
     {
-        string ammunitionStr = "Ammunition: " + playerShooting.GetAmmunition();
+        int ammunition = playerInventory.ammunition;
+        string ammunitionStr = "Ammunition: " + ammunition;
         string reloadStr = "Shots before reload: " + playerShooting.GetShotsBeforeReload();
         int healthPrecentage = (int)(100f * playerHealth.CurrentHealth / playerHealth.MaxHealth);
         string healthStr = "Health: " + healthPrecentage + "%";

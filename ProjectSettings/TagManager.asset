@@ -16,8 +16,8 @@ TagManager:
   - VisibilityTargets
   - VisibilityObstacle
   - Player
-  - 
-  - 
+  - Collectible
+  - Enemy
   - 
   - 
   - 

@@ -6,13 +6,16 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     public GameObject activeWeapon;
+    //[SerializeField] private GameObject sight;
     [SerializeField] private GameObject knife;
     private Gun gunComponent;
     private Knife knifeComponent;
     private PlayerMovement playerMovement;
+    private PlayerInventory playerInventory;
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        playerInventory = GetComponent<PlayerInventory>();
         SetActiveWeapon(knife);
         GetComponentOfActiveWeapon();
     }
@@ -57,13 +60,15 @@ public class PlayerShooting : MonoBehaviour
 
     public int GetAmmunition()
     {
-        return gunComponent != null ? gunComponent.ammunition : 0;
+        return gunComponent != null ? playerInventory.ammunition : 0;
     }
 
     public int GetShotsBeforeReload()
     {
         return gunComponent != null ? gunComponent.reloadCounter : 0;
     }
+
+    
 
     private void Attack()
     {
@@ -89,6 +94,10 @@ public class PlayerShooting : MonoBehaviour
     private void GetComponentOfActiveWeapon()
     {
         gunComponent = activeWeapon.GetComponent<Gun>();
+        if(gunComponent != null)
+        {
+            gunComponent.playerInventory = playerInventory;
+        }
         knifeComponent = activeWeapon.GetComponent<Knife>();
     }
 }
