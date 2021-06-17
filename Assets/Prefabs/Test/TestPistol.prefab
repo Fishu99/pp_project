@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2570578857886967706}
   - component: {fileID: 8421495084820420103}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Muzzleflash Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 258222562}
   - component: {fileID: 258222561}
   - component: {fileID: -4564483018042898108}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TestPistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,9 +199,6 @@ MonoBehaviour:
   weapon: {fileID: 1875862019921183240}
   weaponRigidbody: {fileID: 258222562}
   weaponCollider: {fileID: 258222561}
-  weaponGrip: {fileID: 0}
-  player: {fileID: 0}
-  pickUpRange: 1
   dropForwardForce: 1
   dropUpwardForce: 1
   equipped: 0
@@ -216,7 +213,7 @@ GameObject:
   - component: {fileID: 7965295548218198543}
   - component: {fileID: 9199658161965411704}
   - component: {fileID: 261158324324051922}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: SparkParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5097,7 +5094,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 657631388626803492}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5132,7 +5129,7 @@ GameObject:
   - component: {fileID: 4229595766673582287}
   - component: {fileID: 6017545661930366795}
   - component: {fileID: 127962609986734327}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Muzzleflash Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9930,9 +9927,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4184278597458572586}
     m_Modifications:
+    - target: {fileID: 1362374548099114, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1620780442430432, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642252848606250, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
       propertyPath: m_Name
       value: M1911
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1748277932983872, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1765096765920448, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929811568968954, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4952727429218122, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
       propertyPath: m_RootOrder

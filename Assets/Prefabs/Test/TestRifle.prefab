@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7762162567284959669}
   - component: {fileID: 3076291735814566817}
   - component: {fileID: 4920558764368906269}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Muzzleflash Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4813,7 +4813,7 @@ GameObject:
   - component: {fileID: 7705267710003926344}
   - component: {fileID: 2053432238216084025}
   - component: {fileID: 2820870659343451986}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: SparkParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9695,7 +9695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7309119037877455532}
   - component: {fileID: 8966175943342720967}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Muzzleflash Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9791,7 +9791,7 @@ GameObject:
   - component: {fileID: 1860073867}
   - component: {fileID: 1860073866}
   - component: {fileID: 1860073868}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TestRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9883,9 +9883,6 @@ MonoBehaviour:
   weapon: {fileID: 6936263956541603680}
   weaponRigidbody: {fileID: 1860073867}
   weaponCollider: {fileID: 1860073866}
-  weaponGrip: {fileID: 0}
-  player: {fileID: 0}
-  pickUpRange: 1
   dropForwardForce: 1
   dropUpwardForce: 1
   equipped: 0
@@ -9898,7 +9895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 465650481415922811}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9930,9 +9927,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 465650481415922811}
     m_Modifications:
+    - target: {fileID: 1324608018887474, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452442627303592, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
       propertyPath: m_Name
       value: AK74
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927369336514790, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4519716788627816, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
       propertyPath: m_RootOrder

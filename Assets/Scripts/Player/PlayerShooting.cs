@@ -40,10 +40,11 @@ public class PlayerShooting : MonoBehaviour
         {
             knife.SetActive(false);
         }
+        /*
         if(activeWeapon != null)
         {
             activeWeapon.SetActive(false);
-        }
+        }*/
         newWeapon.transform.position = playerMovement.weaponGrip.transform.position;
         newWeapon.transform.rotation = transform.rotation;
         newWeapon.transform.SetParent(playerMovement.weaponGrip.transform);
