@@ -49,7 +49,7 @@ public class PlayerShooting : MonoBehaviour
 
     public int GetAmmunition()
     {
-        return gunComponent != null ? playerInventory.ammunition : 0;
+        return gunComponent != null ? gunComponent.ammunition : 0;
     }
 
     public int GetShotsBeforeReload()
@@ -83,10 +83,6 @@ public class PlayerShooting : MonoBehaviour
     private void GetComponentOfActiveWeapon()
     {
         gunComponent = activeWeapon.GetComponent<Gun>();
-        if(gunComponent != null)
-        {
-            gunComponent.playerInventory = playerInventory;
-        }
         knifeComponent = activeWeapon.GetComponent<Knife>();
     }
 }

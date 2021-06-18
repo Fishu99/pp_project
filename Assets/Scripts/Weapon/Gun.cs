@@ -9,7 +9,7 @@ public class Gun : MonoBehaviour
     public bool unlimitedShots = false;
     private int shotsBeforeReload = 5;
     public int reloadCounter;
-    public PlayerInventory playerInventory;
+    public int ammunition = 0;
 
     public bool enableMuzzleflash = true;
     public ParticleSystem muzzleParticles;
@@ -34,7 +34,7 @@ public class Gun : MonoBehaviour
 
     public bool CanShoot()
     {
-        return unlimitedShots || (playerInventory.ammunition > 0 && reloadCounter > 0);
+        return unlimitedShots || (ammunition > 0 && reloadCounter > 0);
     }
 
     public void Shoot()
@@ -70,7 +70,7 @@ public class Gun : MonoBehaviour
 
     public void AddAmmunition(int amount)
     {
-        playerInventory.ammunition += amount;
+        ammunition += amount;
     }
 
     private void FireProjectile()
@@ -89,7 +89,7 @@ public class Gun : MonoBehaviour
         if (!unlimitedShots)
         {
             reloadCounter--;
-            playerInventory.ammunition--;
+            ammunition--;
         }
     }
 

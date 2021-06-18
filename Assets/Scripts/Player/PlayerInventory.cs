@@ -15,7 +15,6 @@ public class PlayerInventory : MonoBehaviour
     public bool Full {
         get => weaponSlots.Count >= size;
     }
-    public int ammunition = 0;
     private PlayerShooting playerShooting;
 
     // Start is called before the first frame update
@@ -127,8 +126,24 @@ public class PlayerInventory : MonoBehaviour
         if (magazine != null)
         {
             int collectedAmmunition = magazine.Pick();
-            ammunition += collectedAmmunition;
+            DistributeAmmunitionToGuns(collectedAmmunition);
         }
+    }
+
+    private void DistributeAmmunitionToGuns(int ammunition)
+    {
+        int numberOfGuns = weaponSlots.Count - 1;
+        if (numberOfGuns == 0)
+            return;
+        int ammoPerGun = ammunition / numberOfGuns;
+        int rest = ammunition % numberOfGuns;
+        for(int i = 1; i < weaponSlots.Count; i++)
+        {
+            int ammo = ammoPerGun + ((i - 1 < rest) ? 1 : 0);
+            Gun gun = weaponSlots[i].GetComponent<Gun>();
+            gun.AddAmmunition(ammo);
+        }
+        
     }
 
     private void CollectWeapon(Collider collider)

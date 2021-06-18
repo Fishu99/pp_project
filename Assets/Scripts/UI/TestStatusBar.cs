@@ -30,7 +30,7 @@ public class TestStatusBar : MonoBehaviour
     
     void Update()
     {
-        int ammunition = playerInventory.ammunition;
+        int ammunition = playerShooting.GetAmmunition();
         string ammunitionStr = "Ammunition: " + ammunition;
         string reloadStr = "Shots before reload: " + playerShooting.GetShotsBeforeReload();
         int healthPrecentage = (int)(100f * playerHealth.CurrentHealth / playerHealth.MaxHealth);
