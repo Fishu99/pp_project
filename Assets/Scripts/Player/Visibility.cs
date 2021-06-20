@@ -105,6 +105,7 @@ public class Visibility : MonoBehaviour{
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
+        List<Vector3> viewNormals = new List<Vector3>();
         ViewCastInfo oldViewCastInfo = new ViewCastInfo();
         for(int i = 0; i < stepCount; i++){
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize *i;
@@ -119,10 +120,12 @@ public class Visibility : MonoBehaviour{
                     }else{
                         viewPoints.Add(edge.pointB);
                     }
+                    viewNormals.Add(Vector3.Lerp(newViewCastInfo.normal, oldViewCastInfo.normal, 0.5f));
                 }
             }
 
             viewPoints.Add(newViewCastInfo.point);
+            viewNormals.Add(newViewCastInfo.normal);
             oldViewCastInfo = newViewCastInfo;
         }
 
@@ -132,7 +135,8 @@ public class Visibility : MonoBehaviour{
 
         vertices[0] = Vector3.zero;
         for(int i =0; i < vertexCount -1; i++){
-            vertices[i+1] = transform.InverseTransformPoint(viewPoints[i]) + Vector3.forward * maskCutawayDst;
+            Vector3 localPos = transform.InverseTransformPoint(viewPoints[i]);
+            vertices[i+1] = localPos + localPos.normalized * maskCutawayDst;
 
             if(i < vertexCount - 2){
                 triangles[i * 3] = 0;
