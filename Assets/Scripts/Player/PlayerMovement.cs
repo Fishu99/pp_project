@@ -48,10 +48,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetRotation()
     {
-        Vector3 lookAtPoint = GetShootPoint();
-        Vector3 forwardDirection = lookAtPoint - transform.position;
-        //Vector3 forwardDirection = lookAtPoint - weaponGrip.transform.position;
-        transform.rotation = Quaternion.LookRotation(forwardDirection);
+        if (Time.deltaTime > 0)
+        {
+            Vector3 lookAtPoint = GetShootPoint();
+            Vector3 forwardDirection = lookAtPoint - transform.position;
+            transform.rotation = Quaternion.LookRotation(forwardDirection);
+        }
     }
 
     private Vector3 FindVelocity()
