@@ -15,11 +15,11 @@ public class Loottable : MonoBehaviour
         int i = 0;
         foreach(float lootChance in lootChances) {
             chance = Random.Range(1, 101);
-            Debug.Log("Chance:" + chance + "<=" + lootChance);
+            //Debug.Log("Chance:" + chance + "<=" + lootChance);
             if(chance <= lootChance) {
                 spreadVector.x = (float)(Random.Range(0, maxLootSpreadRadius * 100))/100f;
                 spreadVector.z = (float)(Random.Range(0, maxLootSpreadRadius * 100))/100f;
-                Debug.Log("Spawned! Spread:" + spreadVector);
+                //Debug.Log("Spawned! Spread:" + spreadVector);
 
                 GameObject loot = Instantiate(lootObjects[i], gameObject.transform.position + spreadVector, Quaternion.identity) as GameObject;
             }

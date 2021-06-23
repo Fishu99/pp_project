@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6640415381319847364}
   m_Layer: 0
   m_Name: TestLoot
-  m_TagString: Untagged
+  m_TagString: BulletIgnore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

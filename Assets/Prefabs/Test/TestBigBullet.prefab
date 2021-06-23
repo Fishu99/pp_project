@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7219381699825413091}
   m_Layer: 0
   m_Name: TestBigBullet
-  m_TagString: Untagged
+  m_TagString: BulletIgnore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   healthDamage: 20
+  ignoredGameObjects: []
 --- !u!54 &5835103400787847529
 Rigidbody:
   m_ObjectHideFlags: 0

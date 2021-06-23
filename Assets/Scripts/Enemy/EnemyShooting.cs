@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class EnemyShooting : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Gun gunComponent;
+
     void Start()
     {
-        
+        gunComponent = GetComponentInChildren<Gun>();
+        gunComponent.unlimitedShots = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Attack()
     {
-        
+        if (gunComponent != null)
+        {
+            gunComponent.Shoot();
+        }
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3748032439314876361}
   m_Layer: 0
   m_Name: TestSmallBullet
-  m_TagString: Untagged
+  m_TagString: BulletIgnore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,6 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   healthDamage: 10
+  ignoredGameObjects: []
 --- !u!54 &3748032439314876361
 Rigidbody:
   m_ObjectHideFlags: 0

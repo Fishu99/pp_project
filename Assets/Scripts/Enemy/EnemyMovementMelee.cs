@@ -11,7 +11,8 @@ public class EnemyMovementMelee : EnemyMovement
     }
 
     protected override void UnsetStateDetectedValues() {
-        
+        SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
+        if(navMeshAgent) navMeshAgent.isStopped = false;
     }
 
     protected override void Detected() {
@@ -19,8 +20,19 @@ public class EnemyMovementMelee : EnemyMovement
         Quaternion q = Quaternion.LookRotation(dir);
         rigidbody.transform.rotation = Quaternion.RotateTowards(rigidbody.transform.rotation, q, Time.fixedDeltaTime * navMeshAgent.angularSpeed * 0.5f);
 
-        if((player.transform.position-transform.position).magnitude > playerCloseToAttackRange)
-            transform.Translate(Vector3.forward * Time.deltaTime);
+        if((player.transform.position-transform.position).magnitude > playerCloseToAttackRange) {
+            if(navMeshAgent) navMeshAgent.isStopped = false;
+
+            navMeshAgent?.SetDestination(player.transform.position);
+        }
+        else {
+            if(navMeshAgent) navMeshAgent.isStopped = true;
+
+            if(timerManager.GetStatusOfTimer("ACD") <= 0) {
+                enemyMelee?.Attack();
+                timerManager.ResetTimer("ACD");
+            }
+        }
 
         if((player.transform.position-transform.position).magnitude > playerDetectRange)
             SetState(EnemyStates.UNDETECTED);

@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: -4564483018042898108}
   m_Layer: 9
   m_Name: TestPistol
-  m_TagString: Untagged
+  m_TagString: BulletIgnore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3762304032935779439, guid: a3bb856786849b947b7dadf83de5f5a1, type: 3}
   muzzle: {fileID: 2939755872447895944}
+  ignoredGameObjects: []
   unlimitedShots: 0
   reloadCounter: 5
   ammunition: 0

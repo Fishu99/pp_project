@@ -6,6 +6,9 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private int healthDamage = 10;
+
+    public List<string> ignoreTags;
+    
     private new Rigidbody rigidbody;
 
     private void Awake()
@@ -15,6 +18,14 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        foreach(string tag in ignoreTags) {
+            //Debug.Log(collision.gameObject.tag + " == " + tag + " " + (collision.gameObject.tag == tag));
+            if(collision.gameObject.tag == tag) {
+                return;
+            }
+
+        }
+
         DamageHealth(collision);
         Destroy(gameObject);
     }

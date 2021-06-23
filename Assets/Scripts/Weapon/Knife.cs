@@ -8,6 +8,7 @@ public class Knife : MonoBehaviour
     [SerializeField] private float attackDuration = 0.5f;
     [SerializeField] private float attackDistance = 0.5f;
     [SerializeField] private int healthDamage = 10;
+    [SerializeField] private List<string> ignoredTags;
     private bool isAttacking = false;
     void Start()
     {
@@ -41,8 +42,14 @@ public class Knife : MonoBehaviour
         Vector3 origin = transform.position;
         bool wasHit = Physics.Raycast(origin, direction, out RaycastHit hitInfo, attackDistance);
         Debug.DrawRay(origin, direction, Color.white, 1);
-        if (wasHit)
-        {
+
+        if (wasHit) {
+            foreach(string tag in ignoredTags) {
+                if(hitInfo.collider.gameObject.tag == tag) {
+                    return;
+                }
+            }
+
             Health healthComponent = FindHealthOfHitObject(hitInfo);
             healthComponent.Damage(healthDamage);
         }
@@ -50,6 +57,7 @@ public class Knife : MonoBehaviour
 
     private Health FindHealthOfHitObject(RaycastHit hitInfo)
     {
+        
         Transform tr = hitInfo.collider.gameObject.transform;
         Health healthComponent = tr.GetComponent<Health>();
         while (tr != null && healthComponent == null)

@@ -6,6 +6,7 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject muzzle;
+    [SerializeField] private List<string> ignoreTags;
     public bool unlimitedShots = false;
     private int shotsBeforeReload = 5;
     public int reloadCounter;
@@ -81,6 +82,7 @@ public class Gun : MonoBehaviour
         projectile.transform.position = position;
         projectile.transform.rotation = Quaternion.FromToRotation(projectile.transform.forward, direction);
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
+        projectileComponent.ignoreTags = ignoreTags;
         projectileComponent.Shoot();
     }
 
