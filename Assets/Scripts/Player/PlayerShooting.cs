@@ -9,17 +9,15 @@ public class PlayerShooting : MonoBehaviour
     private Gun gunComponent;
     private Knife knifeComponent;
     private PlayerMovement playerMovement;
-    private PlayerInventory playerInventory;
+    private Animator animator;
 
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        playerInventory = GetComponent<PlayerInventory>();
     }
     void Start()
     {
-        
-        
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -40,7 +38,7 @@ public class PlayerShooting : MonoBehaviour
         if (playerMovement == null)
             Debug.Log("null");
         newWeapon.transform.position = playerMovement.weaponGrip.transform.position;
-        newWeapon.transform.rotation = transform.rotation;
+        newWeapon.transform.rotation = transform.rotation * Quaternion.Euler(0,-12,0);
         newWeapon.transform.SetParent(playerMovement.weaponGrip.transform);
         activeWeapon = newWeapon;
         newWeapon.SetActive(true);
@@ -63,6 +61,10 @@ public class PlayerShooting : MonoBehaviour
     {
         if (gunComponent != null)
         {
+            if(!Equals(gunComponent.ammunition,0))
+            {
+                animator.SetTrigger("Shoot");
+            }
             gunComponent.Shoot();
         }
         else if(knifeComponent != null)

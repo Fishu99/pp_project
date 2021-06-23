@@ -2559,7 +2559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 857381955210244905, guid: 4a95bcca77f9e7242825b6951fe5ed8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 857381955210244905, guid: 4a95bcca77f9e7242825b6951fe5ed8f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2605,6 +2605,10 @@ PrefabInstance:
       propertyPath: sight
       value: 
       objectReference: {fileID: 1268038199}
+    - target: {fileID: 857381955210244907, guid: 4a95bcca77f9e7242825b6951fe5ed8f, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 857381955210244910, guid: 4a95bcca77f9e7242825b6951fe5ed8f, type: 3}
       propertyPath: m_Name
       value: TestPlayer
@@ -2612,6 +2616,10 @@ PrefabInstance:
     - target: {fileID: 1292091956472826412, guid: 4a95bcca77f9e7242825b6951fe5ed8f, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5205084400070315354, guid: 4a95bcca77f9e7242825b6951fe5ed8f, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7635935895636026279, guid: 4a95bcca77f9e7242825b6951fe5ed8f, type: 3}
       propertyPath: pickRadius

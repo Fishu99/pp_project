@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private FollowPlayer cameraFollow;
     private float horizontalInput;
     private float verticalInput;
+    private Animator animator;
     
     void Start()
     {
@@ -61,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, 0, verticalInput);
         if (direction.magnitude > 1)
             direction.Normalize();
+        if (direction.magnitude != 0)
+            animator.SetBool("isWalking", true);
+        else
+            animator.SetBool("isWalking", false);
         Vector3 velocity = speed * direction;
         return velocity;
     }
@@ -71,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         cameraComponent = camera.GetComponent<Camera>();
         cameraFollow = camera.GetComponent<FollowPlayer>();
+        animator = GetComponent<Animator>();
     }
 
     private void PlaceSight()
