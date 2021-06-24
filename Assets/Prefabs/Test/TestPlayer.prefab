@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 857381955210244907}
   - component: {fileID: 7635935895636026279}
   - component: {fileID: 5205084400070315354}
+  - component: {fileID: 2741500839266810396}
   m_Layer: 8
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -110,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  healthUI: {fileID: 0}
 --- !u!54 &857381955210244907
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -141,6 +143,8 @@ MonoBehaviour:
   firstAidKitHealth: 50
   pickRadius: 1
   knife: {fileID: 8237912697050835857}
+  inventoryUI: {fileID: 0}
+  firstAidUI: {fileID: 0}
 --- !u!95 &5205084400070315354
 Animator:
   serializedVersion: 3
@@ -160,6 +164,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &2741500839266810396
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857381955210244910}
+  m_Material: {fileID: 13400000, guid: c2b8dae4fad0bce409e239f3e979007e, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 5.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2554877703210473130
 PrefabInstance:
   m_ObjectHideFlags: 0
