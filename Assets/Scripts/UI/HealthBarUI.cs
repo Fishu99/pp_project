@@ -29,6 +29,7 @@ public class HealthBarUI : MonoBehaviour{
     float startWidth;
 
     float timer;
+    float currentDamageBarStatus;
 
     void Awake(){
         healthBarStatus = 1;
@@ -38,7 +39,7 @@ public class HealthBarUI : MonoBehaviour{
 
     void LateUpdate(){
         timer -= Time.deltaTime;
-        float currentDamageBarStatus = damageBarStatus;
+        currentDamageBarStatus = damageBarStatus;
         if(timer <= smoothTime && timer > 0){
             currentDamageBarStatus = Mathf.Lerp(healthBarStatus,damageBarStatus, timer/smoothTime);
         }else if(timer < 0){
@@ -52,6 +53,7 @@ public class HealthBarUI : MonoBehaviour{
         float currentHealthBarStatus = currentHealth / maxHealth;
         if(currentHealthBarStatus < healthBarStatus){
             timer = timeToDown + smoothTime;
+            damageBarStatus = currentDamageBarStatus;
         }
 
         healthBarStatus = currentHealthBarStatus;

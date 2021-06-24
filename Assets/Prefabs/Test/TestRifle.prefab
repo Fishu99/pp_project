@@ -9827,7 +9827,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 8604153276841818824, guid: 87f4261ede5105047b779314c1bcf679, type: 3}
   muzzle: {fileID: 8694110773166916511}
-  ignoredGameObjects: []
+  ignoreTags: []
+  gunSprite: {fileID: 21300000, guid: 364206cb355dcf7479b2cdec20b8ec68, type: 3}
   unlimitedShots: 0
   reloadCounter: 5
   ammunition: 0
