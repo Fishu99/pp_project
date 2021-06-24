@@ -7,6 +7,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject muzzle;
     [SerializeField] private List<string> ignoreTags;
+    [SerializeField] private Sprite gunSprite;
+    public Sprite GunSprite { get; private set; }
     public bool unlimitedShots = false;
     private int shotsBeforeReload = 5;
     public int reloadCounter;

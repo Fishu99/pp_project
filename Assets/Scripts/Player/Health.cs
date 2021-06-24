@@ -5,6 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private HealthBarUI healthUI;
     public int MaxHealth { get => maxHealth; }
 
     public int CurrentHealth { get; private set; }
@@ -24,6 +25,8 @@ public class Health : MonoBehaviour
         CurrentHealth -= health;
         if (CurrentHealth < 0)
             CurrentHealth = 0;
+        if(healthUI != null)
+            healthUI.SetHealth(CurrentHealth, MaxHealth);
     }
 
     public void Restore(int health)
@@ -31,6 +34,8 @@ public class Health : MonoBehaviour
         CurrentHealth += health;
         if (CurrentHealth > maxHealth)
             CurrentHealth = maxHealth;
+        if (healthUI != null)
+            healthUI.SetHealth(CurrentHealth, MaxHealth);
     }
 
     public bool IsAlive()

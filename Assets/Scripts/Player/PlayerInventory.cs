@@ -10,6 +10,8 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int firstAidKitHealth = 50;
     [SerializeField] private float pickRadius = 1f;
     [SerializeField] private GameObject knife;
+    [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private FirstAidUI firstAidUI;
     private int firstAidKits = 0;
     private Health health;
     public bool Full {
@@ -117,6 +119,8 @@ public class PlayerInventory : MonoBehaviour
         {
             firstAidKit.Pick();
             firstAidKits++;
+            if(firstAidUI != null)
+                firstAidUI.SetNumbers(firstAidKits);
         }
     }
 
@@ -154,6 +158,9 @@ public class PlayerInventory : MonoBehaviour
             GameObject weapon = collider.gameObject;
             pick.PickUp(gameObject);
             AddWeaponToInventory(weapon);
+            if (inventoryUI != null)
+                inventoryUI.AddItemToSlot(currentWeaponSlot - 1, weapon.GetComponent<Gun>().GunSprite);
+  
         }
     }
 
@@ -163,6 +170,8 @@ public class PlayerInventory : MonoBehaviour
         {
             GameObject weaponToDrop = weaponSlots[currentWeaponSlot];
             weaponSlots.RemoveAt(currentWeaponSlot);
+            if (inventoryUI != null)
+                inventoryUI.DeleteItemFromSlot(currentWeaponSlot);
             int newWeaponSlot = FindActiveWeaponSlotAfterRemove();
             SetActiveWeapon(newWeaponSlot);
             Pick pick = weaponToDrop.GetComponent<Pick>();
@@ -188,6 +197,8 @@ public class PlayerInventory : MonoBehaviour
         {
             health.Restore(firstAidKitHealth);
             firstAidKits--;
+            if (firstAidUI != null)
+                firstAidUI.SetNumbers(firstAidKits);
         }
     }
 }
