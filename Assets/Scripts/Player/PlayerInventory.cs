@@ -95,6 +95,8 @@ public class PlayerInventory : MonoBehaviour
         if (slot < weaponSlots.Count)
         {
             currentWeaponSlot = slot;
+            if (inventoryUI != null && slot > 0)
+                inventoryUI.ChooseSlot(slot - 1);
             playerShooting.SetActiveWeapon(weaponSlots[slot]);
         }
         
@@ -146,6 +148,8 @@ public class PlayerInventory : MonoBehaviour
             int ammo = ammoPerGun + ((i - 1 < rest) ? 1 : 0);
             Gun gun = weaponSlots[i].GetComponent<Gun>();
             gun.AddAmmunition(ammo);
+            if (inventoryUI != null)
+                inventoryUI.SetAmmo(i - 1, gun.ammunition);
         }
         
     }
@@ -159,8 +163,7 @@ public class PlayerInventory : MonoBehaviour
             pick.PickUp(gameObject);
             AddWeaponToInventory(weapon);
             if (inventoryUI != null)
-                inventoryUI.AddItemToSlot(currentWeaponSlot - 1, weapon.GetComponent<Gun>().GunSprite);
-  
+                inventoryUI.AddItemToSlot(currentWeaponSlot - 1, weapon.GetComponent<Gun>().GunSprite, weapon.GetComponent<Gun>().ammunition);
         }
     }
 
@@ -170,12 +173,17 @@ public class PlayerInventory : MonoBehaviour
         {
             GameObject weaponToDrop = weaponSlots[currentWeaponSlot];
             weaponSlots.RemoveAt(currentWeaponSlot);
-            if (inventoryUI != null)
-                inventoryUI.DeleteItemFromSlot(currentWeaponSlot);
             int newWeaponSlot = FindActiveWeaponSlotAfterRemove();
             SetActiveWeapon(newWeaponSlot);
             Pick pick = weaponToDrop.GetComponent<Pick>();
             pick.Drop();
+            if (inventoryUI != null)
+                inventoryUI.DeleteItemFromSlot(currentWeaponSlot);
+            for (int i = weaponSlots.Count - 1; i >= currentWeaponSlot && currentWeaponSlot > 0; i-=2)
+            {
+                inventoryUI.AddItemToSlot(i-1, weaponSlots[i].GetComponent<Gun>().GunSprite, weaponSlots[i].GetComponent<Gun>().ammunition);
+                inventoryUI.DeleteItemFromSlot(i);
+            }
         }
     }
 
