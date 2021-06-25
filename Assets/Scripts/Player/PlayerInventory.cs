@@ -32,15 +32,15 @@ public class PlayerInventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeWeapon(1);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ChangeWeapon(2);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ChangeWeapon(3);
         }
@@ -60,6 +60,17 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             DropActiveWeapon();
+        }
+
+        if (inventoryUI != null)
+        {
+            for (int i = 0; i < weaponSlots.Count; i++)
+            {
+                if (weaponSlots[i] != null && weaponSlots[i].GetComponent<Gun>() != null)
+                {
+                    inventoryUI.SetAmmo(i - 1, weaponSlots[i].GetComponent<Gun>().ammunition);
+                }
+            }
         }
     }
 
@@ -143,15 +154,25 @@ public class PlayerInventory : MonoBehaviour
             return;
         int ammoPerGun = ammunition / numberOfGuns;
         int rest = ammunition % numberOfGuns;
-        for(int i = 1; i < weaponSlots.Count; i++)
+        for (int i = 0; i < weaponSlots.Count; i++)
         {
             int ammo = ammoPerGun + ((i - 1 < rest) ? 1 : 0);
             Gun gun = weaponSlots[i].GetComponent<Gun>();
-            gun.AddAmmunition(ammo);
-            if (inventoryUI != null)
-                inventoryUI.SetAmmo(i - 1, gun.ammunition);
+            if (weaponSlots[i] != null && weaponSlots[i].GetComponent<Gun>() != null)
+            {
+                gun.AddAmmunition(ammo);
+            }
         }
-        
+        if (inventoryUI != null)
+        {
+            for(int i = 0; i < weaponSlots.Count; i++)
+            {
+                if (weaponSlots[i] != null && weaponSlots[i].GetComponent<Gun>() != null)
+                {
+                    inventoryUI.SetAmmo(i - 1, weaponSlots[i].GetComponent<Gun>().ammunition);
+                }
+            }
+        }
     }
 
     private void CollectWeapon(Collider collider)
@@ -179,10 +200,13 @@ public class PlayerInventory : MonoBehaviour
             pick.Drop();
             if (inventoryUI != null)
                 inventoryUI.DeleteItemFromSlot(currentWeaponSlot);
-            for (int i = weaponSlots.Count - 1; i >= currentWeaponSlot && currentWeaponSlot > 0; i-=2)
+            if (currentWeaponSlot > 0)
             {
-                inventoryUI.AddItemToSlot(i-1, weaponSlots[i].GetComponent<Gun>().GunSprite, weaponSlots[i].GetComponent<Gun>().ammunition);
-                inventoryUI.DeleteItemFromSlot(i);
+                for (int i = currentWeaponSlot - 1; i < weaponSlots.Count - 1; i++)
+                {
+                    inventoryUI.AddItemToSlot(i, weaponSlots[i + 1].GetComponent<Gun>().GunSprite, weaponSlots[i + 1].GetComponent<Gun>().ammunition);
+                    inventoryUI.DeleteItemFromSlot(i + 1);
+                }
             }
         }
     }
