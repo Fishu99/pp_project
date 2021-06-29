@@ -144,6 +144,7 @@ MonoBehaviour:
   muzzle: {fileID: 2939755872447895944}
   ignoreTags: []
   gunSprite: {fileID: 21300022, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
+  type: 0
   unlimitedShots: 0
   reloadCounter: 5
   ammunition: 0
@@ -5116,7 +5117,7 @@ Transform:
   - {fileID: 4229595766673582287}
   - {fileID: 7965295548218198543}
   m_Father: {fileID: 3864260351889666728}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7475579040630926173
 GameObject:
@@ -9981,11 +9982,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4952727429218122, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.109
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4952727429218122, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.105
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4952727429218122, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
       propertyPath: m_LocalRotation.w

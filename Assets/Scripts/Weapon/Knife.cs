@@ -12,7 +12,6 @@ public class Knife : MonoBehaviour
     private bool isAttacking = false;
     void Start()
     {
-        
     }
 
     // Update is called once per frame

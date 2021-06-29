@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: d274bb15e33df054caa8807bad7b7709
+guid: 28c42738d329a2a42a39d00b322f18df
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: -2679651694903128007
-    second: demo_combat_attack_knife
+      74: -203655887218126122
+    second: pistol walk
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,19 +35,19 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: demo_combat_attack_knife
-      takeName: Bip001|Bip001Action.002
+      name: pistol walk
+      takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 21
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1

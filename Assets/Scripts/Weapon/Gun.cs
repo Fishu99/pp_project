@@ -8,6 +8,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject muzzle;
     [SerializeField] private List<string> ignoreTags;
     [SerializeField] private Sprite gunSprite;
+    public enum Type {Pistol, Rifle}
+    public Type type;
     public Sprite GunSprite {
         get{
             return gunSprite;

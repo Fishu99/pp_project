@@ -10,6 +10,8 @@ public class PlayerShooting : MonoBehaviour
     private Knife knifeComponent;
     private PlayerMovement playerMovement;
     private Animator animator;
+    public enum Weapon { Knife, Gun }
+    public Weapon weapon;
 
     private void Awake()
     {
@@ -38,10 +40,11 @@ public class PlayerShooting : MonoBehaviour
         if (playerMovement == null)
             Debug.Log("null");
         newWeapon.transform.position = playerMovement.weaponGrip.transform.position;
-        newWeapon.transform.rotation = transform.rotation * Quaternion.Euler(0,-12,0);
+        newWeapon.transform.rotation = playerMovement.weaponGrip.transform.rotation;
         newWeapon.transform.SetParent(playerMovement.weaponGrip.transform);
         activeWeapon = newWeapon;
         newWeapon.SetActive(true);
+
         GetComponentOfActiveWeapon();
     }
 
@@ -63,7 +66,7 @@ public class PlayerShooting : MonoBehaviour
         {
             if(!Equals(gunComponent.ammunition,0))
             {
-                animator.SetTrigger("Shoot");
+                animator.SetTrigger("Attack");
             }
             gunComponent.Shoot();
         }
@@ -71,6 +74,7 @@ public class PlayerShooting : MonoBehaviour
         {
             Vector3 direction = transform.forward;
             knifeComponent.Attack(direction);
+            animator.SetTrigger("Attack");
         }
     }
 
@@ -85,6 +89,32 @@ public class PlayerShooting : MonoBehaviour
     private void GetComponentOfActiveWeapon()
     {
         gunComponent = activeWeapon.GetComponent<Gun>();
+        if(gunComponent != null)
+        {
+            weapon = Weapon.Gun;
+            if(Equals(gunComponent.type, Gun.Type.Pistol))
+            {
+                animator.SetBool("hasPistol", true);
+                animator.SetBool("hasRifle", false);
+                animator.SetBool("hasKnife", false);
+            }
+            else if (Equals(gunComponent.type, Gun.Type.Rifle))
+            {
+                animator.SetBool("hasRifle", true);
+                animator.SetBool("hasPistol", false);
+                animator.SetBool("hasKnife", false);
+            }
+        }
         knifeComponent = activeWeapon.GetComponent<Knife>();
+        if (knifeComponent != null)
+        {
+            weapon = Weapon.Knife;
+            if(animator != null)
+            {
+                animator.SetBool("hasKnife", true);
+                animator.SetBool("hasPistol", false);
+                animator.SetBool("hasRifle", false);
+            }
+        }
     }
 }
