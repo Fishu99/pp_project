@@ -155,7 +155,7 @@ ModelImporter:
     second: //RootNode
   - first:
       74: 7400000
-    second: demo_combat_run_rifle
+    second: rifle walk
   - first:
       95: 9500000
     second: //RootNode
@@ -188,7 +188,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: demo_combat_run_rifle
+      name: rifle walk
       takeName: Take 001
       internalID: 0
       firstFrame: 0

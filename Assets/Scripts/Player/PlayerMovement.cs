@@ -30,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
         cameraFollow.updatePosition();
         SetRotation();
         PlaceSight();
+        if(!(GetComponent<Health>().IsAlive()))
+        {
+            animator.SetTrigger("Die");
+        }
     }
 
     public Vector3 GetShootPoint()
