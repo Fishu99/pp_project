@@ -11,12 +11,12 @@ public class EnemyMelee : MonoBehaviour
         knifeComponent = GetComponentInChildren<Knife>();
     }
 
-    public void Attack()
+    public void Attack(Vector3 startPosition)
     {
         if(knifeComponent != null)
         {
             Vector3 direction = transform.forward;
-            knifeComponent.Attack(direction);
+            knifeComponent.Attack(direction, startPosition);
         }
     }
 }

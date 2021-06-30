@@ -14,23 +14,28 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private Animator animator;
+
+    Health health;
     
     void Start()
     {
         GetTheComponents();
         cameraFollow.player = gameObject;
+        health = GetComponent<Health>();
     }
 
     
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        SetVelocity();
-        cameraFollow.updatePosition();
-        SetRotation();
-        PlaceSight();
-        if(!(GetComponent<Health>().IsAlive()))
+        if(health.IsAlive()){
+            horizontalInput = Input.GetAxis("Horizontal");
+            verticalInput = Input.GetAxis("Vertical");
+            SetVelocity();
+            cameraFollow.updatePosition();
+            SetRotation();
+            PlaceSight();
+        }
+        else
         {
             animator.SetTrigger("Die");
         }

@@ -28,9 +28,9 @@ public class DummyEnemy : MonoBehaviour
     {
         while (true)
         {
-            gun.Shoot();
+            gun.Shoot(transform.position);
             Vector3 direction = knife.gameObject.transform.forward;
-            knife.Attack(direction);
+            knife.Attack(direction, transform.position);
             yield return new WaitForSeconds(attackPeriod);
         }
     }

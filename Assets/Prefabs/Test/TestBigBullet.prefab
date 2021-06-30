@@ -127,9 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6f3eb0222c1674e8899be70b63deaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 40
   healthDamage: 20
-  ignoredGameObjects: []
+  ignoreTags: []
 --- !u!54 &5835103400787847529
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -154,7 +154,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8604153276841818824}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.5

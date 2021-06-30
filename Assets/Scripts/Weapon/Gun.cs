@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
         } 
     }
     public bool unlimitedShots = false;
-    private int shotsBeforeReload = 5;
+    public int shotsBeforeReload = 5;
     public int reloadCounter;
     public int ammunition = 0;
 
@@ -46,11 +46,12 @@ public class Gun : MonoBehaviour
         return unlimitedShots || (ammunition > 0 && reloadCounter > 0);
     }
 
-    public void Shoot()
+    public void Shoot(Vector3 startPosition)
     {
+
         if (CanShoot())
         {
-            FireProjectile();
+            FireProjectile(startPosition);
             DecrementCounters();
             if (enableMuzzleflash == true)
             {
@@ -82,12 +83,22 @@ public class Gun : MonoBehaviour
         ammunition += amount;
     }
 
-    private void FireProjectile()
+    public void AddIgnoreTag(string tag){
+        if(!ignoreTags.Contains(tag))
+            ignoreTags.Add(tag);
+    }
+
+    public void DeleteIgnoreTag(string tag){
+        if(ignoreTags.Contains(tag))
+            ignoreTags.Remove(tag);
+    }
+
+    private void FireProjectile(Vector3 startPosition)
     {
         Vector3 position = muzzle.transform.position;
         Vector3 direction = transform.forward;
         GameObject projectile = Instantiate(projectilePrefab);
-        projectile.transform.position = position;
+        projectile.transform.position = startPosition;
         projectile.transform.rotation = Quaternion.FromToRotation(projectile.transform.forward, direction);
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.ignoreTags = ignoreTags;

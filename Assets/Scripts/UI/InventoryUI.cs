@@ -31,40 +31,40 @@ public class InventoryUI : MonoBehaviour{
     }
 
     public void AddItemToSlot(int index, Sprite sprite){
-        if(slots.Count > index){
+        if(slots.Count > index && index >= 0){
             slots[index].item.sprite = sprite;
             slots[index].ammo.text = "";
             slots[index].item.gameObject.SetActive(true);
         }
     }
 
-    public void AddItemToSlot(int index, Sprite sprite, int ammo){
-        if(slots.Count > index){
+    public void AddItemToSlot(int index, Sprite sprite, int ammo, int maxAmmo){
+        if(slots.Count > index && index >= 0){
             slots[index].item.sprite = sprite;
-            slots[index].ammo.text = ammo.ToString();
+            SetAmmo(index, ammo, maxAmmo);
             slots[index].item.gameObject.SetActive(true);
         }
     }
 
     public void DeleteItemFromSlot(int index){
-        if(slots.Count > index){
+        if(slots.Count > index && index >= 0){
             slots[index].item.gameObject.SetActive(false);
             slots[index].ammo.text = "";
         }
     }
 
     public void ChooseSlot(int index){
-        if(slots.Count > index){
-            foreach(Slot slot in slots){
-                slot.slot.color = notSelectedColor;
-            }
+        foreach(Slot slot in slots){
+            slot.slot.color = notSelectedColor;
+        }
+        if(slots.Count > index && index >= 0){
             slots[index].slot.color = selectedColor;
         }
     }
 
-    public void SetAmmo(int index, int ammo){
-        if(slots.Count > index){
-            slots[index].ammo.text = ammo.ToString();
+    public void SetAmmo(int index, int ammo, int maxAmmo){
+        if(slots.Count > index && index >= 0){
+            slots[index].ammo.text = ammo.ToString() + "/" + maxAmmo;
         }
     }
     

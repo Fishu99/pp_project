@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
+
+    [SerializeField]
+    Transform startPosition;
+
     public GameObject activeWeapon;
     private Gun gunComponent;
     private Knife knifeComponent;
@@ -58,22 +62,20 @@ public class PlayerShooting : MonoBehaviour
         return gunComponent != null ? gunComponent.reloadCounter : 0;
     }
 
-    
-
     private void Attack()
     {
         if (gunComponent != null)
         {
-            if(!Equals(gunComponent.ammunition,0))
+            if(gunComponent.CanShoot())
             {
                 animator.SetTrigger("Attack");
             }
-            gunComponent.Shoot();
+            gunComponent.Shoot(startPosition.position);
         }
         else if(knifeComponent != null)
         {
             Vector3 direction = transform.forward;
-            knifeComponent.Attack(direction);
+            knifeComponent.Attack(direction, startPosition.position);
             animator.SetTrigger("Attack");
         }
     }
@@ -94,15 +96,11 @@ public class PlayerShooting : MonoBehaviour
             weapon = Weapon.Gun;
             if(Equals(gunComponent.type, Gun.Type.Pistol))
             {
-                animator.SetBool("hasPistol", true);
-                animator.SetBool("hasRifle", false);
-                animator.SetBool("hasKnife", false);
+                animator.SetFloat("Weapon", 0.5f);
             }
             else if (Equals(gunComponent.type, Gun.Type.Rifle))
             {
-                animator.SetBool("hasRifle", true);
-                animator.SetBool("hasPistol", false);
-                animator.SetBool("hasKnife", false);
+                animator.SetFloat("Weapon", 1f);
             }
         }
         knifeComponent = activeWeapon.GetComponent<Knife>();
@@ -111,9 +109,7 @@ public class PlayerShooting : MonoBehaviour
             weapon = Weapon.Knife;
             if(animator != null)
             {
-                animator.SetBool("hasKnife", true);
-                animator.SetBool("hasPistol", false);
-                animator.SetBool("hasRifle", false);
+                animator.SetFloat("Weapon", 0f);
             }
         }
     }

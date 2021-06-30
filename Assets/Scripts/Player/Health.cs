@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class Health : MonoBehaviour
     public int MaxHealth { get => maxHealth; }
 
     public int CurrentHealth { get; private set; }
+
+    public UnityEvent onDeath;
+
+    bool isDead = false;
 
     void Start()
     {
@@ -23,8 +28,13 @@ public class Health : MonoBehaviour
     public void Damage(int health)
     {
         CurrentHealth -= health;
-        if (CurrentHealth < 0)
+        if (CurrentHealth <= 0){
             CurrentHealth = 0;
+            if(!isDead){
+                isDead = true;
+                onDeath.Invoke();
+            }
+        }
         if(healthUI != null)
             healthUI.SetHealth(CurrentHealth, MaxHealth);
     }

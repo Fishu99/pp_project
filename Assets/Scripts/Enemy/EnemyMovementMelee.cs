@@ -29,7 +29,7 @@ public class EnemyMovementMelee : EnemyMovement
             if(navMeshAgent) navMeshAgent.isStopped = true;
 
             if(timerManager.GetStatusOfTimer("ACD") <= 0) {
-                enemyMelee?.Attack();
+                enemyMelee?.Attack(transform.position);
                 timerManager.ResetTimer("ACD");
             }
         }

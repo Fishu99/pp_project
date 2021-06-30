@@ -18,7 +18,7 @@ public class EnemyMovementRanged : EnemyMovement
         rigidbody.transform.rotation = Quaternion.RotateTowards(rigidbody.transform.rotation, q, Time.fixedDeltaTime * navMeshAgent.angularSpeed * 0.5f);
            
         if(timerManager.GetStatusOfTimer("ACD") <= 0) {
-            enemyShooting?.Attack();
+            enemyShooting?.Attack(transform.position);
             timerManager.ResetTimer("ACD");
         }
         

@@ -16,17 +16,17 @@ public class Projectile : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         foreach(string tag in ignoreTags) {
             //Debug.Log(collision.gameObject.tag + " == " + tag + " " + (collision.gameObject.tag == tag));
-            if(collision.gameObject.tag == tag) {
+            if(other.gameObject.tag == tag) {
                 return;
             }
 
         }
 
-        DamageHealth(collision);
+        DamageHealth(other);
         Destroy(gameObject);
     }
 
@@ -35,18 +35,18 @@ public class Projectile : MonoBehaviour
         rigidbody.velocity = transform.forward * speed;
     }
 
-    private void DamageHealth(Collision collision)
+    private void DamageHealth(Collider collider)
     {
-        Health healthComponent = FindHealthOfHitObject(collision);
+        Health healthComponent = FindHealthOfHitObject(collider);
         if(healthComponent != null)
         {
             healthComponent.Damage(healthDamage);
         }
     }
 
-    private Health FindHealthOfHitObject(Collision collision)
+    private Health FindHealthOfHitObject(Collider collider)
     {
-        Transform tr = collision.gameObject.transform;
+        Transform tr = collider.gameObject.transform;
         Health healthComponent = tr.GetComponent<Health>();
         while(tr != null && healthComponent == null)
         {

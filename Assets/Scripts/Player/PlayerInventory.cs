@@ -66,9 +66,10 @@ public class PlayerInventory : MonoBehaviour
         {
             for (int i = 0; i < weaponSlots.Count; i++)
             {
-                if (weaponSlots[i] != null && weaponSlots[i].GetComponent<Gun>() != null)
+                Gun gun = weaponSlots[i].GetComponent<Gun>();
+                if (weaponSlots[i] != null && gun != null)
                 {
-                    inventoryUI.SetAmmo(i - 1, weaponSlots[i].GetComponent<Gun>().ammunition);
+                    inventoryUI.SetAmmo(i - 1, AmmoInMagazine(gun) , AmmoInPocket(gun));
                 }
             }
         }
@@ -106,8 +107,10 @@ public class PlayerInventory : MonoBehaviour
         if (slot < weaponSlots.Count)
         {
             currentWeaponSlot = slot;
-            if (inventoryUI != null && slot > 0)
+            if (inventoryUI != null && slot >= 0)
                 inventoryUI.ChooseSlot(slot - 1);
+            
+            weaponSlots[slot].GetComponent<Gun>()?.AddIgnoreTag("Player");
             playerShooting.SetActiveWeapon(weaponSlots[slot]);
         }
         
@@ -158,7 +161,7 @@ public class PlayerInventory : MonoBehaviour
         {
             int ammo = ammoPerGun + ((i - 1 < rest) ? 1 : 0);
             Gun gun = weaponSlots[i].GetComponent<Gun>();
-            if (weaponSlots[i] != null && weaponSlots[i].GetComponent<Gun>() != null)
+            if (weaponSlots[i] != null && gun != null)
             {
                 gun.AddAmmunition(ammo);
             }
@@ -167,9 +170,10 @@ public class PlayerInventory : MonoBehaviour
         {
             for(int i = 0; i < weaponSlots.Count; i++)
             {
-                if (weaponSlots[i] != null && weaponSlots[i].GetComponent<Gun>() != null)
+                Gun gun = weaponSlots[i].GetComponent<Gun>();
+                if (weaponSlots[i] != null && gun != null)
                 {
-                    inventoryUI.SetAmmo(i - 1, weaponSlots[i].GetComponent<Gun>().ammunition);
+                    inventoryUI.SetAmmo(i - 1, AmmoInMagazine(gun), AmmoInPocket(gun));
                 }
             }
         }
@@ -183,8 +187,10 @@ public class PlayerInventory : MonoBehaviour
             GameObject weapon = collider.gameObject;
             pick.PickUp(gameObject);
             AddWeaponToInventory(weapon);
-            if (inventoryUI != null)
-                inventoryUI.AddItemToSlot(currentWeaponSlot - 1, weapon.GetComponent<Gun>().GunSprite, weapon.GetComponent<Gun>().ammunition);
+            Gun gun = weapon.GetComponent<Gun>();
+            if (inventoryUI != null){
+                inventoryUI.AddItemToSlot(currentWeaponSlot - 1, gun.GunSprite, AmmoInMagazine(gun) , AmmoInPocket(gun));
+            }
         }
     }
 
@@ -197,6 +203,7 @@ public class PlayerInventory : MonoBehaviour
             int newWeaponSlot = FindActiveWeaponSlotAfterRemove();
             SetActiveWeapon(newWeaponSlot);
             Pick pick = weaponToDrop.GetComponent<Pick>();
+            weaponToDrop.GetComponent<Gun>()?.DeleteIgnoreTag("Player");
             pick.Drop();
             if (inventoryUI != null)
                 inventoryUI.DeleteItemFromSlot(currentWeaponSlot);
@@ -204,7 +211,8 @@ public class PlayerInventory : MonoBehaviour
             {
                 for (int i = currentWeaponSlot - 1; i < weaponSlots.Count - 1; i++)
                 {
-                    inventoryUI.AddItemToSlot(i, weaponSlots[i + 1].GetComponent<Gun>().GunSprite, weaponSlots[i + 1].GetComponent<Gun>().ammunition);
+                    Gun gun = weaponSlots[i + 1].GetComponent<Gun>();
+                    inventoryUI.AddItemToSlot(i, gun.GunSprite, AmmoInMagazine(gun) , AmmoInPocket(gun));
                     inventoryUI.DeleteItemFromSlot(i + 1);
                 }
             }
@@ -232,5 +240,13 @@ public class PlayerInventory : MonoBehaviour
             if (firstAidUI != null)
                 firstAidUI.SetNumbers(firstAidKits);
         }
+    }
+
+    private int AmmoInMagazine(Gun gun){
+        return Mathf.Clamp(gun.reloadCounter, 0,  gun.ammunition);
+    }
+
+    private int AmmoInPocket(Gun gun){
+        return Mathf.Clamp((gun.ammunition - gun.reloadCounter), 0 , int.MaxValue);
     }
 }

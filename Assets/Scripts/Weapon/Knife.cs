@@ -20,25 +20,25 @@ public class Knife : MonoBehaviour
         
     }
 
-    public void Attack(Vector3 direction)
+    public void Attack(Vector3 direction, Vector3 startPosition)
     {
         if (!isAttacking)
         {
-            StartCoroutine(AttackSequence(direction));
+            StartCoroutine(AttackSequence(direction, startPosition));
         }
     }
 
-    private IEnumerator AttackSequence(Vector3 direction)
+    private IEnumerator AttackSequence(Vector3 direction, Vector3 startPosition)
     {
         isAttacking = true;
-        DamageHealth(direction);
+        DamageHealth(direction, startPosition);
         yield return new WaitForSeconds(attackDuration);
         isAttacking = false;
     }
 
-    private void DamageHealth(Vector3 direction)
+    private void DamageHealth(Vector3 direction, Vector3 startPosition)
     {
-        Vector3 origin = transform.position;
+        Vector3 origin = startPosition;
         bool wasHit = Physics.Raycast(origin, direction, out RaycastHit hitInfo, attackDistance);
         Debug.DrawRay(origin, direction, Color.white, 1);
 

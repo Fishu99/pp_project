@@ -12,11 +12,11 @@ public class EnemyShooting : MonoBehaviour
         gunComponent.unlimitedShots = true;
     }
 
-    public void Attack()
+    public void Attack(Vector3 startPosition)
     {
         if (gunComponent != null)
         {
-            gunComponent.Shoot();
+            gunComponent.Shoot(startPosition);
         }
     }
 }
