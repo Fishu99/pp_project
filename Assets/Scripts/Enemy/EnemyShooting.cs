@@ -16,7 +16,7 @@ public class EnemyShooting : MonoBehaviour
     {
         if (gunComponent != null)
         {
-            gunComponent.Shoot(startPosition);
+            gunComponent.Shoot(startPosition, transform.forward);
         }
     }
 }

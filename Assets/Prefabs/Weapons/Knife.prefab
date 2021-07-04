@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9177119714420359717}
   - component: {fileID: 2914233141150428174}
   m_Layer: 0
-  m_Name: TestKnife
+  m_Name: Knife
   m_TagString: BulletIgnore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

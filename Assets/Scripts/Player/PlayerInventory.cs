@@ -12,6 +12,9 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private GameObject knife;
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private FirstAidUI firstAidUI;
+    [SerializeField] private ItemInfo itemInfo;
+
+    Collider nearestCollectible = null;
     private int firstAidKits = 0;
     private Health health;
     public bool Full {
@@ -53,10 +56,13 @@ public class PlayerInventory : MonoBehaviour
         {
             UseFirstAid();
         }
+       
+        ViewOfCollectibles();
         if (Input.GetKeyDown(KeyCode.E))
         {
             CheckForCollectibles();
         }
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             DropActiveWeapon();
@@ -116,16 +122,42 @@ public class PlayerInventory : MonoBehaviour
         
     }
 
-    private void CheckForCollectibles()
-    {
+    private void ViewOfCollectibles(){
+
         int layerMask = 1 << LayerMask.NameToLayer("Collectible");
         Collider[] colliders = Physics.OverlapSphere(transform.position, pickRadius, layerMask);
+        nearestCollectible = null;
+        float distance = float.MaxValue;
         foreach(var collider in colliders)
         {
-            CollectFirstAid(collider);
-            CollectAmmunition(collider);
-            CollectWeapon(collider);
+            if(nearestCollectible == null || Vector3.Distance(nearestCollectible.transform.position,collider.transform.position) < distance)
+            {
+                distance = Vector3.Distance(collider.transform.position,transform.position);
+                nearestCollectible = collider;
+            }
         }
+
+        if(nearestCollectible == null)
+        {
+            itemInfo.Hide();
+        }
+        else
+        {
+            itemInfo.Show(nearestCollectible.gameObject.name, nearestCollectible.transform.position);     
+        }
+        
+
+    }
+
+    private void CheckForCollectibles()
+    {  
+        if(nearestCollectible != null)
+        {
+            CollectFirstAid(nearestCollectible);
+            CollectAmmunition(nearestCollectible);
+            CollectWeapon(nearestCollectible);
+        }
+        
     }
 
     private void CollectFirstAid(Collider collider)

@@ -70,7 +70,7 @@ public class PlayerShooting : MonoBehaviour
             {
                 animator.SetTrigger("Attack");
             }
-            gunComponent.Shoot(startPosition.position);
+            gunComponent.Shoot(startPosition.position, transform.forward);
         }
         else if(knifeComponent != null)
         {

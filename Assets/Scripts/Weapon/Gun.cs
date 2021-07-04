@@ -46,12 +46,12 @@ public class Gun : MonoBehaviour
         return unlimitedShots || (ammunition > 0 && reloadCounter > 0);
     }
 
-    public void Shoot(Vector3 startPosition)
+    public void Shoot(Vector3 startPosition, Vector3 direction)
     {
 
         if (CanShoot())
         {
-            FireProjectile(startPosition);
+            FireProjectile(startPosition, direction);
             DecrementCounters();
             if (enableMuzzleflash == true)
             {
@@ -93,10 +93,9 @@ public class Gun : MonoBehaviour
             ignoreTags.Remove(tag);
     }
 
-    private void FireProjectile(Vector3 startPosition)
+    private void FireProjectile(Vector3 startPosition, Vector3 direction)
     {
         Vector3 position = muzzle.transform.position;
-        Vector3 direction = transform.forward;
         GameObject projectile = Instantiate(projectilePrefab);
         projectile.transform.position = startPosition;
         projectile.transform.rotation = Quaternion.FromToRotation(projectile.transform.forward, direction);
