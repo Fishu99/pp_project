@@ -1,49 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
 public class Room : MonoBehaviour
 {
-    private int numberOfEntrances;
-    [SerializeField] private bool[] entryStatus;    // True if opened, false when closed;
-    [SerializeField] private bool[] entryExists;    // id: 0->1->2->3 means Top->Bottom->Left->Right
+    [SerializeField] private int entryAmount;
+    [SerializeField] private bool[] entryExist;
+    [SerializeField] private bool[] entryStatus;
+    [SerializeField] private GameObject[] spawnPoints; //GameObjects with position for a new room to spawn
 
-    public void setEntryStatus(int index, bool status) {
+    public void setStatus(int index, bool status) {
         entryStatus[index] = status;
     }
 
-    public bool getEntryStatusByIndex(int index) {
+    public bool getStatus(int index) {
         return entryStatus[index];
     }
 
-    public int getNumberOfEntrances() {
-        return numberOfEntrances;
-    }
-
-    public bool[] getEntryStatus() {
+    public bool[] getEntryStatusArray() {
         return entryStatus;
     }
 
-    public bool[] getEntryExists() {
-        return entryExists;
+    public bool[] getEntryExistArray() {
+        return entryExist;
     }
 
-    void Awake () {
-        UpdateNumberOfEntrances();
+    public bool getEntryExist(RoomDirection dir){
+        return entryExist[(int)dir];
     }
 
-    void Update () {
-        //test function
-        // Debug.Log (
-        //     "RoomLeftCounter: " + Global.roomCounter.ToString() + 
-        //     "\t RoomOpensCounter: " + Global.roomOpenCounter.ToString() + 
-        //     "\t TestCounter: " + Global.testCounter
-        // );
+    public GameObject[] getSpawnPointsArray() {
+        return spawnPoints;
     }
 
-    private void UpdateNumberOfEntrances() {
-        int entranceCounter = 0;
-        foreach (bool state in entryExists) {
-            if (state == true)
-                entranceCounter++;
-        }
-        numberOfEntrances = entranceCounter;
+    public int getEntryAmount() {
+        return entryAmount;
+    }
+
+    public void setAllEntrancesOccupied() {
+        entryStatus[0] = false;
+        entryStatus[1] = false;
+        entryStatus[2] = false;
+        entryStatus[3] = false;
     }
 }
