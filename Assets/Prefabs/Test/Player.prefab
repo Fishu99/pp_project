@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 7635935895636026279}
   - component: {fileID: 5205084400070315354}
   - component: {fileID: 2741500839266810396}
+  - component: {fileID: 565646378}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -183,9 +184,34 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 5.5
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &565646378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857381955210244910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa8d03c9b9429c6498824a8b4090f368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 15
+  viewAngle: 380
+  meshResolution: 2
+  edgeResolveIterations: 4
+  edgeDstThreshold: 0.5
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 1856
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2176
+  meshFilter: {fileID: 565646379}
+  maskCutawayDst: 0.1
 --- !u!1 &5309339061651408990
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5580258352982593280}
   - component: {fileID: 565646379}
-  - component: {fileID: 565646378}
+  - component: {fileID: 1112491480042014555}
   m_Layer: 8
   m_Name: Visibility
   m_TagString: Untagged
@@ -212,7 +238,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5309339061651408990}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 3.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 857381955210244905}
@@ -226,7 +252,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5309339061651408990}
   m_Mesh: {fileID: 0}
---- !u!23 &565646378
+--- !u!23 &1112491480042014555
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,7 +271,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: cc825947dd50c314688c2fe9033e8fc6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

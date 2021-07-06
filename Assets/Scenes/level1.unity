@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -445,10 +445,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 565646378, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: cc825947dd50c314688c2fe9033e8fc6, type: 2}
     - target: {fileID: 731562335562765464, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
       propertyPath: healthUI
       value: 
@@ -505,10 +501,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5580258352982593280, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.17
-      objectReference: {fileID: 0}
     - target: {fileID: 7635935895636026279, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
       propertyPath: itemInfo
       value: 
@@ -523,41 +515,6 @@ PrefabInstance:
       objectReference: {fileID: 1560272342}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
---- !u!1 &565646377 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 857381955210244910, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
-  m_PrefabInstance: {fileID: 565646376}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &565646378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565646377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8d03c9b9429c6498824a8b4090f368, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewRadius: 15
-  viewAngle: 380
-  meshResolution: 2
-  edgeResolveIterations: 4
-  edgeDstThreshold: 0.5
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 1856
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 2176
-  meshFilter: {fileID: 565646379}
-  maskCutawayDst: 0.1
---- !u!33 &565646379 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 565646379, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
-  m_PrefabInstance: {fileID: 565646376}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &580254418 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3846559095007293965, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
