@@ -5,10 +5,11 @@ using UnityEngine;
 public class EnemyMelee : MonoBehaviour
 {
     private Knife knifeComponent;
-
+    private Animator animator;
     void Start()
     {
         knifeComponent = GetComponentInChildren<Knife>();
+        animator = GetComponent<Animator>();
     }
 
     public void Attack(Vector3 startPosition)
@@ -17,6 +18,7 @@ public class EnemyMelee : MonoBehaviour
         {
             Vector3 direction = transform.forward;
             knifeComponent.Attack(direction, startPosition);
+            animator.SetTrigger("Attack");
         }
     }
 }

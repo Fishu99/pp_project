@@ -6,10 +6,12 @@ public class EnemyMovementRanged : EnemyMovement
 {
     protected override void SetStateDetectedValues() {
         if(navMeshAgent) navMeshAgent.isStopped = true;
+        GetComponent<Animator>().SetBool("isWalking", false);
     }
     
     protected override void UnsetStateDetectedValues() {
         if(navMeshAgent) navMeshAgent.isStopped = false;
+        GetComponent<Animator>().SetBool("isWalking", true);
     }
 
     protected override void Detected() {
@@ -21,9 +23,10 @@ public class EnemyMovementRanged : EnemyMovement
             enemyShooting?.Attack(transform.position);
             timerManager.ResetTimer("ACD");
         }
-        
 
-        if((player.transform.position-transform.position).magnitude > playerDetectRange)
+        GetComponent<Animator>().SetTrigger("Attack");
+
+        if ((player.transform.position-transform.position).magnitude > playerDetectRange)
             SetState(EnemyStates.UNDETECTED);
     }
 }
