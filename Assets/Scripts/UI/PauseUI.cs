@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseUI : MonoBehaviour{
 
@@ -51,6 +52,10 @@ public class PauseUI : MonoBehaviour{
         foreach(RectTransform t in uiInGame){
             t.gameObject.SetActive(false);
         }
+    }
+
+    public void ChangeScene(int index){
+        SceneManager.LoadScene(index);
     }
     
 }

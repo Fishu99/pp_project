@@ -137,13 +137,16 @@ public class PlayerInventory : MonoBehaviour
             }
         }
 
-        if(nearestCollectible == null)
+        if(itemInfo != null)
         {
-            itemInfo.Hide();
-        }
-        else
-        {
-            itemInfo.Show(nearestCollectible.gameObject.name, nearestCollectible.transform.position);     
+            if(nearestCollectible == null)
+            {
+                itemInfo.Hide();
+            }
+            else
+            {
+                itemInfo.Show(nearestCollectible.gameObject.name, nearestCollectible.transform.position);     
+            }
         }
         
 
