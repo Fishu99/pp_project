@@ -4,6 +4,9 @@ Shader "Custom/VisibilityObject"
     {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
+        _BumpMap ("Bumpmap", 2D) = "bump" {}
+        _HeightMap ("Height Map", 2D) = "white" {}
+        _HeightPower("Height Power", Range(0,.125)) = 0
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
     }
@@ -25,10 +28,16 @@ Shader "Custom/VisibilityObject"
         #pragma target 3.0
 
         sampler2D _MainTex;
+        sampler2D _BumpMap;
+        sampler2D _HeightMap;
+        float _HeightPower;
 
         struct Input
         {
             float2 uv_MainTex;
+            float2 uv_BumpMap;
+            float2 uv_HeightMap;
+            float3 viewDir;
         };
 
         half _Glossiness;
@@ -45,8 +54,10 @@ Shader "Custom/VisibilityObject"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+            float2 texOffset = ParallaxOffset(tex2D(_HeightMap, IN.uv_HeightMap).r, _HeightPower, IN.viewDir);
+            fixed4 c = tex2D (_MainTex, IN.uv_MainTex + texOffset) * _Color;
             o.Albedo = c.rgb;
+            o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap + texOffset));
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
