@@ -25,6 +25,7 @@ public class RoomManager : MonoBehaviour
 
     private const int spawnPointProximity = 50;
     private List<Vector2Int> mxPosRooms;
+    private GameObject endingRoom;
 
 
 
@@ -83,6 +84,7 @@ public class RoomManager : MonoBehaviour
         roomSpawnArray[entryPos.x][entryPos.y] = new RoomMatrixStatus(false, false, entryRoom, none, entryPos);
         rooms = new List<GameObject>();
         mxPosRooms = new List<Vector2Int>();
+        endingRoom = null;
         InitRPerBAmount();
     }
 
@@ -179,6 +181,7 @@ public class RoomManager : MonoBehaviour
         ValidateMatrix();
         SpawnRooms();
         TellMeWhichOnesAreMissing();
+        FindAndSelectEndingRoom();
     }
 
     private void DebugList() {
@@ -518,5 +521,94 @@ public class RoomManager : MonoBehaviour
             mRPositions += pos + ", ";
         }
         Debug.Log("MissRoomPos: " + mRPositions);    
+    }
+
+    private void FindAndSelectEndingRoom() {
+        List<RoomMatrixStatus> mxRooms = new List<RoomMatrixStatus>();
+
+        //Searching for max depth
+        bool mustKeepGoing = true;
+
+        int depthCnt = 0;
+        int matrixLength = 2 * maxRPathDepth; // +1-1 = 0 - array handler fix        
+        int roomsAdded = 0;
+        //For horizontal iteration
+        int iStartOff;
+        int iEndOff;
+        //For vertical iteration
+        int iStartOff2;
+        int iEndOff2;
+
+        while(mustKeepGoing) {
+            //Setting important variables
+            iStartOff = depthCnt;
+            iEndOff = matrixLength-iStartOff;
+            iStartOff2 = iStartOff + 1;
+            iEndOff2 = iEndOff - 1;
+            roomsAdded = 0;
+
+            //Matrix always have the middle point (entry room)
+            if (iStartOff == iEndOff) {
+                break;  //Entry room cannot be ending room
+            } 
+
+            //Searching for rooms within a rectangular shape (whole one depth search)
+            for(int i = iStartOff; i < iEndOff; i++) {
+                if (roomSpawnArray[iStartOff][i] != null){
+                    mxRooms.Add(roomSpawnArray[iStartOff][i]);
+                    roomsAdded++;
+                }
+                if (roomSpawnArray[iEndOff][i] != null) {
+                    mxRooms.Add(roomSpawnArray[iEndOff][i]);
+                    roomsAdded++;
+                }
+
+                //This statement removes hazard of adding duplicated rooms (4hazards each loop)
+                if (i >= iStartOff2 && i <= iEndOff2) {
+                    if (roomSpawnArray[i][iStartOff] != null){
+                        mxRooms.Add(roomSpawnArray[i][iStartOff]);
+                        roomsAdded++;
+                    }
+                    if (roomSpawnArray[i][iEndOff] != null) {
+                        mxRooms.Add(roomSpawnArray[i][iEndOff]);
+                        roomsAdded++;
+                    }
+                }                    
+            }
+
+            //Checking results of the search
+            if (roomsAdded > 0)
+                mustKeepGoing = false;
+            else
+                depthCnt++;
+        }
+
+        //Selected room must be a one entry room
+        mxRooms = CheckEndRoomPossibility(mxRooms);
+        roomsAdded = mxRooms.Count;    
+
+        //Checking and handling errors
+        if (mustKeepGoing)
+            Debug.LogError("There is only entry room in the matrix!");
+        if (roomsAdded == 0)
+            Debug.LogError("No rooms were added to the list!");
+        if (mxRooms == null)
+            Debug.LogError("mxRooms was null!");
+
+        //Selecting the ending room randomly
+        int iChosenRoom = Random.Range(0, roomsAdded);
+        endingRoom = mxRooms[iChosenRoom].getTemplate();
+        Debug.Log("RoomsAdded: " + roomsAdded + " ChosenOneCords: " + mxRooms[iChosenRoom].mxPos);        
+    }
+
+    private List<RoomMatrixStatus> CheckEndRoomPossibility(List<RoomMatrixStatus> mxRooms) {
+        List<RoomMatrixStatus> newMxRooms = new List<RoomMatrixStatus>();
+        foreach (RoomMatrixStatus mxElement in mxRooms)
+        {
+            Room roomInfo = mxElement.getTemplate().GetComponent<Room>();
+            if (roomInfo.getEntryAmount() == 1)
+                newMxRooms.Add(mxElement);
+        }
+        return newMxRooms;
     }
 }
