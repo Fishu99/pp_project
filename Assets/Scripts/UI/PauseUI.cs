@@ -13,14 +13,29 @@ public class PauseUI : MonoBehaviour{
     [SerializeField]
     RectTransform [] uiInPause;
 
+    [SerializeField]
+    RectTransform menuAfterDead;
+
+    [SerializeField]
+    CanvasGroup deathCanvasGroup;
+
+    [SerializeField]
+    RectTransform winScreen;
+
+    [SerializeField]
+    float timeToShowDeathScreen = 2f;
+
     bool isPause = false;
+    bool isDead = false;
+    float timer = 0;
 
     void Start(){
+        isDead = false;
         PlayGame();
     }
 
     void LateUpdate(){
-        if(Input.GetKeyDown(KeyCode.Escape)){
+        if(Input.GetKeyDown(KeyCode.Escape) && !isDead){
             if(isPause){
                 PlayGame();
             }else{
@@ -40,6 +55,9 @@ public class PauseUI : MonoBehaviour{
         foreach(RectTransform t in uiInPause){
             t.gameObject.SetActive(false);
         }
+        menuAfterDead.gameObject.SetActive(false);
+        deathCanvasGroup.alpha = 0;
+        winScreen.gameObject.SetActive(false);
     }
 
     public void PauseGame(){
@@ -52,10 +70,53 @@ public class PauseUI : MonoBehaviour{
         foreach(RectTransform t in uiInGame){
             t.gameObject.SetActive(false);
         }
+        menuAfterDead.gameObject.SetActive(false);
+        deathCanvasGroup.alpha = 0;
+        winScreen.gameObject.SetActive(false);
+    }
+
+    public void OnDead(){
+        isDead = true;
+        Cursor.visible = true;
+        foreach(RectTransform t in uiInPause){
+            t.gameObject.SetActive(false);
+        }
+        foreach(RectTransform t in uiInGame){
+            t.gameObject.SetActive(false);
+        }
+        menuAfterDead.gameObject.SetActive(true);
+        winScreen.gameObject.SetActive(false);
+        StartCoroutine(DeathScreen());
+    }
+
+    public void ShowWinScreen(){
+        isDead = true;
+        Cursor.visible = true;
+        Time.timeScale = 0.3f;
+        foreach(RectTransform t in uiInPause){
+            t.gameObject.SetActive(false);
+        }
+        foreach(RectTransform t in uiInGame){
+            t.gameObject.SetActive(false);
+        }
+        menuAfterDead.gameObject.SetActive(false);
+        winScreen.gameObject.SetActive(true);
     }
 
     public void ChangeScene(int index){
         SceneManager.LoadScene(index);
+    }
+
+    IEnumerator DeathScreen(){
+        Time.timeScale = 0.75f;
+        while(timer <= timeToShowDeathScreen){          
+            float val = Mathf.Clamp01(timer/timeToShowDeathScreen);
+            deathCanvasGroup.alpha = val;
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = 0f;
+        
     }
     
 }

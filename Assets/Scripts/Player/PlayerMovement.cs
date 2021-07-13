@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public GameObject weaponGrip;
     [SerializeField] private float speed = 1f;
     [SerializeField] private GameObject sight;
+    [SerializeField] private AudioSource audioSource;
     private new Rigidbody rigidbody;
     private Camera cameraComponent;
     private FollowPlayer cameraFollow;
@@ -22,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
         GetTheComponents();
         cameraFollow.player = gameObject;
         health = GetComponent<Health>();
+        audioSource.Play();
+        audioSource.Pause();
     }
 
     
@@ -71,10 +74,13 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, 0, verticalInput);
         if (direction.magnitude > 1)
             direction.Normalize();
-        if (direction.magnitude != 0)
+        if (direction.magnitude != 0){
             animator.SetBool("isWalking", true);
-        else
+            audioSource.UnPause();
+        }else{
             animator.SetBool("isWalking", false);
+            audioSource.Pause();
+        }
         Vector3 velocity = speed * direction;
         return velocity;
     }

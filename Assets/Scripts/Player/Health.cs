@@ -7,6 +7,8 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private HealthBarUI healthUI;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip hitSound;
     public int MaxHealth { get => maxHealth; }
 
     public int CurrentHealth { get; private set; }
@@ -37,6 +39,10 @@ public class Health : MonoBehaviour
         }
         if(healthUI != null)
             healthUI.SetHealth(CurrentHealth, MaxHealth);
+
+        if(hitSound != null && audioSource != null){
+            audioSource.PlayOneShot(hitSound);
+        }
     }
 
     public void Restore(int health)

@@ -9,9 +9,18 @@ public class Knife : MonoBehaviour
     [SerializeField] private float attackDistance = 0.5f;
     [SerializeField] private int healthDamage = 10;
     [SerializeField] private List<string> ignoredTags;
+
+    [SerializeField]
+    AudioClip hitSound;
+
+    [SerializeField]
+    AudioClip missSound;
+ 
     private bool isAttacking = false;
+    AudioSource audioSource;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,6 +35,11 @@ public class Knife : MonoBehaviour
         {
             StartCoroutine(AttackSequence(direction, startPosition));
         }
+    }
+
+    public bool IsAttacking()
+    {
+        return isAttacking;
     }
 
     private IEnumerator AttackSequence(Vector3 direction, Vector3 startPosition)
@@ -48,9 +62,11 @@ public class Knife : MonoBehaviour
                     return;
                 }
             }
-
+            audioSource.PlayOneShot(hitSound);
             Health healthComponent = FindHealthOfHitObject(hitInfo);
             healthComponent.Damage(healthDamage);
+        }else{
+            audioSource.PlayOneShot(missSound);
         }
     }
 

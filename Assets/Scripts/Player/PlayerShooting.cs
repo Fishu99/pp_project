@@ -28,7 +28,7 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             Attack();
         }
@@ -69,10 +69,11 @@ public class PlayerShooting : MonoBehaviour
             if(gunComponent.CanShoot())
             {
                 animator.SetTrigger("Attack");
+                gunComponent.Shoot(startPosition.position, transform.forward);
             }
-            gunComponent.Shoot(startPosition.position, transform.forward);
+            
         }
-        else if(knifeComponent != null)
+        else if(knifeComponent != null && !knifeComponent.IsAttacking())
         {
             Vector3 direction = transform.forward;
             knifeComponent.Attack(direction, startPosition.position);

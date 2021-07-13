@@ -8,6 +8,11 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject muzzle;
     [SerializeField] private List<string> ignoreTags;
     [SerializeField] private Sprite gunSprite;
+
+    [SerializeField] float timeToNextShot = 1f;
+
+    AudioSource audioSource;
+
     public enum Type {Pistol, Rifle}
     public Type type;
     public Sprite GunSprite {
@@ -30,20 +35,34 @@ public class Gun : MonoBehaviour
     [Header("Muzzleflash Light Settings")]
     public Light muzzleflashLight;
     public float lightDuration = 0.02f;
+
+
+    bool isShooting = false;
+    float timerToShooting = 0;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         Reload();
     }
 
     
     void Update()
     {
-        
+        if(isShooting){
+            timerToShooting += Time.deltaTime;
+            if(timerToShooting > timeToNextShot){
+                timerToShooting = 0;
+                isShooting = false;
+            }
+        }else{
+            timerToShooting = 0;
+        }
     }
 
     public bool CanShoot()
     {
-        return unlimitedShots || (ammunition > 0 && reloadCounter > 0);
+        return (unlimitedShots || (ammunition > 0 && reloadCounter > 0)) && !isShooting;
     }
 
     public void Shoot(Vector3 startPosition, Vector3 direction)
@@ -70,6 +89,10 @@ public class Gun : MonoBehaviour
                 //Light flash start
                 StartCoroutine(MuzzleFlashLight());
             }
+            isShooting = true;
+            timerToShooting = 0;
+            if(audioSource)
+                audioSource.Play();
         }
     }
 
