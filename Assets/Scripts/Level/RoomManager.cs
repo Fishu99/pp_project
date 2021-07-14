@@ -420,6 +420,26 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    private void ChooseObstacleForRoom(GameObject roomTemplate) {
+        if (roomTemplate == null) {
+            Debug.LogError("RoomTemplate was null when choosing an obstacle for it!");
+            return;
+        }
+        Room roomInfo = roomTemplate.GetComponent<Room>();
+        GameObject obstacleTemplate = roomBuilder.GetObstacle(roomInfo.getRoomType());
+
+        GameObject spawnedObstacle = Instantiate(obstacleTemplate, roomTemplate.transform.position, Quaternion.identity);
+
+
+        Vector3 position = spawnedObstacle.transform.position;
+        spawnedObstacle.transform.position = Vector3.zero;
+
+        spawnedObstacle.transform.rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0,3), 0.0f);
+        spawnedObstacle.transform.position = position;
+
+        spawnedObstacle.transform.SetParent(roomTemplate.transform);        
+    }
+
     private void SpawnRooms() {
         int matrixLength = 2 * maxRPathDepth + 1;
         for(int x=0; x<matrixLength; x++) {
@@ -436,6 +456,7 @@ public class RoomManager : MonoBehaviour
                     Vector3 newRoomPos = new Vector3(entryRoomPos.x + distanceX, entryRoomPos.y, entryRoomPos.z + distanceZ);
                     GameObject newRoomTemplate = roomSpawnArray[x][y].getTemplate();
                     GameObject newRoom = Instantiate(newRoomTemplate, newRoomPos, Quaternion.identity);
+                    ChooseObstacleForRoom(newRoom);
 
                     //Destroy template obj
                     Destroy(newRoomTemplate);

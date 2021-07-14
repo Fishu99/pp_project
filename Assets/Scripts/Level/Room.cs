@@ -8,6 +8,7 @@ public class Room : MonoBehaviour
     [SerializeField] private bool[] entryExist;
     [SerializeField] private bool[] entryStatus;
     [SerializeField] private GameObject[] spawnPoints; //GameObjects with position for a new room to spawn
+    [SerializeField] private int roomType;  //Type of room material
 
     public void setStatus(int index, bool status) {
         entryStatus[index] = status;
@@ -35,6 +36,10 @@ public class Room : MonoBehaviour
 
     public int getEntryAmount() {
         return entryAmount;
+    }
+
+    public int getRoomType() {
+        return roomType;
     }
 
     public void setAllEntrancesOccupied() {

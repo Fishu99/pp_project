@@ -8,6 +8,7 @@ public class RoomBuilder : MonoBehaviour
     [SerializeField] private List<GameObject> tS_doubleRooms;   //Templates of double entry rooms
     [SerializeField] private List<GameObject> tS_tripleRooms;   //Templates of triple entry rooms
     [SerializeField] private GameObject tS_entryRoom;   //Template of the entry room
+    [SerializeField] private List<GameObject> tS_obstacles;   //Templates of obstacles for single rooms
 
 
     private float[,] probabilityTable {get;set;}
@@ -66,6 +67,30 @@ public class RoomBuilder : MonoBehaviour
         //Filter rooms by reqDir
         roomTemplates = FilterListOfRooms(roomTemplates, reqDir);
         return roomTemplates;
+    }
+
+    public GameObject GetObstacle(int roomType) {
+        if (roomType < 1 || roomType > 5) {
+            Debug.LogError("There is no such type of the room");
+            return null;
+        }
+
+        List<GameObject> validObstacles = new List<GameObject>();
+        foreach (GameObject tmpObst in tS_obstacles)
+        {
+            Obstacle obstInfo = tmpObst.GetComponent<Obstacle>();
+            if (obstInfo.getType() == roomType) {
+                validObstacles.Add(tmpObst); //I won't change any of its parameters (so I don't instantiate)
+            }
+        }
+
+        if (validObstacles.Count <= 0) {
+            Debug.LogError("List of chosen obstacles was empty!");
+            return null;
+        }
+
+        int idOfChosenObst = Random.Range(0, validObstacles.Count-1);
+        return validObstacles[idOfChosenObst];
     }
 
     private List<GameObject> FilterListOfRooms(List<GameObject> roomTemplates, RoomDirection reqDir) {
