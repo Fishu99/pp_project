@@ -120,6 +120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   healthUI: {fileID: 0}
+  audioSource: {fileID: 0}
+  hitSound: {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -239,8 +241,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5712407283419723600, guid: d183fe79b1e2d8b44adf564d68b1eddd, type: 2}
   m_audioClip: {fileID: 8300000, guid: 6597a368cd74a924eaedb0171d5b28d3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
-  m_Pitch: 1
+  m_Volume: 0.2
+  m_Pitch: 0.68
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -357,7 +359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5309339061651408990}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.17, z: 0}
+  m_LocalPosition: {x: 0, y: 1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 857381955210244905}
@@ -436,7 +438,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7671854344898728928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 857381955210244905}
