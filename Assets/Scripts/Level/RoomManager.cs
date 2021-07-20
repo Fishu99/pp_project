@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using static RoomDirection;
 
 /*
@@ -182,6 +183,7 @@ public class RoomManager : MonoBehaviour
         SpawnRooms();
         TellMeWhichOnesAreMissing();
         FindAndSelectEndingRoom();
+        GenerateNavMeshForLevel();
     }
 
     private void DebugList() {
@@ -631,5 +633,9 @@ public class RoomManager : MonoBehaviour
                 newMxRooms.Add(mxElement);
         }
         return newMxRooms;
+    }
+
+    private void GenerateNavMeshForLevel() {
+        UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
     }
 }

@@ -59,6 +59,11 @@ public class Spawnarea : MonoBehaviour
         TimerToZero spawnerCooldown = new TimerToZero(spawnerCooldownTime, 1f);
         spawnerCooldown.locked = startSpawnerState;
         timerManager.AddTimer("SCD", spawnerCooldown);
+
+        //For Benek to check - added for program to work properly
+        if (playerRef == null)
+            playerRef = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     private void InitSpawnedGameObject(GameObject go) {
