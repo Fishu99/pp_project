@@ -4,14 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using static RoomDirection;
 
-/*
-Notatki
--!!!  TODO Powinno się zespawnować przynajmniej połowa lub maksymalnie ćwiartka mniej od maksymalnej wart. pokojów
-- TODO zróżnicowanie pokojów pod względem dodatkowych elementów, nałożenia różnych materiałów itp.
-- *TODO ale to pewnie później -> uwzględnienie tego co mówił Benek o pokojach i NashMev
-- *TODO ustawienie spawnpointów dla przeciwników (prawdopodobnie
-*/
-
 public class RoomManager : MonoBehaviour
 {
     private List<GameObject> rooms;
@@ -27,7 +19,7 @@ public class RoomManager : MonoBehaviour
     private const int spawnPointProximity = 50;
     private List<Vector2Int> mxPosRooms;
     private GameObject endingRoom;
-
+    [SerializeField] private List<GameObject> collectibles;
 
 
 
@@ -109,7 +101,7 @@ public class RoomManager : MonoBehaviour
         int rand;
         int index;
         for (int i=0; i<3 ; i++) {
-            index = Random.Range(0, branches.Count-1);
+            index = Random.Range(0, branches.Count);
             branch = branches[index];
             rand = Random.Range(0, maxAmountLeft);
             roomPerBranchAmount[branch] += rand;
@@ -148,7 +140,7 @@ public class RoomManager : MonoBehaviour
             if (entrancesLeft != 0) {
                 //TODO maybe convert to RoomDir enum
                 //int randomValue = Random.Range(1, entrancesLeft) - 1;
-                int randomIndex = Random.Range(0, randomNumbers.Count-1);
+                int randomIndex = Random.Range(0, randomNumbers.Count);
                 int randomValue = randomNumbers[randomIndex];
                 randomNumbers.RemoveAt(randomIndex);
 
@@ -430,16 +422,49 @@ public class RoomManager : MonoBehaviour
         Room roomInfo = roomTemplate.GetComponent<Room>();
         GameObject obstacleTemplate = roomBuilder.GetObstacle(roomInfo.getRoomType());
 
-        GameObject spawnedObstacle = Instantiate(obstacleTemplate, roomTemplate.transform.position, Quaternion.identity);
+        if (obstacleTemplate != null) {
+            GameObject spawnedObstacle = Instantiate(obstacleTemplate, roomTemplate.transform.position, Quaternion.identity);
 
+            Vector3 position = spawnedObstacle.transform.position;
+            spawnedObstacle.transform.position = Vector3.zero;
 
-        Vector3 position = spawnedObstacle.transform.position;
-        spawnedObstacle.transform.position = Vector3.zero;
+            spawnedObstacle.transform.rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0,3), 0.0f);
+            spawnedObstacle.transform.position = position;
 
-        spawnedObstacle.transform.rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0,3), 0.0f);
-        spawnedObstacle.transform.position = position;
+            SpawnItemsInTheRoom(spawnedObstacle);
 
-        spawnedObstacle.transform.SetParent(roomTemplate.transform);        
+            spawnedObstacle.transform.SetParent(roomTemplate.transform);   
+        }
+     
+    }
+
+    private void SpawnItemsInTheRoom(GameObject obstacleGO) {     
+        GameObject itemSpawnPts = null;
+        Transform parent = obstacleGO.transform;
+        for (int i = 0; i < parent.childCount; i++) {
+            Transform child = parent.GetChild(i);
+            if (child.tag == "ItemSP")
+            {
+                itemSpawnPts = child.gameObject;
+                break;
+            }
+        }
+        if (itemSpawnPts == null) {
+            Debug.Log("There was no itemSP in the obstacle!");
+            return;
+        }
+
+        for(int i = 0; i < itemSpawnPts.transform.childCount; i++) {
+            Transform itemSP = itemSpawnPts.transform.GetChild(i);
+            int chanceOfSpawn = Random.Range(0, 100);
+            if(chanceOfSpawn > 50) {
+                int idNo = Random.Range(0, collectibles.Count);
+                Vector3 collectiblePos = itemSP.position;
+                collectiblePos.y += 0.5f;
+                GameObject newCollectible = Instantiate(collectibles[idNo], collectiblePos, Quaternion.identity);
+                newCollectible.transform.SetParent(obstacleGO.transform);
+            }            
+        }
     }
 
     private void SpawnRooms() {

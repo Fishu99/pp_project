@@ -89,7 +89,7 @@ public class RoomBuilder : MonoBehaviour
             return null;
         }
 
-        int idOfChosenObst = Random.Range(0, validObstacles.Count-1);
+        int idOfChosenObst = Random.Range(0, validObstacles.Count);
         return validObstacles[idOfChosenObst];
     }
 
@@ -115,7 +115,7 @@ public class RoomBuilder : MonoBehaviour
     }
 
     public GameObject GetTemplateFromList(List<GameObject> roomTemplates) {
-        int rand = Random.Range(0, roomTemplates.Count-1);
+        int rand = Random.Range(0, roomTemplates.Count);
 
         GameObject chosenRoom = Instantiate(roomTemplates[rand], Vector3.zero, Quaternion.identity);
         chosenRoom.name = roomTemplates[rand].name + "_T";
@@ -135,19 +135,19 @@ public class RoomBuilder : MonoBehaviour
                 return null;
             case 1:
                 validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_singleRooms);
-                rand = Random.Range(0, validTemplates.Count-1);
+                rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
                 validTemplate.name = validTemplates[rand].name + "_T";
                 return validTemplate;
             case 2:
                 validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_doubleRooms);
-                rand = Random.Range(0, validTemplates.Count-1);
+                rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
                 validTemplate.name = validTemplates[rand].name + "_T";
                 return validTemplate;
             case 3:
                 validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_tripleRooms);
-                rand = Random.Range(0, validTemplates.Count-1);
+                rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
                 validTemplate.name = validTemplates[rand].name + "_T";
                 return validTemplate;

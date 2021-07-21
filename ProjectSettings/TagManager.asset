@@ -8,6 +8,7 @@ TagManager:
   - BulletIgnore
   - Enemy
   - Room
+  - ItemSP
   layers:
   - Default
   - TransparentFX

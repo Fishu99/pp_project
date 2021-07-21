@@ -47,6 +47,9 @@ MonoBehaviour:
   entryRoom: {fileID: 0}
   roomAmount: 30
   maxRPathDepth: 4
+  collectibles:
+  - {fileID: 4718658702677703642, guid: c7fb2154a9ff40546899d98383f85f9c, type: 3}
+  - {fileID: 2832707082453480434, guid: 0395c2cc2597c354f95cd6ced51beeb3, type: 3}
 --- !u!114 &279644472575884745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +136,4 @@ MonoBehaviour:
   - {fileID: 7180642478026524321, guid: ef4ef0bb308609c43b9e9454e39ca3ac, type: 3}
   - {fileID: 2385411582304260260, guid: a7b91ed6b4040e546a794418064f654e, type: 3}
   tS_entryRoom: {fileID: 3415649090163254318, guid: e7563b6c08a15cf4388aa73e6a104798, type: 3}
+  tS_obstacles: []
