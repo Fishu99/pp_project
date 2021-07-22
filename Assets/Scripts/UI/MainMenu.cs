@@ -13,7 +13,10 @@ public class MainMenu : MonoBehaviour{
     }
 
     [SerializeField]
-    Slider sliderSensitiveMouse;
+    Slider sliderMasterVolume;
+
+    [SerializeField]
+    Slider sliderMusicVolume;
 
     [SerializeField]
     Slider sliderSoundsVolume;
@@ -24,12 +27,16 @@ public class MainMenu : MonoBehaviour{
     [SerializeField]
     RectTransform submenuAuthors;
 
+    [SerializeField]
+    AudioSource audioSource;
+
     Submenu currentSubmenu;
 
     void Start(){
         currentSubmenu = Submenu.Null;
+        audioSource.Stop();
         RefreshSubmenu();
-        GetValuesFromPlayerPrefs();
+        RevertOptions();
     }
 
     public void ChangeScene(int index){
@@ -51,16 +58,23 @@ public class MainMenu : MonoBehaviour{
         RefreshSubmenu();
     }
 
-    public void SavePlayerPrefs(){
-
-        PlayerPrefs.SetFloat("mouseSensitive", sliderSensitiveMouse.value);
-        PlayerPrefs.SetFloat("soundsVolume", sliderSoundsVolume.value);
-
-        PlayerPrefs.Save();
+    public void RevertOptions(){
+        AudioManager.Instance.ResetValuesByPlayerPrefs();
+        RefreshSliders();
     }
 
-    public void RevertOptions(){
-        GetValuesFromPlayerPrefs();
+    public void SaveOptions(){
+        AudioManager.Instance.SavePlayerPrefs(GetVolumesBySlider());
+    }
+
+    public void PlayRandomSound(){
+        if(!audioSource.isPlaying){
+            audioSource.Play();
+        }
+    }
+
+    public void RefreshVolumes(){
+        AudioManager.Instance.SetVolumes(GetVolumesBySlider());
     }
 
     void RefreshSubmenu(){
@@ -82,12 +96,19 @@ public class MainMenu : MonoBehaviour{
 
     }
 
-    void GetValuesFromPlayerPrefs(){
-        if(PlayerPrefs.HasKey("mouseSensitive")){
-            sliderSensitiveMouse.value = PlayerPrefs.GetFloat("mouseSensitive");
-        }
-        if(PlayerPrefs.HasKey("soundsVolume")){
-            sliderSoundsVolume.value = PlayerPrefs.GetFloat("soundsVolume");
-        }
+    void RefreshSliders(){
+        float [] values = AudioManager.Instance.GetValuesByPlayerPrefs();
+        sliderMasterVolume.value = values[0];
+        sliderMusicVolume.value = values[1];
+        sliderSoundsVolume.value = values[2];
     }
+
+    float [] GetVolumesBySlider(){
+        return new float[3]{
+            sliderMasterVolume.value,
+            sliderMusicVolume.value,
+            sliderSoundsVolume.value
+        };
+    }
+
 }

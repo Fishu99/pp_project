@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
-  healthDamage: 10
+  healthDamage: 15
   effect: {fileID: 1354619386670407105, guid: 59414b07f4bcc894fb7df2ed7a09c2c7, type: 3}
   timeToDie: 30
   ignoreTags: []
