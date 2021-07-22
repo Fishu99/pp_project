@@ -18,6 +18,8 @@ public class Knife : MonoBehaviour
  
     private bool isAttacking = false;
     AudioSource audioSource;
+    float timerAttacking = 0;
+    
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -26,14 +28,20 @@ public class Knife : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(isAttacking){
+            timerAttacking += Time.deltaTime;
+            if(timerAttacking > attackDuration){
+                isAttacking = false;
+                timerAttacking = 0f;
+            }
+        }
     }
 
     public void Attack(Vector3 direction, Vector3 startPosition)
     {
         if (!isAttacking)
         {
-            StartCoroutine(AttackSequence(direction, startPosition));
+            AttackSequence(direction, startPosition);
         }
     }
 
@@ -42,12 +50,11 @@ public class Knife : MonoBehaviour
         return isAttacking;
     }
 
-    private IEnumerator AttackSequence(Vector3 direction, Vector3 startPosition)
+    private void AttackSequence(Vector3 direction, Vector3 startPosition)
     {
+        timerAttacking = 0f;
         isAttacking = true;
         DamageHealth(direction, startPosition);
-        yield return new WaitForSeconds(attackDuration);
-        isAttacking = false;
     }
 
     private void DamageHealth(Vector3 direction, Vector3 startPosition)
