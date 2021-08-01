@@ -3,7 +3,27 @@ guid: 2c70aec1654822a4a97a3b24c6750431
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Color_M08.001
+    second: {fileID: 2100000, guid: b1d7ad56fe3665949956156bc59e0164, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_Rusted
+    second: {fileID: 2100000, guid: dda1d5ea6a3906845b61d8cada484884, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.001
+    second: {fileID: 2100000, guid: 4e6babf15b98e9d41a4c038222d97134, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material_0.001
+    second: {fileID: 2100000, guid: 93453a1cbfb9d9f4f9c0b8eb2b96e9ed, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

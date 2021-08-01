@@ -60,6 +60,9 @@ public class Visibility : MonoBehaviour{
     [SerializeField]
     float maskCutawayDst = .1f;
 
+    [SerializeField]
+    Vector3 offset;
+
     Mesh viewMesh;
     List<Transform> visibleTargets = new List<Transform>();
 
@@ -68,7 +71,7 @@ public class Visibility : MonoBehaviour{
         viewMesh.name = "View Mesh";
         meshFilter.mesh = viewMesh;
 
-        StartCoroutine(FindTargetsWithDelay(.2f));
+        //StartCoroutine(FindTargetsWithDelay(.2f));
     }
 
     void LateUpdate(){
@@ -81,7 +84,7 @@ public class Visibility : MonoBehaviour{
 
     public void FindVisibleTargets(){
         visibleTargets.Clear();
-        Collider [] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+        Collider [] targetsInViewRadius = Physics.OverlapSphere(transform.position + offset, viewRadius, targetMask);
         for(int i = 0; i < targetsInViewRadius.Length; i++){
             Transform target = targetsInViewRadius[i].transform;
             Vector3 dir = (target.position - transform.position).normalized;
@@ -177,10 +180,10 @@ public class Visibility : MonoBehaviour{
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
 
-        if(Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask)){
+        if(Physics.Raycast(transform.position + offset, dir, out hit, viewRadius, obstacleMask)){
             return new ViewCastInfo(true, hit.point, hit.normal, hit.distance, globalAngle);
         }else{
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, Vector3.zero , viewRadius, globalAngle);
+            return new ViewCastInfo(false, transform.position + offset + dir * viewRadius, Vector3.zero , viewRadius, globalAngle);
         }
     }
 
