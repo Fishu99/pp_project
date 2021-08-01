@@ -1062,6 +1062,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3044487712392801047, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7635935895636026279, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
       propertyPath: itemInfo
       value: 
@@ -1074,6 +1078,22 @@ PrefabInstance:
       propertyPath: inventoryUI
       value: 
       objectReference: {fileID: 1560272342}
+    - target: {fileID: 7800884567693815778, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
+      propertyPath: orthographic size
+      value: 49.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969303787332580610, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969303787332580610, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 42.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969303787332580610, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d14110b192b1a764f827d8bacb28dc14, type: 3}
 --- !u!1001 &714593880
