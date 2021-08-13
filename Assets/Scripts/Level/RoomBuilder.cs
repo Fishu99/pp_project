@@ -9,6 +9,7 @@ public class RoomBuilder : MonoBehaviour
     [SerializeField] private List<GameObject> tS_tripleRooms;   //Templates of triple entry rooms
     [SerializeField] private GameObject tS_entryRoom;   //Template of the entry room
     [SerializeField] private List<GameObject> tS_obstacles;   //Templates of obstacles for single rooms
+    [SerializeField] private GameObject tS_endingRoom;  //Template of the ending room
 
 
     private float[,] probabilityTable {get;set;}
@@ -173,6 +174,50 @@ public class RoomBuilder : MonoBehaviour
                             validTemplates.Add(room);
         }
         return validTemplates;
+    }
+
+    public GameObject GetEndingRoom(RoomDirection dir, Vector3 pos) {
+        Quaternion rotation = new Quaternion();
+
+        if (dir == RoomDirection.top)
+            rotation = Quaternion.identity;
+        else if (dir == RoomDirection.bottom)
+            rotation = Quaternion.Euler(0.0f, 90.0f * 2, 0.0f);
+        else if (dir == RoomDirection.left)
+            rotation = Quaternion.Euler(0.0f, 90.0f * 3, 0.0f);
+        else if (dir == RoomDirection.right)
+            rotation = Quaternion.Euler(0.0f, 90.0f * 1, 0.0f);
+        else {
+            Debug.LogError("Rotation is invalid! (EndingRoom)");
+            return null;
+        }
+
+
+        GameObject endRoomT = Instantiate(tS_endingRoom, pos, rotation);
+        endRoomT.name = endRoomT.name + "_T";
+        return endRoomT;
+    }
+
+    public RoomDirection GetDirOfSingleRoom(GameObject room) {
+        Room roomInfo = room.GetComponent<Room>();
+        if(roomInfo.getEntryAmount() != 1) {
+            Debug.LogError("Invalid number of entrances to invoke this function!");
+            return RoomDirection.none;
+        }
+
+        bool[] entryArray = roomInfo.getEntryExistArray();
+        if(entryArray[(int)RoomDirection.top])
+            return RoomDirection.top;
+        else if (entryArray[(int)RoomDirection.bottom])
+            return RoomDirection.bottom;
+        else if (entryArray[(int)RoomDirection.left])
+            return RoomDirection.left;
+        else if (entryArray[(int)RoomDirection.right])
+            return RoomDirection.right;
+        else {
+            Debug.LogError("Room should have at least one entrance!");
+            return RoomDirection.none;
+        }
     }
 
 }

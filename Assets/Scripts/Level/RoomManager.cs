@@ -645,7 +645,14 @@ public class RoomManager : MonoBehaviour
 
         //Selecting the ending room randomly
         int iChosenRoom = Random.Range(0, roomsAdded);
-        endingRoom = mxRooms[iChosenRoom].getTemplate();
+        endingRoom = mxRooms[iChosenRoom].getTemplate();    //Getting GameObject
+        //Spawning a proper template for ending room (with portal)
+        Vector3 endRoomPos = endingRoom.transform.position;
+        RoomDirection roomDir = roomBuilder.GetDirOfSingleRoom(endingRoom);
+        GameObject endingRoomTmpl = roomBuilder.GetEndingRoom(roomDir, endRoomPos);
+        Destroy(endingRoom);
+        endingRoom = endingRoomTmpl;    //TODO: Reassign this template in room list
+
         Debug.Log("RoomsAdded: " + roomsAdded + " ChosenOneCords: " + mxRooms[iChosenRoom].mxPos);        
     }
 
