@@ -13,7 +13,6 @@ public class EnemyMovementMelee : EnemyMovement
     protected override void UnsetStateDetectedValues() {
         SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
         if(navMeshAgent) navMeshAgent.isStopped = false;
-        GetComponent<Animator>().SetBool("isWalking", true);
     }
 
     protected override void Detected() {
@@ -35,8 +34,6 @@ public class EnemyMovementMelee : EnemyMovement
                 enemyMelee?.Attack(transform.position);
                 timerManager.ResetTimer("ACD");
             }
-
-            GetComponent<Animator>().SetBool("isWalking", false);
         }
 
         if((player.transform.position-transform.position).magnitude > playerDetectRange)

@@ -18,5 +18,6 @@ public class EnemyShooting : MonoBehaviour
         {
             gunComponent.Shoot(startPosition, transform.forward);
         }
+        GetComponent<Animator>().SetTrigger("Attack");
     }
 }

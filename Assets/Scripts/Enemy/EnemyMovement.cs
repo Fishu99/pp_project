@@ -75,6 +75,17 @@ public abstract class EnemyMovement : MonoBehaviour
 				Detected();
 				break;
         }
+
+        bool moving = navMeshAgent.velocity.magnitude > 0.5f && navMeshAgent.remainingDistance > navMeshAgent.radius;
+
+        if(moving)
+        {
+            GetComponent<Animator>().SetBool("isWalking", true);
+        }
+        else
+        {
+            GetComponent<Animator>().SetBool("isWalking", false);
+        }
     }
 
     private void GetTheComponents()
