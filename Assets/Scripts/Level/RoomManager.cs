@@ -462,6 +462,7 @@ public class RoomManager : MonoBehaviour
                 Vector3 collectiblePos = itemSP.position;
                 collectiblePos.y += 0.5f;
                 GameObject newCollectible = Instantiate(collectibles[idNo], collectiblePos, Quaternion.identity);
+                newCollectible.name = collectibles[idNo].name;
                 newCollectible.transform.SetParent(obstacleGO.transform);
             }            
         }

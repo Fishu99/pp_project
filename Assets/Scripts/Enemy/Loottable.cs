@@ -22,6 +22,7 @@ public class Loottable : MonoBehaviour
                 //Debug.Log("Spawned! Spread:" + spreadVector);
 
                 GameObject loot = Instantiate(lootObjects[i], gameObject.transform.position + spreadVector, Quaternion.identity) as GameObject;
+                loot.name = lootObjects[i].name;
             }
             i++;
         }
