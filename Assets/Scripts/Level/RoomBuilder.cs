@@ -7,7 +7,7 @@ public class RoomBuilder : MonoBehaviour
     [SerializeField] private List<GameObject> tS_singleRooms;   //Templates of single entry rooms
     [SerializeField] private List<GameObject> tS_doubleRooms;   //Templates of double entry rooms
     [SerializeField] private List<GameObject> tS_tripleRooms;   //Templates of triple entry rooms
-    [SerializeField] private GameObject tS_entryRoom;   //Template of the entry room
+    [SerializeField] private List<GameObject> tS_entryRooms;   //Template of the entry room
     [SerializeField] private List<GameObject> tS_obstacles;   //Templates of obstacles for single rooms
     [SerializeField] private GameObject tS_endingRoom;  //Template of the ending room
 
@@ -154,7 +154,9 @@ public class RoomBuilder : MonoBehaviour
                 validTemplate.name = validTemplates[rand].name + "_T";
                 return validTemplate;
             case 4:
-                validTemplate = Instantiate(tS_entryRoom, Vector3.zero, Quaternion.identity);
+                validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_entryRooms, reqRoomType);
+                rand = Random.Range(0, validTemplates.Count);
+                validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
                 validTemplate.name = validTemplate.name + "_T";
                 return validTemplate;
             default:
