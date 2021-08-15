@@ -29,7 +29,7 @@ public class RoomBuilder : MonoBehaviour
         };
     }
 
-    public List<GameObject> GetRoomTemplates(int curDepth, int maxDepth, RoomDirection reqDir) {
+    public List<GameObject> GetRoomTemplates(int curDepth, int maxDepth, RoomDirection reqDir, int reqRoomType) {
         List<GameObject> roomTemplates = null;
         
         //TODO functionality - add handle to different maxDepth than 4
@@ -65,8 +65,8 @@ public class RoomBuilder : MonoBehaviour
             Debug.LogWarning("Catched an error, randomNumber was out of range");
         }
 
-        //Filter rooms by reqDir
-        roomTemplates = FilterListOfRooms(roomTemplates, reqDir);
+        //Filter rooms by reqDir and reqRoomType (if it is equal to 0 - there isn't type filter)
+        roomTemplates = FilterListOfRooms(roomTemplates, reqDir, reqRoomType);
         return roomTemplates;
     }
 
@@ -94,14 +94,15 @@ public class RoomBuilder : MonoBehaviour
         return validObstacles[idOfChosenObst];
     }
 
-    private List<GameObject> FilterListOfRooms(List<GameObject> roomTemplates, RoomDirection reqDir) {
+    private List<GameObject> FilterListOfRooms(List<GameObject> roomTemplates, RoomDirection reqDir, int reqRoomType) {
         List<GameObject> filteredList = new List<GameObject>();
         foreach (GameObject room in roomTemplates)
         {
             Room roomInfo = room.GetComponent<Room>();
             //roomInfo.entryExist[(int)reqDir]
             if(roomInfo.getEntryExist(reqDir)) {
-                filteredList.Add(room);
+                if (reqRoomType == 0 || reqRoomType == roomInfo.getRoomType())
+                    filteredList.Add(room);
             }            
         }
 
@@ -125,7 +126,7 @@ public class RoomBuilder : MonoBehaviour
         return chosenRoom;
     }
 
-    public GameObject GetChosenTemplate(bool top, bool bottom, bool left, bool right) {
+    public GameObject GetChosenTemplate(bool top, bool bottom, bool left, bool right, int reqRoomType) {
         int nbOfEntrances = (top ? 1:0) + (bottom ? 1:0) + (left ? 1:0) + (right ? 1:0);
         List<GameObject> validTemplates;
 
@@ -135,19 +136,19 @@ public class RoomBuilder : MonoBehaviour
             case 0:
                 return null;
             case 1:
-                validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_singleRooms);
+                validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_singleRooms, reqRoomType);
                 rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
                 validTemplate.name = validTemplates[rand].name + "_T";
                 return validTemplate;
             case 2:
-                validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_doubleRooms);
+                validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_doubleRooms, reqRoomType);
                 rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
                 validTemplate.name = validTemplates[rand].name + "_T";
                 return validTemplate;
             case 3:
-                validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_tripleRooms);
+                validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_tripleRooms, reqRoomType);
                 rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
                 validTemplate.name = validTemplates[rand].name + "_T";
@@ -162,16 +163,17 @@ public class RoomBuilder : MonoBehaviour
         }
     }
 
-    private List<GameObject> GetCompatibleRooms(bool top, bool bottom, bool left, bool right, List<GameObject> roomTemplates) {
+    private List<GameObject> GetCompatibleRooms(bool top, bool bottom, bool left, bool right, List<GameObject> roomTemplates, int reqRoomType) {
         List<GameObject> validTemplates = new List<GameObject>();
         foreach (GameObject room in roomTemplates)
         {
             Room roomInfo = room.GetComponent<Room>();
-            if(roomInfo.getEntryExist(RoomDirection.top) == top)
-                if(roomInfo.getEntryExist(RoomDirection.bottom) == bottom)
-                    if(roomInfo.getEntryExist(RoomDirection.left) == left)
-                        if(roomInfo.getEntryExist(RoomDirection.right) == right)
-                            validTemplates.Add(room);
+            if (roomInfo.getRoomType() == reqRoomType || reqRoomType == 0)
+                if(roomInfo.getEntryExist(RoomDirection.top) == top)
+                    if(roomInfo.getEntryExist(RoomDirection.bottom) == bottom)
+                        if(roomInfo.getEntryExist(RoomDirection.left) == left)
+                            if(roomInfo.getEntryExist(RoomDirection.right) == right)
+                                validTemplates.Add(room);
         }
         return validTemplates;
     }

@@ -20,6 +20,7 @@ public class RoomManager : MonoBehaviour
     private List<Vector2Int> mxPosRooms;
     private GameObject endingRoom;
     [SerializeField] private List<GameObject> collectibles;
+    [SerializeField] private int reqRoomType = 0; //What type of rooms will be spawned (0 means MIX of types)
 
 
 
@@ -227,7 +228,7 @@ public class RoomManager : MonoBehaviour
 
                     if(isChangeNeeded) {
                         //Room must be reassigned
-                        GameObject newTemplate = roomBuilder.GetChosenTemplate(rEntry[(int)top], rEntry[(int)bottom], rEntry[(int)left], rEntry[(int)right]);
+                        GameObject newTemplate = roomBuilder.GetChosenTemplate(rEntry[(int)top], rEntry[(int)bottom], rEntry[(int)left], rEntry[(int)right], reqRoomType);
                         if (newTemplate == null) {
                             Debug.LogError("newTemplate is null!");
                         }
@@ -276,7 +277,7 @@ public class RoomManager : MonoBehaviour
 
         if(entryDir == top){ //We spawn room on the top so we need room with bottom door
             //Getting template
-            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, bottom);
+            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, bottom, reqRoomType);
             GameObject template = roomBuilder.GetTemplateFromList(roomTemplates);   //Randomise template
             if (template == null){
                 Debug.LogError("Template was null");
@@ -298,7 +299,7 @@ public class RoomManager : MonoBehaviour
         }
         else if (entryDir == bottom) {//We spawn room on the bottom so we need room with top door
             //Getting template
-            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, top);
+            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, top, reqRoomType);
             GameObject template = roomBuilder.GetTemplateFromList(roomTemplates);   //Randomise template
             if (template == null){
                 Debug.LogError("Template was null");
@@ -320,7 +321,7 @@ public class RoomManager : MonoBehaviour
         }
         else if (entryDir == left) {//We spawn room on the left so we need room with right door
             //Getting template
-            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, right);
+            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, right, reqRoomType);
             GameObject template = roomBuilder.GetTemplateFromList(roomTemplates);   //Randomise template
             if (template == null){
                 Debug.LogError("Template was null");
@@ -342,7 +343,7 @@ public class RoomManager : MonoBehaviour
         }
         else if (entryDir == right) {//We spawn room on the right so we need room with left door
             //Getting template
-            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, left);
+            List<GameObject> roomTemplates = roomBuilder.GetRoomTemplates(curDepth, maxRPathDepth, left, reqRoomType);
             GameObject template = roomBuilder.GetTemplateFromList(roomTemplates);   //Randomise template
             if (template == null){
                 Debug.LogError("Template was null");
