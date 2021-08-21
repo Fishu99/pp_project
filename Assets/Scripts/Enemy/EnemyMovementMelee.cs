@@ -21,14 +21,15 @@ public class EnemyMovementMelee : EnemyMovement
         rigidbody.transform.rotation = Quaternion.RotateTowards(rigidbody.transform.rotation, q, Time.fixedDeltaTime * navMeshAgent.angularSpeed * 0.5f);
 
         if((player.transform.position-transform.position).magnitude > playerCloseToAttackRange) {
-            if(navMeshAgent) navMeshAgent.isStopped = false;
+            if(navMeshAgent != null && navMeshAgent.isActiveAndEnabled) navMeshAgent.isStopped = false;
 
             GetComponent<Animator>().SetBool("isWalking", true);
 
-            navMeshAgent?.SetDestination(player.transform.position);
+            if(navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
+                navMeshAgent.SetDestination(player.transform.position);
         }
         else {
-            if(navMeshAgent) navMeshAgent.isStopped = true;
+            if(navMeshAgent != null && navMeshAgent.isActiveAndEnabled) navMeshAgent.isStopped = true;
 
             if(timerManager.GetStatusOfTimer("ACD") <= 0) {
                 enemyMelee?.Attack(transform.position);

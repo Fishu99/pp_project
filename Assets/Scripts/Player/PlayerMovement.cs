@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private float verticalInput;
     private Animator animator;
 
+    Collider collider;
+
     Health health;
     
     void Start()
@@ -41,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             animator.SetTrigger("Die");
+            rigidbody.velocity = Vector3.zero;
+            collider.enabled = false;
         }
     }
 
@@ -92,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         cameraComponent = camera.GetComponent<Camera>();
         cameraFollow = camera.GetComponent<FollowPlayer>();
         animator = GetComponent<Animator>();
+        collider = GetComponent<Collider>();
     }
 
     private void PlaceSight()

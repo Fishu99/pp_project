@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyMovementRanged : EnemyMovement
 {
+
+    [SerializeField] Transform shootingPosition;
+
     protected override void SetStateDetectedValues() {
         if(navMeshAgent) navMeshAgent.isStopped = true;
     }
@@ -18,7 +21,7 @@ public class EnemyMovementRanged : EnemyMovement
         rigidbody.transform.rotation = Quaternion.RotateTowards(rigidbody.transform.rotation, q, Time.fixedDeltaTime * navMeshAgent.angularSpeed * 0.5f);
            
         if(timerManager.GetStatusOfTimer("ACD") <= 0) {
-            enemyShooting?.Attack(transform.position);
+            enemyShooting?.Attack(shootingPosition == null ? transform.position : shootingPosition.position);
             timerManager.ResetTimer("ACD");
         }
 

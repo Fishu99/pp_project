@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43749028, g: 0.48531085, b: 0.5655851, a: 1}
+  m_IndirectSpecularColor: {r: 0.43749017, g: 0.4853112, b: 0.56558603, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -802,7 +802,7 @@ PrefabInstance:
       objectReference: {fileID: 514647101}
     - target: {fileID: 1668192090599776547, guid: 4fa71f41d44400a468a39117d0b314ca, type: 3}
       propertyPath: m_Name
-      value: TestEnemyMelee
+      value: EnemyMelee
       objectReference: {fileID: 0}
     - target: {fileID: 1668192090599776547, guid: 4fa71f41d44400a468a39117d0b314ca, type: 3}
       propertyPath: m_IsActive
@@ -1458,7 +1458,7 @@ PrefabInstance:
       objectReference: {fileID: 514647101}
     - target: {fileID: 6423976808042449170, guid: 0e5a658b0b6627446bc1fec4955fcfbc, type: 3}
       propertyPath: m_Name
-      value: TestEnemyRanged
+      value: EnemyRanged
       objectReference: {fileID: 0}
     - target: {fileID: 6423976808042449170, guid: 0e5a658b0b6627446bc1fec4955fcfbc, type: 3}
       propertyPath: m_IsActive

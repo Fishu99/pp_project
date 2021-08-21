@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMelee : MonoBehaviour
-{
+public class EnemyMelee : MonoBehaviour{
+
+    [SerializeField]
+    float timeToHit = 0.8f;
+
     private Knife knifeComponent;
     private Animator animator;
+
+    float timer = 0f;
+
     void Start()
     {
         knifeComponent = GetComponentInChildren<Knife>();

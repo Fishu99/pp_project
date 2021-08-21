@@ -19,6 +19,11 @@ public class TestHealthBar : MonoBehaviour
         {
             previousHealth = monitoredHealth.CurrentHealth;
             float healthFraction = (float)monitoredHealth.CurrentHealth / monitoredHealth.MaxHealth;
+
+            if (!monitoredHealth.IsAlive()) {
+                Destroy(gameObject);
+            }
+
             SetBarFill(healthFraction);
         }
     }

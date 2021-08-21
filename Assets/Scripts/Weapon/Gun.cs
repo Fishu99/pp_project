@@ -43,6 +43,7 @@ public class Gun : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        ammunition = Random.Range(0, 20);
         Reload();
     }
 

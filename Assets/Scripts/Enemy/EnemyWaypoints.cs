@@ -4,20 +4,32 @@ using UnityEngine;
 
 public class EnemyWaypoints : MonoBehaviour
 {
-    private List<EnemyWaypoint> waypoints;
+    private List<EnemyWaypoint> waypoints = new List<EnemyWaypoint>();
 
-    void Awake()
-    {
+    void Awake(){
         LoadWaypoints();
     }
 
     public EnemyWaypoint GetWaypoint(int index) {
+
+        if (waypoints.Count <= index){
+            return null;
+        }
+
         return waypoints[index];
     }
 
     public bool IsWaypointInReach(int index, Transform transform, float distance) {
-        if((waypoints[index].transform.position - transform.position).magnitude < distance) return true;
-        else return false;
+
+        if(waypoints.Count <= index){
+            return true;
+        }
+
+        if ((waypoints[index].transform.position - transform.position).magnitude < distance){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private void LoadWaypoints()

@@ -14,10 +14,11 @@ public class EnemyShooting : MonoBehaviour
 
     public void Attack(Vector3 startPosition)
     {
-        if (gunComponent != null)
+        if (gunComponent != null && gunComponent.CanShoot())
         {
+            GetComponent<Animator>().SetTrigger("Attack");
             gunComponent.Shoot(startPosition, transform.forward);
         }
-        GetComponent<Animator>().SetTrigger("Attack");
+        
     }
 }

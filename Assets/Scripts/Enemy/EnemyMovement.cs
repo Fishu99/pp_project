@@ -34,6 +34,9 @@ public abstract class EnemyMovement : MonoBehaviour
     protected EnemyStates state;
 
 
+    Collider collider;
+    Animator animator;
+
     void Start()
     {
         GetTheComponents();
@@ -63,7 +66,13 @@ public abstract class EnemyMovement : MonoBehaviour
         if (!health.IsAlive())
         {
             loottable.DropItems();
-            Destroy(gameObject);
+            collider.enabled = false;
+            rigidbody.isKinematic = true;
+            animator.SetTrigger("Die");
+            rigidbody.velocity = Vector3.zero;
+            navMeshAgent.enabled = false;
+            return;
+            //Destroy(gameObject);
         }
 
         switch (state)
@@ -80,11 +89,11 @@ public abstract class EnemyMovement : MonoBehaviour
 
         if(moving)
         {
-            GetComponent<Animator>().SetBool("isWalking", true);
+            animator.SetBool("isWalking", true);
         }
         else
         {
-            GetComponent<Animator>().SetBool("isWalking", false);
+            animator.SetBool("isWalking", false);
         }
     }
 
@@ -95,6 +104,8 @@ public abstract class EnemyMovement : MonoBehaviour
         timerManager = GetComponent<TimerManager>();
         health = GetComponent<Health>();
         loottable = GetComponent<Loottable>();
+        collider = GetComponentInChildren<Collider>();
+        animator = GetComponentInChildren<Animator>();
 
         enemyShooting = GetComponent<EnemyShooting>();
         enemyMelee = GetComponent<EnemyMelee>();
@@ -113,6 +124,12 @@ public abstract class EnemyMovement : MonoBehaviour
         TimerToZero attackCooldown = new TimerToZero(attackCooldownTime, 0f);
         attackCooldown.locked = false;
         timerManager.AddTimer("ACD", attackCooldown);
+
+        if (enemyMelee != null){
+            animator.SetFloat("Weapon", 0f);
+        }else if (enemyShooting != null){
+            animator.SetFloat("Weapon", 1f);
+        }
 
         SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
     }
@@ -133,7 +150,7 @@ public abstract class EnemyMovement : MonoBehaviour
 
     protected void SetDestination(EnemyWaypoint waypoint)
     {
-        if(waypoint != null)
+        if(waypoint != null && navMeshAgent != null && navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh)
         {
             Vector3 destinationPosition = waypoint.transform.position;
             navMeshAgent?.SetDestination(destinationPosition);
@@ -152,7 +169,8 @@ public abstract class EnemyMovement : MonoBehaviour
         }
         else if(
             !timerManager.IsTimerLocked("DRC") &&
-            timerManager.GetStatusOfTimer("DRC") <= 0f
+            timerManager.GetStatusOfTimer("DRC") <= 0f &&
+            waypointSystem.GetWaypointCount() > 0
         )
         {
             timerManager.SetLock("DRC", true);
