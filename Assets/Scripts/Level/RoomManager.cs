@@ -28,7 +28,7 @@ public class RoomManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    private void Start()
+    public void Generate()
     {
         CheckArguments();
         InitializeParamaters();

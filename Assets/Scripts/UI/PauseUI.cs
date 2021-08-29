@@ -25,6 +25,12 @@ public class PauseUI : MonoBehaviour{
     [SerializeField]
     float timeToShowDeathScreen = 2f;
 
+    [SerializeField]
+    string menuScene;
+
+    [SerializeField]
+    string playerScene;
+
     bool isPause = false;
     bool isDead = false;
     float timer = 0;
@@ -103,8 +109,12 @@ public class PauseUI : MonoBehaviour{
         winScreen.gameObject.SetActive(true);
     }
 
-    public void ChangeScene(int index){
-        SceneManager.LoadScene(index);
+    public void QuitToMenu() {
+        SceneManager.LoadScene(menuScene);
+    }
+
+    public void StartNewGame() {
+        SceneManager.LoadScene(playerScene);
     }
 
     IEnumerator DeathScreen(){
