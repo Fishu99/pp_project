@@ -2,30 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// A script for controlling the player's attacks (shooting or stabbing).
+/// </summary>
 public class PlayerShooting : MonoBehaviour
 {
 
-    [SerializeField]
-    Transform startPosition;
-
+    [SerializeField] Transform startPosition;
+    /// <summary>
+    /// The currently used weapon
+    /// </summary>
     public GameObject activeWeapon;
+    /// <summary>
+    /// The Gun component of the activeWeapon.
+    /// </summary>
     private Gun gunComponent;
+    /// <summary>
+    /// The Knife component of the activeWeapon
+    /// </summary>
     private Knife knifeComponent;
+    /// <summary>
+    /// The component controlling the player's movement
+    /// </summary>
     private PlayerMovement playerMovement;
+    /// <summary>
+    /// The player's animator.
+    /// </summary>
     private Animator animator;
+    /// <summary>
+    /// Enum describing the type of a weapon.
+    /// </summary>
     public enum Weapon { Knife, Gun }
+    /// <summary>
+    /// Type of the active weapon.
+    /// </summary>
     public Weapon weapon;
 
+    /// <summary>
+    /// Gets the PlayerMovement component
+    /// </summary>
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
     }
+
+    /// <summary>
+    /// Gets the Animator component.
+    /// </summary>
     void Start()
     {
         animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Checks for player input. If the primary mouse button is pressed, the pplayer attacks. If the R key is pressed, the ammunition is reloaded.
+    /// </summary>
     void Update()
     {
         if (Input.GetMouseButton(0))
@@ -39,6 +70,10 @@ public class PlayerShooting : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Sets a weapon as the active weapon.
+    /// </summary>
+    /// <param name="newWeapon">the weapon to be set as active weapon.</param>
     public void SetActiveWeapon(GameObject newWeapon)
     {
         if (playerMovement == null)
@@ -52,16 +87,27 @@ public class PlayerShooting : MonoBehaviour
         GetComponentOfActiveWeapon();
     }
 
+    /// <summary>
+    /// Gets the ammunition of the active weapon.
+    /// </summary>
+    /// <returns>the number of the ammunition of the gun if the activeWeapon is a gun. If the activeWeapon is a knife, it returns 0.</returns>
     public int GetAmmunition()
     {
         return gunComponent != null ? gunComponent.ammunition : 0;
     }
 
+    /// <summary>
+    /// Gets the number of shots before the reload is necessary.
+    /// </summary>
+    /// <returns>the number of shots before the reload is necessary if the activeWeapon is a gun. If the activeWeapon is a knife, it returns 0.</returns>
     public int GetShotsBeforeReload()
     {
         return gunComponent != null ? gunComponent.reloadCounter : 0;
     }
 
+    /// <summary>
+    /// Performs an attack using the activeWeapon.
+    /// </summary>
     private void Attack()
     {
         if (gunComponent != null)
@@ -81,6 +127,9 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reloads the current weapon's magazine.
+    /// </summary>
     private void Reload()
     {
         if (gunComponent != null)
@@ -89,6 +138,9 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the Gun or Knife component of the activeWeapon.
+    /// </summary>
     private void GetComponentOfActiveWeapon()
     {
         gunComponent = activeWeapon.GetComponent<Gun>();
