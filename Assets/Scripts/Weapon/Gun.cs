@@ -70,10 +70,10 @@ public class Gun : MonoBehaviour
     /// The amount of ammunition which can be shot before the gun needs to be reloaded. It is decremented after each shot.
     /// </summary>
     public int reloadCounter;
-    /// <summary>
-    /// The total ammount of ammunition of the gun. It is decremented after each shot.
-    /// </summary>
-    public int ammunition = 0;
+    [SerializeField]
+    private int ammunition = 0;
+    [SerializeField]
+    private float difficultyAmmunition = 1f;
 
     /// <summary>
     /// Enables muzzle flash effect.
@@ -213,7 +213,15 @@ public class Gun : MonoBehaviour
     /// <param name="amount">the amount of ammunition to add.</param>
     public void AddAmmunition(int amount)
     {
-        ammunition += amount;
+        ammunition += (int)(amount * difficultyAmmunition);
+    }
+
+    public int GetAmmunition() {
+        return ammunition;
+    }
+
+    public float GetDifficultyAmmunition() {
+        return difficultyAmmunition;
     }
 
     /// <summary>

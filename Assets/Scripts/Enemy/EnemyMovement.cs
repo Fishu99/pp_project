@@ -7,6 +7,7 @@ public enum EnemyStates
 {
     UNDETECTED,
     DETECTED,
+    SEARCHING
 }
 
 public abstract class EnemyMovement : MonoBehaviour
@@ -22,6 +23,8 @@ public abstract class EnemyMovement : MonoBehaviour
     private Health health;
     private Loottable loottable;
     [SerializeField] private float attackCooldownTime;
+    [SerializeField] private LayerMask detectMask;
+    [SerializeField] private float minTimeDetect = 10f;
 
 
     [SerializeField] protected float waypointReachDistance;
@@ -31,11 +34,14 @@ public abstract class EnemyMovement : MonoBehaviour
     //TODO: Wyluskiwanie z managera
     [SerializeField] public GameObject player;
     [SerializeField] protected float playerDetectRange;
+    [SerializeField] protected float playerMaxCloseDistance = 3f;
     protected EnemyStates state;
-
 
     Collider collider;
     Animator animator;
+
+    protected float timerToDetect;
+    protected Vector3 lastPositionOfPlayer;
 
     void Start()
     {
@@ -45,21 +51,52 @@ public abstract class EnemyMovement : MonoBehaviour
 
 	protected void SetState(EnemyStates newstate)
 	{
+
+        if (newstate == state) {
+            return;
+        }
+
 		switch (newstate)
 		{
 			case EnemyStates.UNDETECTED:
                 UnsetStateDetectedValues();
                 SetStateUndetectedValues();
-
 				state = newstate;
 				break;
 			case EnemyStates.DETECTED:
                 UnsetStateUndetectedValues();
                 SetStateDetectedValues();
-
-				state = newstate;
+                state = newstate;
 				break;
+            case EnemyStates.SEARCHING:
+                lastPositionOfPlayer = player.transform.position;
+                navMeshAgent?.SetDestination(lastPositionOfPlayer);
+                state = newstate;
+                break;
         }
+    }
+
+    protected bool CanSeePlayer() {
+
+        if (player == null) {
+            return false;
+        }
+
+        if (Vector3.Distance(player.transform.position, transform.position) <= playerMaxCloseDistance) {
+            return true;
+        }
+
+        RaycastHit raycastHit;
+
+        if (Physics.Raycast(transform.position, (player.transform.position - transform.position).normalized, out raycastHit, playerDetectRange, detectMask)) {
+            Vector3 direction = (raycastHit.point - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, direction);
+            if (raycastHit.transform.GetComponentInChildren<PlayerMovement>() != null && angle <= 90) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void Update() {
@@ -83,6 +120,9 @@ public abstract class EnemyMovement : MonoBehaviour
 			case EnemyStates.DETECTED:
 				Detected();
 				break;
+            case EnemyStates.SEARCHING:
+                Searching();
+                break;
         }
 
         bool moving = navMeshAgent.velocity.magnitude > 0.5f && navMeshAgent.remainingDistance > navMeshAgent.radius;
@@ -128,8 +168,11 @@ public abstract class EnemyMovement : MonoBehaviour
         if (enemyMelee != null){
             animator.SetFloat("Weapon", 0f);
         }else if (enemyShooting != null){
-            animator.SetFloat("Weapon", 1f);
+            animator.SetFloat("Weapon", enemyShooting.GetAnimTypeWeapon());
         }
+
+        timerToDetect = 0f;
+        health.onHit.AddListener(() => { if(this.state == EnemyStates.UNDETECTED)this.SetState(EnemyStates.SEARCHING); });
 
         SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
     }
@@ -180,13 +223,26 @@ public abstract class EnemyMovement : MonoBehaviour
             timerManager.ResetTimer("DRC");
         }
 
-        if((player.transform.position-transform.position).magnitude <= playerDetectRange)
+        if(CanSeePlayer())
             SetState(EnemyStates.DETECTED);
     }
 
     protected abstract void Detected();
 
+    protected void Searching() {
 
+        timerToDetect += Time.deltaTime;
+
+        if (timerToDetect > minTimeDetect) {
+            timerToDetect = 0f;
+            SetState(EnemyStates.UNDETECTED);
+            return;
+        }
+
+        if (CanSeePlayer())
+            SetState(EnemyStates.DETECTED);
+
+    }
 
     [SerializeField] protected bool debugGizmos;
     protected virtual void OnDrawGizmos() {

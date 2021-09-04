@@ -25,7 +25,7 @@ public class EnemyMovementRanged : EnemyMovement
             timerManager.ResetTimer("ACD");
         }
 
-        if ((player.transform.position-transform.position).magnitude > playerDetectRange)
-            SetState(EnemyStates.UNDETECTED);
+        if (!CanSeePlayer())
+            SetState(EnemyStates.SEARCHING);
     }
 }

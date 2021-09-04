@@ -384,7 +384,7 @@ public class PlayerInventory : MonoBehaviour
     /// <param name="gun">The gun to check.</param>
     /// <returns>number of ammunition in the magazine of the gun</returns>
     private int AmmoInMagazine(Gun gun){
-        return Mathf.Clamp(gun.reloadCounter, 0,  gun.ammunition);
+        return Mathf.Clamp(gun.reloadCounter, 0,  gun.GetAmmunition());
     }
 
     /// <summary>
@@ -393,6 +393,6 @@ public class PlayerInventory : MonoBehaviour
     /// <param name="gun">The gun to check.</param>
     /// <returns>number of ammunition in the pocket of the gun</returns>
     private int AmmoInPocket(Gun gun){
-        return Mathf.Clamp((gun.ammunition - gun.reloadCounter), 0 , int.MaxValue);
+        return Mathf.Clamp((gun.GetAmmunition() - gun.reloadCounter), 0 , int.MaxValue);
     }
 }

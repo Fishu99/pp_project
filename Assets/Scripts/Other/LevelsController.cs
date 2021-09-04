@@ -9,6 +9,7 @@ public class LevelsController : MonoBehaviour{
 
     public System.Action BeforeChangeLevel;
     public System.Action AfterChangeLevel;
+    public System.Action OnEndGame;
 
     [SerializeField]
     List<string> levels = new List<string>();
@@ -41,7 +42,6 @@ public class LevelsController : MonoBehaviour{
 
         Scene levelScene = SceneManager.GetSceneByName(levels[level]);
         if (!levelScene.isLoaded || !levelScene.IsValid()) {
-            Debug.Log("load level");
             StartCoroutine(ChangeLevel(level));
         }
     }
@@ -50,7 +50,13 @@ public class LevelsController : MonoBehaviour{
         level++;
         if (level < levels.Count) {
             StartCoroutine(ChangeLevel(level));
+        } else {
+            OnEndGame?.Invoke();
         }
+    }
+
+    public float GetProgress() {
+        return (float)level / levels.Count;
     }
 
     IEnumerator LoadScene(string nameScene, System.Action after = null) {
@@ -64,6 +70,10 @@ public class LevelsController : MonoBehaviour{
 
         if (scene >= 1)
             yield return SceneManager.UnloadSceneAsync(levels[scene - 1]);
+
+        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+        if(playerMovement!= null)
+            playerMovement.transform.position = Vector3.zero;
 
         yield return SceneManager.LoadSceneAsync(levels[scene], LoadSceneMode.Additive);
 
