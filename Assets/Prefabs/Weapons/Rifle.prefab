@@ -9832,10 +9832,11 @@ MonoBehaviour:
   gunSprite: {fileID: 21300000, guid: 364206cb355dcf7479b2cdec20b8ec68, type: 3}
   timeToNextShot: 0.6
   type: 1
-  unlimitedShots: 1
+  unlimitedShots: 0
   shotsBeforeReload: 24
   reloadCounter: 24
   ammunition: 0
+  difficultyAmmunition: 0.2
   enableMuzzleflash: 1
   muzzleParticles: {fileID: 3076291735814566817}
   enableSparks: 1

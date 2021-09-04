@@ -9836,6 +9836,7 @@ MonoBehaviour:
   shotsBeforeReload: 6
   reloadCounter: 6
   ammunition: 0
+  difficultyAmmunition: 0.4
   enableMuzzleflash: 1
   muzzleParticles: {fileID: 7045133070448868310}
   enableSparks: 1

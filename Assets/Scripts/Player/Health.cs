@@ -42,6 +42,11 @@ public class Health : MonoBehaviour
     public UnityEvent onDeath;
 
     /// <summary>
+    /// An event invoked when the character get hit.
+    /// </summary>
+    public UnityEvent onHit;
+
+    /// <summary>
     /// true if the health was 0 at least once.
     /// </summary>
     bool isDead = false;
@@ -64,6 +69,7 @@ public class Health : MonoBehaviour
     public void Damage(int health)
     {
         CurrentHealth -= health;
+        onHit.Invoke();
         if (CurrentHealth <= 0){
             CurrentHealth = 0;
             if(!isDead){

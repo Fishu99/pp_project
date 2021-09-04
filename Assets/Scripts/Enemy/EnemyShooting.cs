@@ -6,9 +6,9 @@ public class EnemyShooting : MonoBehaviour
 {
     private Gun gunComponent;
 
-    void Start()
-    {
-        gunComponent = GetComponentInChildren<Gun>();
+    void Awake(){
+        EnemyRandomWeapon enemyRandomWeapon = GetComponentInChildren<EnemyRandomWeapon>();
+        gunComponent = enemyRandomWeapon.GetGun();
         gunComponent.unlimitedShots = true;
     }
 
@@ -20,5 +20,12 @@ public class EnemyShooting : MonoBehaviour
             gunComponent.Shoot(startPosition, transform.forward);
         }
         
+    }
+
+    public float GetAnimTypeWeapon() {
+        if (gunComponent == null)
+            return 0f;
+
+        return gunComponent.type == Gun.Type.Pistol ? 0.5f : 1f;
     }
 }

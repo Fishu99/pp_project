@@ -93,7 +93,7 @@ public class PlayerShooting : MonoBehaviour
     /// <returns>the number of the ammunition of the gun if the activeWeapon is a gun. If the activeWeapon is a knife, it returns 0.</returns>
     public int GetAmmunition()
     {
-        return gunComponent != null ? gunComponent.ammunition : 0;
+        return gunComponent != null ? gunComponent.GetAmmunition() : 0;
     }
 
     /// <summary>

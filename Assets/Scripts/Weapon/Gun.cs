@@ -23,7 +23,10 @@ public class Gun : MonoBehaviour
     public bool unlimitedShots = false;
     public int shotsBeforeReload = 5;
     public int reloadCounter;
-    public int ammunition = 0;
+    [SerializeField]
+    private int ammunition = 0;
+    [SerializeField]
+    private float difficultyAmmunition = 1f;
 
     public bool enableMuzzleflash = true;
     public ParticleSystem muzzleParticles;
@@ -104,7 +107,15 @@ public class Gun : MonoBehaviour
 
     public void AddAmmunition(int amount)
     {
-        ammunition += amount;
+        ammunition += (int)(amount * difficultyAmmunition);
+    }
+
+    public int GetAmmunition() {
+        return ammunition;
+    }
+
+    public float GetDifficultyAmmunition() {
+        return difficultyAmmunition;
     }
 
     public void AddIgnoreTag(string tag){

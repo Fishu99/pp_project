@@ -38,6 +38,7 @@ public class PauseUI : MonoBehaviour{
     void Start(){
         isDead = false;
         PlayGame();
+        LevelsController.Instance.OnEndGame += ShowWinScreen;
     }
 
     void LateUpdate(){
@@ -98,7 +99,7 @@ public class PauseUI : MonoBehaviour{
     public void ShowWinScreen(){
         isDead = true;
         Cursor.visible = true;
-        Time.timeScale = 0.3f;
+        Time.timeScale = 0f;
         foreach(RectTransform t in uiInPause){
             t.gameObject.SetActive(false);
         }

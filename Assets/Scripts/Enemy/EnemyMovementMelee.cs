@@ -7,7 +7,7 @@ public class EnemyMovementMelee : EnemyMovement
     [SerializeField] protected float playerCloseToAttackRange;
 
     protected override void SetStateDetectedValues() {
-        
+
     }
 
     protected override void UnsetStateDetectedValues() {
@@ -37,8 +37,8 @@ public class EnemyMovementMelee : EnemyMovement
             }
         }
 
-        if((player.transform.position-transform.position).magnitude > playerDetectRange)
-            SetState(EnemyStates.UNDETECTED);
+        if(!CanSeePlayer())
+            SetState(EnemyStates.SEARCHING);
     }
 
     protected virtual void OnDrawGizmos() {

@@ -1347,7 +1347,7 @@ PrefabInstance:
     - target: {fileID: 2778307322853614498, guid: 3ad73312d0a912e40b511ec1054d2009, type: 3}
       propertyPath: reloadSound
       value: 
-      objectReference: {fileID: 8300000, guid: f3bad5841d3520e46b0fab6b1dcb8622, type: 3}
+      objectReference: {fileID: 8300000, guid: 53d6ba20cdb69cc4c85346de5d783622, type: 3}
     - target: {fileID: 2778307322853614498, guid: 3ad73312d0a912e40b511ec1054d2009, type: 3}
       propertyPath: getAmmoSound
       value: 
