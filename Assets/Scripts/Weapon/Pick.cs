@@ -2,20 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class for weapons which can be picked and dropped by the player.
+/// </summary>
 public class Pick : MonoBehaviour
 {
+    /// <summary>
+    /// Gun component of the object.
+    /// </summary>
     [SerializeField] private Gun gunScript;
     [SerializeField] private GameObject weapon;
+
+    /// <summary>
+    /// The rigidbody component of the weapon.
+    /// </summary>
     [SerializeField] private Rigidbody weaponRigidbody;
+
+    /// <summary>
+    /// The collider of the weapon.
+    /// </summary>
     [SerializeField] private BoxCollider weaponCollider;
-    //[SerializeField] private Transform weaponGrip;
+    
+    /// <summary>
+    /// The player character.
+    /// </summary>
     private GameObject player;
 
-    //[SerializeField] private float pickUpRange;
     [SerializeField] private float dropForwardForce, dropUpwardForce;
 
+    /// <summary>
+    /// Gets or sets the value indicating if the weapon is possessed by the player.
+    /// </summary>
     public bool equipped { get; private set; }
 
+    /// <summary>
+    /// Initialization of the component.
+    /// </summary>
     private void Start()
     {
         //Setup
@@ -38,6 +60,10 @@ public class Pick : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Picks up the weapon.
+    /// </summary>
+    /// <param name="player">The player which picks up the weapon.</param>
     public void PickUp(GameObject player)
     {
 
@@ -53,6 +79,9 @@ public class Pick : MonoBehaviour
         gunScript.enabled = true;
     }
 
+    /// <summary>
+    /// Drops the weapon.
+    /// </summary>
     public void Drop()
     {
         equipped = false;
