@@ -10,6 +10,7 @@ TagManager:
   - Room
   - ItemSP
   - RoomsContainer
+  - GameTimer
   layers:
   - Default
   - TransparentFX

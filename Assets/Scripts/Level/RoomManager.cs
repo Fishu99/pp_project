@@ -674,14 +674,7 @@ public class RoomManager : MonoBehaviour
     }
 
     private void GenerateNavMeshForLevel() {
-        //UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
-        
         surface = levelRoomsContainter.GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
-        
-        // for (int i = 0; i < surfaces.Length; i++) 
-        // {
-        //     surfaces [i].BuildNavMesh ();    
-        // }
     }
 }
