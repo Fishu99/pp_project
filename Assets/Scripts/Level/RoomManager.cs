@@ -22,8 +22,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private List<GameObject> collectibles;
     [SerializeField] private int reqRoomType = 0; //What type of rooms will be spawned (0 means MIX of types)
 
-
-
+    [SerializeField] private GameObject levelRoomsContainter;
 
 
 
@@ -485,11 +484,14 @@ public class RoomManager : MonoBehaviour
                     Vector3 newRoomPos = new Vector3(entryRoomPos.x + distanceX, entryRoomPos.y, entryRoomPos.z + distanceZ);
                     GameObject newRoomTemplate = roomSpawnArray[x][y].getTemplate();
                     GameObject newRoom = Instantiate(newRoomTemplate, newRoomPos, Quaternion.identity);
+                    newRoom.name = newRoomTemplate.name;    //Name without (Clone)
                     ChooseObstacleForRoom(newRoom);
 
                     //Destroy template obj
                     Destroy(newRoomTemplate);
                     roomSpawnArray[x][y].setTemplate(newRoom);
+
+                    newRoom.transform.SetParent(levelRoomsContainter.transform);
 
                     newRoom.SetActive(true);
                     rooms.Add(newRoom);
@@ -654,6 +656,7 @@ public class RoomManager : MonoBehaviour
         GameObject endingRoomTmpl = roomBuilder.GetEndingRoom(roomDir, endRoomPos);
         Destroy(endingRoom);
         endingRoom = endingRoomTmpl;    //TODO: Reassign this template in room list
+        endingRoom.transform.SetParent(levelRoomsContainter.transform);
 
         Debug.Log("RoomsAdded: " + roomsAdded + " ChosenOneCords: " + mxRooms[iChosenRoom].mxPos);        
     }

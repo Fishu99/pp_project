@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43749017, g: 0.4853112, b: 0.56558603, a: 1}
+  m_IndirectSpecularColor: {r: 0.43749028, g: 0.48531085, b: 0.5655851, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -235,6 +235,10 @@ PrefabInstance:
       propertyPath: reqRoomType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 279644472575884744, guid: b38f9d99560c2074a9bd339db9cde247, type: 3}
+      propertyPath: levelRoomsContainter
+      value: 
+      objectReference: {fileID: 1475068823}
     - target: {fileID: 279644472575884745, guid: b38f9d99560c2074a9bd339db9cde247, type: 3}
       propertyPath: tS_obstacles.Array.size
       value: 35
@@ -462,7 +466,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 691b4a74c77d943928a35aa77878cf61, type: 3}
     - target: {fileID: 1770549310557254413, guid: 7a5f12638d2ca1047845361945e85f89, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1770549310557254413, guid: 7a5f12638d2ca1047845361945e85f89, type: 3}
       propertyPath: m_LocalPosition.x
@@ -515,7 +519,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1475068824}
     m_Modifications:
     - target: {fileID: 2400466048698675603, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
       propertyPath: m_Name
@@ -523,7 +527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9063843267338801041, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9063843267338801041, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -543,15 +547,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9063843267338801041, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9063843267338801041, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9063843267338801041, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9063843267338801041, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -572,3 +576,39 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2400466048698675603, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
   m_PrefabInstance: {fileID: 1091709433}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1091709435 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9063843267338801041, guid: 915d7124d54024045b87b2e6b7df50d9, type: 3}
+  m_PrefabInstance: {fileID: 1091709433}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1475068823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1475068824}
+  m_Layer: 0
+  m_Name: LevelRooms
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1475068824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475068823}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1091709435}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

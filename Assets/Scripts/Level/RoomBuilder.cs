@@ -120,7 +120,7 @@ public class RoomBuilder : MonoBehaviour
         int rand = Random.Range(0, roomTemplates.Count);
 
         GameObject chosenRoom = Instantiate(roomTemplates[rand], Vector3.zero, Quaternion.identity);
-        chosenRoom.name = roomTemplates[rand].name + "_T";
+        chosenRoom.name = roomTemplates[rand].name;
         chosenRoom.SetActive(false);
         
         return chosenRoom;
@@ -139,25 +139,25 @@ public class RoomBuilder : MonoBehaviour
                 validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_singleRooms, reqRoomType);
                 rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
-                validTemplate.name = validTemplates[rand].name + "_T";
+                validTemplate.name = validTemplates[rand].name;
                 return validTemplate;
             case 2:
                 validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_doubleRooms, reqRoomType);
                 rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
-                validTemplate.name = validTemplates[rand].name + "_T";
+                validTemplate.name = validTemplates[rand].name;
                 return validTemplate;
             case 3:
                 validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_tripleRooms, reqRoomType);
                 rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
-                validTemplate.name = validTemplates[rand].name + "_T";
+                validTemplate.name = validTemplates[rand].name;
                 return validTemplate;
             case 4:
                 validTemplates = GetCompatibleRooms(top, bottom, left, right, tS_entryRooms, reqRoomType);
                 rand = Random.Range(0, validTemplates.Count);
                 validTemplate = Instantiate(validTemplates[rand], Vector3.zero, Quaternion.identity);
-                validTemplate.name = validTemplate.name + "_T";
+                validTemplate.name = validTemplate.name;
                 return validTemplate;
             default:
                 Debug.LogError("nbOfEntrances wasn't in 0-4 range!");
@@ -198,7 +198,7 @@ public class RoomBuilder : MonoBehaviour
 
 
         GameObject endRoomT = Instantiate(tS_endingRoom, pos, rotation);
-        endRoomT.name = endRoomT.name + "_T";
+        endRoomT.name = tS_endingRoom.name + "/Portal";
         return endRoomT;
     }
 
