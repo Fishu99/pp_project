@@ -23,6 +23,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private int reqRoomType = 0; //What type of rooms will be spawned (0 means MIX of types)
 
     [SerializeField] private GameObject levelRoomsContainter;
+    private NavMeshSurface surface;
 
 
 
@@ -673,6 +674,14 @@ public class RoomManager : MonoBehaviour
     }
 
     private void GenerateNavMeshForLevel() {
-        UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
+        //UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
+        
+        surface = levelRoomsContainter.GetComponent<NavMeshSurface>();
+        surface.BuildNavMesh();
+        
+        // for (int i = 0; i < surfaces.Length; i++) 
+        // {
+        //     surfaces [i].BuildNavMesh ();    
+        // }
     }
 }
