@@ -8,7 +8,8 @@ public class RoomManager : MonoBehaviour
 {
     private List<GameObject> rooms;
     public List<RoomMatrixStatus[]> roomSpawnArray; //Matrix of rooms to spawn
-    Vector2Int entryPos;
+    private Vector2Int entryPos;
+    private Vector2Int endingPos;
     [SerializeField] private GameObject entryRoom;
     
     private RoomBuilder roomBuilder;   //Builder for getting templates of appropriate room
@@ -25,6 +26,9 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private GameObject levelRoomsContainter;
     private NavMeshSurface surface;
 
+    [SerializeField] Minimap minimap;
+
+    private GameObject player;
 
 
     // Start is called before the first frame update
@@ -80,6 +84,7 @@ public class RoomManager : MonoBehaviour
         mxPosRooms = new List<Vector2Int>();
         endingRoom = null;
         InitRPerBAmount();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     //Creates room per branch counters
@@ -176,7 +181,9 @@ public class RoomManager : MonoBehaviour
         SpawnRooms();
         TellMeWhichOnesAreMissing();
         FindAndSelectEndingRoom();
+        DebugList2();
         GenerateNavMeshForLevel();
+        minimap.ConfigureMinimap(roomSpawnArray, player, maxRPathDepth, entryPos, endingPos);
     }
 
     private void DebugList() {
@@ -196,6 +203,28 @@ public class RoomManager : MonoBehaviour
             }
         }
         Debug.Log("Pos that are not null: " + rmsFromList.Count);
+    }
+
+    private void DebugList2() {
+        
+        List<string> rmsFromList = new List<string>();
+        foreach (RoomMatrixStatus[] x in roomSpawnArray)
+        {
+            foreach (RoomMatrixStatus y in x)
+            {
+                if (y != null) {
+                    string info = "Type: " + y.getTemplate().name + ", pos: " + y.mxPos;
+                    rmsFromList.Add(info);
+                }
+                else {
+                    Debug.Log("null?");
+                }
+            }
+        }
+        
+        for(int i = 0 ; i < rmsFromList.Count ; i++) {
+            Debug.Log(rmsFromList[i]);
+        }
     }
 
     private void ValidateMatrix() {
@@ -432,14 +461,17 @@ public class RoomManager : MonoBehaviour
             spawnedObstacle.transform.rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0,3), 0.0f);
             spawnedObstacle.transform.position = position;
 
-            SpawnItemsInTheRoom(spawnedObstacle);
+            List<GameObject> spawnedCollectibles = SpawnItemsInTheRoom(spawnedObstacle);
+            roomInfo.SetCollectiblesList(spawnedCollectibles);
 
-            spawnedObstacle.transform.SetParent(roomTemplate.transform);   
+            spawnedObstacle.transform.SetParent(roomTemplate.transform);
+
+            roomInfo.FindEnemiesContainer();   
         }
      
     }
 
-    private void SpawnItemsInTheRoom(GameObject obstacleGO) {     
+    private List<GameObject> SpawnItemsInTheRoom(GameObject obstacleGO) {     
         GameObject itemSpawnPts = null;
         Transform parent = obstacleGO.transform;
         for (int i = 0; i < parent.childCount; i++) {
@@ -452,8 +484,10 @@ public class RoomManager : MonoBehaviour
         }
         if (itemSpawnPts == null) {
             Debug.Log("There was no itemSP in the obstacle!");
-            return;
+            return null;
         }
+
+        List<GameObject> spawnedCollectibles = new List<GameObject>();
 
         for(int i = 0; i < itemSpawnPts.transform.childCount; i++) {
             Transform itemSP = itemSpawnPts.transform.GetChild(i);
@@ -465,8 +499,11 @@ public class RoomManager : MonoBehaviour
                 GameObject newCollectible = Instantiate(collectibles[idNo], collectiblePos, Quaternion.identity);
                 newCollectible.name = collectibles[idNo].name;
                 newCollectible.transform.SetParent(obstacleGO.transform);
+                spawnedCollectibles.Add(newCollectible);
             }            
         }
+
+        return spawnedCollectibles;
     }
 
     private void SpawnRooms() {
@@ -651,6 +688,7 @@ public class RoomManager : MonoBehaviour
         //Selecting the ending room randomly
         int iChosenRoom = Random.Range(0, roomsAdded);
         endingRoom = mxRooms[iChosenRoom].getTemplate();    //Getting GameObject
+        endingPos = mxRooms[iChosenRoom].mxPos;
         //Spawning a proper template for ending room (with portal)
         Vector3 endRoomPos = endingRoom.transform.position;
         RoomDirection roomDir = roomBuilder.GetDirOfSingleRoom(endingRoom);
@@ -658,6 +696,8 @@ public class RoomManager : MonoBehaviour
         Destroy(endingRoom);
         endingRoom = endingRoomTmpl;    //TODO: Reassign this template in room list
         endingRoom.transform.SetParent(levelRoomsContainter.transform);
+
+        rooms.Add(endingRoom);
 
         Debug.Log("RoomsAdded: " + roomsAdded + " ChosenOneCords: " + mxRooms[iChosenRoom].mxPos);        
     }

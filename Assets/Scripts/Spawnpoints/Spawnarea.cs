@@ -9,6 +9,8 @@ public class Spawnarea : MonoBehaviour
     [SerializeField] private Vector3 spawnAreaSize;
     [SerializeField] private float spawnerCooldownTime;
     [SerializeField] private bool startSpawnerState;
+    
+    [SerializeField] private GameObject enemiesContainer;
 
     protected TimerManager timerManager;
 
@@ -44,7 +46,8 @@ public class Spawnarea : MonoBehaviour
         GameObject toSpawn = spawnList[Random.Range(0, spawnList.Count)];
         //Debug.Log("Spawned " + (transform.position.x + xspawn) + "/" + (transform.position.y + yspawn) + "/" + (transform.position.z + zspawn));
 
-        GameObject spawned = Instantiate(toSpawn, newspawn, transform.rotation) as GameObject;
+        GameObject spawned = Instantiate(toSpawn, newspawn, transform.rotation, enemiesContainer.transform) as GameObject;
+        spawned.name = toSpawn.name;
         InitSpawnedGameObject(spawned);
     }
 

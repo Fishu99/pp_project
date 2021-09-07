@@ -50,6 +50,9 @@ MonoBehaviour:
   collectibles:
   - {fileID: 4718658702677703642, guid: c7fb2154a9ff40546899d98383f85f9c, type: 3}
   - {fileID: 2832707082453480434, guid: 0395c2cc2597c354f95cd6ced51beeb3, type: 3}
+  reqRoomType: 0
+  levelRoomsContainter: {fileID: 0}
+  minimap: {fileID: 0}
 --- !u!114 &279644472575884745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +138,7 @@ MonoBehaviour:
   - {fileID: 8654206564698297454, guid: f4f19b7d1ab981e42869c728562b5fde, type: 3}
   - {fileID: 7180642478026524321, guid: ef4ef0bb308609c43b9e9454e39ca3ac, type: 3}
   - {fileID: 2385411582304260260, guid: a7b91ed6b4040e546a794418064f654e, type: 3}
-  tS_entryRoom: {fileID: 3415649090163254318, guid: e7563b6c08a15cf4388aa73e6a104798, type: 3}
+  tS_entryRooms: []
   tS_obstacles:
   - {fileID: 7769400619166844074, guid: 0d651991bd62bb5438bef80549970127, type: 3}
   - {fileID: 4372327621177508564, guid: 7a0ebf9845ce98d4f8fb4722f427d120, type: 3}
@@ -172,4 +175,8 @@ MonoBehaviour:
   - {fileID: 2964049634300975480, guid: d3d75456483f2d849889297753a9cfb2, type: 3}
   - {fileID: 2964049634300975480, guid: 9ef782d10bdd7b6409b76ff618a0602a, type: 3}
   - {fileID: 2964049634300975480, guid: 3a0ff8db7ecea4846b350f05c16a54ed, type: 3}
-  tS_endingRoom: {fileID: 3415649090163254318, guid: ba96b91e97a0fee4097739b41e212ef4, type: 3}
+  tS_endingRoom:
+  - {fileID: 3415649090163254318, guid: ba96b91e97a0fee4097739b41e212ef4, type: 3}
+  - {fileID: 3415649090163254318, guid: b385646b130462d4188d4f935021b8e5, type: 3}
+  - {fileID: 3415649090163254318, guid: a2156b7e43304c74a927fdb96bfc92c3, type: 3}
+  - {fileID: 3415649090163254318, guid: 73cce2ebb2f1f614092864ee39d13e1d, type: 3}

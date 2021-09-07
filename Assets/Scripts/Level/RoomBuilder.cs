@@ -9,7 +9,7 @@ public class RoomBuilder : MonoBehaviour
     [SerializeField] private List<GameObject> tS_tripleRooms;   //Templates of triple entry rooms
     [SerializeField] private List<GameObject> tS_entryRooms;   //Template of the entry room
     [SerializeField] private List<GameObject> tS_obstacles;   //Templates of obstacles for single rooms
-    [SerializeField] private GameObject tS_endingRoom;  //Template of the ending room
+    [SerializeField] private List<GameObject> tS_endingRoom;  //Template of the ending room
 
 
     private float[,] probabilityTable {get;set;}
@@ -181,24 +181,8 @@ public class RoomBuilder : MonoBehaviour
     }
 
     public GameObject GetEndingRoom(RoomDirection dir, Vector3 pos) {
-        Quaternion rotation = new Quaternion();
-
-        if (dir == RoomDirection.top)
-            rotation = Quaternion.identity;
-        else if (dir == RoomDirection.bottom)
-            rotation = Quaternion.Euler(0.0f, 90.0f * 2, 0.0f);
-        else if (dir == RoomDirection.left)
-            rotation = Quaternion.Euler(0.0f, 90.0f * 3, 0.0f);
-        else if (dir == RoomDirection.right)
-            rotation = Quaternion.Euler(0.0f, 90.0f * 1, 0.0f);
-        else {
-            Debug.LogError("Rotation is invalid! (EndingRoom)");
-            return null;
-        }
-
-
-        GameObject endRoomT = Instantiate(tS_endingRoom, pos, rotation);
-        endRoomT.name = tS_endingRoom.name + "/Portal";
+        GameObject endRoomT = Instantiate(tS_endingRoom[(int)dir], pos, Quaternion.identity);
+        endRoomT.name = tS_endingRoom[(int)dir].name + "/Portal";
         return endRoomT;
     }
 

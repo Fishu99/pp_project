@@ -11,6 +11,11 @@ TagManager:
   - ItemSP
   - RoomsContainer
   - GameTimer
+  - Target
+  - FxTemporaire
+  - Metal
+  - ExplosiveBarrel
+  - EnemiesContainer
   layers:
   - Default
   - TransparentFX
@@ -25,7 +30,7 @@ TagManager:
   - Enemy
   - Rooms
   - SpawnPoints
-  - 
+  - Minimap
   - 
   - 
   - 

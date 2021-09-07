@@ -433,6 +433,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugGizmos: 1
+--- !u!1 &6388183786507810704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5388565098440505860}
+  m_Layer: 11
+  m_Name: EnemiesContainer
+  m_TagString: EnemiesContainer
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5388565098440505860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6388183786507810704}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7959578699327906500}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8311955632608301646
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,6 +497,7 @@ Transform:
   - {fileID: 6238032046392057342}
   - {fileID: 4642339277747088214}
   - {fileID: 3553272910392718221}
+  - {fileID: 5388565098440505860}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -584,6 +615,10 @@ PrefabInstance:
       propertyPath: spawnAreaSize.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
+      propertyPath: enemiesContainer
+      value: 
+      objectReference: {fileID: 6388183786507810704}
     - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
       propertyPath: waypointSystemRef
       value: 

@@ -593,6 +593,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5801762956688656243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6378793555078735842}
+  m_Layer: 11
+  m_Name: EnemiesContainer
+  m_TagString: EnemiesContainer
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6378793555078735842
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5801762956688656243}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5029513616256668357}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5819552554350149152
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +787,7 @@ Transform:
   - {fileID: 5112825801142364492}
   - {fileID: 3869805174621309516}
   - {fileID: 4018864340625884517}
+  - {fileID: 6378793555078735842}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1084,6 +1115,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
+      propertyPath: enemiesContainer
+      value: 
+      objectReference: {fileID: 5801762956688656243}
+    - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
       propertyPath: waypointSystemRef
       value: 
       objectReference: {fileID: 593313154808702612}
@@ -1161,6 +1196,10 @@ PrefabInstance:
       propertyPath: spawnAreaSize.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
+      propertyPath: enemiesContainer
+      value: 
+      objectReference: {fileID: 5801762956688656243}
     - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
       propertyPath: waypointSystemRef
       value: 

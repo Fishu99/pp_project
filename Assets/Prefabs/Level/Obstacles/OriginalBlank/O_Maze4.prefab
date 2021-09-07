@@ -519,6 +519,7 @@ Transform:
   - {fileID: 7155386389640252675}
   - {fileID: 2101373055116238028}
   - {fileID: 3326703709006510346}
+  - {fileID: 7589621267120538949}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -617,6 +618,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6892217914000481655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7589621267120538949}
+  m_Layer: 11
+  m_Name: EnemiesContainer
+  m_TagString: EnemiesContainer
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7589621267120538949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6892217914000481655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5706018879225609218}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &777646869742351372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -628,6 +659,10 @@ PrefabInstance:
       propertyPath: maxSpawns
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
+      propertyPath: enemiesContainer
+      value: 
+      objectReference: {fileID: 6892217914000481655}
     - target: {fileID: 1414573147984976434, guid: c48a52947a3d45b45a7670e81ac73bdf, type: 3}
       propertyPath: waypointSystemRef
       value: 
