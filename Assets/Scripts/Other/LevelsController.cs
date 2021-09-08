@@ -75,6 +75,12 @@ public class LevelsController : MonoBehaviour{
         if(playerMovement!= null)
             playerMovement.transform.position = Vector3.zero;
 
+        if(scene >= 1)
+            yield return new WaitForSecondsRealtime(2f);
+
+        if (playerMovement != null)
+            playerMovement.transform.position = Vector3.zero;
+
         yield return SceneManager.LoadSceneAsync(levels[scene], LoadSceneMode.Additive);
 
         currentLevelScene = SceneManager.GetSceneByName(levels[scene]);
