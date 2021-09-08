@@ -29,7 +29,7 @@ public class GameTimer : MonoBehaviour
     public string GetSTRINGgameTime() {
         int minutes = (int)(gameTime / 60); //It will cut the value after comma
         int seconds = (int)(gameTime - minutes*60);
-        string gTime = minutes.ToString() + " min. " + seconds.ToString() + " s.";
+        string gTime = minutes.ToString("D2") + " : " + seconds.ToString("D2") + "";
         return gTime;
     }
 }

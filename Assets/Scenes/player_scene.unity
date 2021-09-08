@@ -187,6 +187,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 490238220, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
+      propertyPath: gameTimer
+      value: 
+      objectReference: {fileID: 671677998}
+    - target: {fileID: 1094881983599076320, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
+      propertyPath: m_wordSpacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1094881983599076320, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
+      propertyPath: m_characterSpacing
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3846559093443091716, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
       propertyPath: player
       value: 
@@ -279,14 +291,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3846559095007293965, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
-      propertyPath: uiInGame.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846559095007293965, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
-      propertyPath: uiInGame.Array.data[4]
-      value: 
-      objectReference: {fileID: 666997210}
     - target: {fileID: 4192591977655935318, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
       propertyPath: mainCamera
       value: 
@@ -386,11 +390,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67805e110485df644814d00f68e75935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &666997210 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 666997210, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
-  m_PrefabInstance: {fileID: 490238216}
+--- !u!1 &671677997
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 671677999}
+  - component: {fileID: 671677998}
+  m_Layer: 0
+  m_Name: GameTimer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &671677998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671677997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28196c2de14c274c9f00cbfaa295f94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLocked: 0
+--- !u!4 &671677999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671677997}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1037.6306, y: 443.1887, z: -10.236794}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &757891543 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4192591977655935318, guid: 96fd74ba3d8fdbf498b19a2b9eb350d7, type: 3}
