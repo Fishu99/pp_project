@@ -6,19 +6,24 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
     //Portal Statuses for next level (causes a different look of the portal)
-    [SerializeField] private bool toNormalLevel = true;
-    [SerializeField] private bool toBonusLevel = false;
-    [SerializeField] private bool toEndingLevel = false;
+    private bool toNormalLevel = false;
+    private bool toBonusLevel = false;
+    private bool toEndingLevel = false;
     
     //Portal Sprites for different statuses. Contains:
     // [0] - Sprite for main part, [1] - Sprite for bottom part 
     [SerializeField] private Sprite[] pNormalSprites;
     [SerializeField] private Sprite[] pBonusSprites;
     [SerializeField] private Sprite[] pEndingSprites;
+
+    //Variables on which next level depends
+    private float timeForBonusLevel = 1.0f; // 20 minutes for player to enter bonus room;
+    private GameTimer timer;
     
     //Variables to configure portal render settings;
     private GameObject portalMain;
     private GameObject portalBottom;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +32,27 @@ public class Portal : MonoBehaviour
         portalBottom = this.gameObject.transform.GetChild(1).gameObject;
 
         //For test
-        setPortalStatus(true, false, false);
+        int levelCount = LevelsController.Instance.GetLevelCount();
+        int levelCurrent = LevelsController.Instance.GetCurrentLevelID() + 1;
+
+        timer = (GameObject.FindGameObjectWithTag("GameTimer").GetComponent<GameTimer>());
+        float currentTime = timer.GetRAWgameTime() / 60.0f;
+        Debug.Log(currentTime);
+
+        if (levelCurrent == (levelCount - 1)) {
+            if (currentTime <= timeForBonusLevel)
+                setPortalStatus(false, true, false);    // normal, bonus, ending
+            else {
+                setPortalStatus(false, false, true);
+                LevelsController.Instance.BonusLevelFailure();
+            }
+        }
+        else {
+            if (levelCurrent == levelCount)
+                setPortalStatus(false, false, true);
+            else
+                setPortalStatus(true, false, false);
+        }
     }
 
     void OnTriggerEnter(Collider other){
@@ -62,7 +87,7 @@ public class Portal : MonoBehaviour
         toBonusLevel = bonus;
         toEndingLevel = ending;
 
-        setValidPortalSprite();
+        setValidPortalSprite();  
     }
 
     private void setValidPortalSprite() {
