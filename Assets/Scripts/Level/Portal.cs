@@ -17,7 +17,7 @@ public class Portal : MonoBehaviour
     [SerializeField] private Sprite[] pEndingSprites;
 
     //Variables on which next level depends
-    private float timeForBonusLevel = 1.0f; // 20 minutes for player to enter bonus room;
+    private float timeForBonusLevel = 15.0f; // 15 minutes for player to enter bonus room;
     private GameTimer timer;
     
     //Variables to configure portal render settings;

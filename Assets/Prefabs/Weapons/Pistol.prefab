@@ -145,12 +145,13 @@ MonoBehaviour:
   muzzle: {fileID: 2939755872447895944}
   ignoreTags: []
   gunSprite: {fileID: 21300022, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
-  timeToNextShot: 0.7
+  timeToNextShot: 0.6
   type: 0
   unlimitedShots: 0
   shotsBeforeReload: 8
   reloadCounter: 8
   ammunition: 0
+  difficultyAmmunition: 1
   enableMuzzleflash: 1
   muzzleParticles: {fileID: 6017545661930366795}
   enableSparks: 1

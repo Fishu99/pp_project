@@ -9734,7 +9734,7 @@ MonoBehaviour:
   muzzle: {fileID: 5880526032890003012}
   ignoreTags: []
   gunSprite: {fileID: 21300016, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
-  timeToNextShot: 0.35
+  timeToNextShot: 0.45
   type: 0
   unlimitedShots: 1
   shotsBeforeReload: 50
