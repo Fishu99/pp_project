@@ -3,24 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class for managing the game's progress.
+/// </summary>
 public class LevelsController : MonoBehaviour{
 
+    /// <summary>
+    /// The singleton instance of the class.
+    /// </summary>
     public static LevelsController Instance { get; private set; }
 
+    /// <summary>
+    /// Action performed before the level is changed.
+    /// </summary>
     public System.Action BeforeChangeLevel;
+
+    /// <summary>
+    /// Action performed after the level is changed.
+    /// </summary>
     public System.Action AfterChangeLevel;
+
+    /// <summary>
+    /// Action performed when the game is finished.
+    /// </summary>
     public System.Action OnEndGame;
 
+    /// <summary>
+    /// Level names.
+    /// </summary>
     [SerializeField]
     List<string> levels = new List<string>();
 
     [SerializeField]
     string playerScene = "player_scene";
 
+    /// <summary>
+    /// Current scene
+    /// </summary>
     Scene currentLevelScene;
     string currentSceneLoaded;
+
+    /// <summary>
+    /// Number of the current level.
+    /// </summary>
     int level = 0;
 
+    /// <summary>
+    /// Creates the singleton instance if not created before.
+    /// </summary>
     void Awake(){
         if (Instance == null) {
             Instance = this;
@@ -55,15 +85,31 @@ public class LevelsController : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Returns the game progress.
+    /// </summary>
+    /// <returns>the game progress between 0 and 1.</returns>
     public float GetProgress() {
         return (float)level / levels.Count;
     }
 
+    /// <summary>
+    /// Loads a scene.
+    /// </summary>
+    /// <param name="nameScene">name of the scene to load</param>
+    /// <param name="after">the action to be executed after the load is complete</param>
+    /// <returns>the coroutine loading the scene</returns>
     IEnumerator LoadScene(string nameScene, System.Action after = null) {
         yield return SceneManager.LoadSceneAsync(nameScene, LoadSceneMode.Additive);
         after?.Invoke();
     }
 
+    /// <summary>
+    /// Loads a new level.
+    /// </summary>
+    /// <param name="scene">the number of level to load</param>
+    /// <param name="after">the action to be executed when the level is loaded.</param>
+    /// <returns>the coroutine loading the level</returns>
     IEnumerator ChangeLevel(int scene, System.Action after = null) {
 
         BeforeChangeLevel?.Invoke();

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// UI for displaying information and buttons when the game is paused.
+/// </summary>
 public class PauseUI : MonoBehaviour{
 
     [Header("References")]
@@ -35,12 +38,18 @@ public class PauseUI : MonoBehaviour{
     bool isDead = false;
     float timer = 0;
 
+    /// <summary>
+    /// Initialization, starting the game.
+    /// </summary>
     void Start(){
         isDead = false;
         PlayGame();
         LevelsController.Instance.OnEndGame += ShowWinScreen;
     }
 
+    /// <summary>
+    /// Shows or hides the pause menu when the Escape key is pressed.
+    /// </summary>
     void LateUpdate(){
         if(Input.GetKeyDown(KeyCode.Escape) && !isDead){
             if(isPause){
@@ -52,6 +61,9 @@ public class PauseUI : MonoBehaviour{
         
     }
 
+    /// <summary>
+    /// Resumes the game, shows the game UI and hides the pause UI.
+    /// </summary>
     public void PlayGame(){
         isPause = false;
         Cursor.visible = false;
@@ -67,6 +79,9 @@ public class PauseUI : MonoBehaviour{
         winScreen.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Pauses the game, hides the game UI and shows the pause UI.
+    /// </summary>
     public void PauseGame(){
         isPause = true;
         Cursor.visible = true;
@@ -82,6 +97,9 @@ public class PauseUI : MonoBehaviour{
         winScreen.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Shows the menu informing about player's death.
+    /// </summary>
     public void OnDead(){
         isDead = true;
         Cursor.visible = true;
@@ -96,6 +114,9 @@ public class PauseUI : MonoBehaviour{
         StartCoroutine(DeathScreen());
     }
 
+    /// <summary>
+    /// Shows the menu informing about player's win.
+    /// </summary>
     public void ShowWinScreen(){
         isDead = true;
         Cursor.visible = true;
@@ -110,14 +131,24 @@ public class PauseUI : MonoBehaviour{
         winScreen.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Quits the game and shows the main menu.
+    /// </summary>
     public void QuitToMenu() {
         SceneManager.LoadScene(menuScene);
     }
 
+    /// <summary>
+    /// Starts a new game.
+    /// </summary>
     public void StartNewGame() {
         SceneManager.LoadScene(playerScene);
     }
 
+    /// <summary>
+    /// A coroutine for showing the death screen.
+    /// </summary>
+    /// <returns>coroutine for showing the death screen.</returns>
     IEnumerator DeathScreen(){
         Time.timeScale = 0.75f;
         while(timer <= timeToShowDeathScreen){          

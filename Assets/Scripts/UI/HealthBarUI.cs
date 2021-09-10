@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// UI for displaying the player's health bar.
+/// </summary>
 public class HealthBarUI : MonoBehaviour{
 
     [Header("References")]
@@ -48,6 +51,11 @@ public class HealthBarUI : MonoBehaviour{
         damageBar.rectTransform.sizeDelta = new Vector2(currentDamageBarStatus * startWidth, damageBar.rectTransform.sizeDelta.y);
     }
 
+    /// <summary>
+    /// Sets new health value to display.
+    /// </summary>
+    /// <param name="currentHealth">current value of player's health.</param>
+    /// <param name="maxHealth">max value of player's health.</param>
     public void SetHealth(float currentHealth, float maxHealth){
 
         float currentHealthBarStatus = currentHealth / maxHealth;
