@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A screen shown during level loading.
+/// </summary>
 public class LoadingScreen : MonoBehaviour{
 
     [SerializeField]

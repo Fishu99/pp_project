@@ -2,19 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class for managing items dropped by the enemy
+/// </summary>
 public class Loottable : MonoBehaviour
 {
+    /// <summary>
+    /// List of the objects which can be dropped.
+    /// </summary>
     [SerializeField] List<GameObject> lootObjects = new List<GameObject>();
+
+    /// <summary>
+    /// Chances of dropping of each object in %.
+    /// </summary>
     [SerializeField] List<int> lootChances = new List<int>();
+
+    /// <summary>
+    /// Mas radius in which the items will be spread.
+    /// </summary>
     [SerializeField] float maxLootSpreadRadius;
 
+    /// <summary>
+    /// Tells if the items were dropped.
+    /// </summary>
     bool wasDrop = false;
 
+    /// <summary>
+    /// Initialization
+    /// </summary>
     private void Start()
     {
         wasDrop = false;
     }
 
+    /// <summary>
+    /// Drops the items. Each item from the lootObjects is dropped with a corresponding chance from lootChances.
+    /// The items are dropped within a circle described by maxLootSpreadRadius.
+    /// </summary>
     public void DropItems() {
 
         if (wasDrop)

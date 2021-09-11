@@ -4,14 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// UI for displaying player's inventory.
+/// </summary>
 public class InventoryUI : MonoBehaviour{
 
+    /// <summary>
+    /// A class representing one weapon slot.
+    /// </summary>
     [System.Serializable]
     public class Slot{
+        /// <summary>
+        /// Slot background image.
+        /// </summary>
         public Image slot;
+
+        /// <summary>
+        /// Slot item (weapon) image.
+        /// </summary>
         public Image item;
+
+        /// <summary>
+        /// Text displaying the amount of amunition of the weapon.
+        /// </summary>
         public TextMeshProUGUI ammo;
+
+        /// <summary>
+        /// Current value of ammunition.
+        /// </summary>
         public int currentAmmo = 0;
+
+        /// <summary>
+        /// Current max value of ammunition.
+        /// </summary>
         public int currentMaxAmmo = 0;
     }
 
@@ -54,6 +79,11 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Adds an item to a slot.
+    /// </summary>
+    /// <param name="index">the index of the slot where the item will be added</param>
+    /// <param name="sprite">a sprite of he item which will be displayed in the slot</param>
     public void AddItemToSlot(int index, Sprite sprite){
         if(slots.Count > index && index >= 0){
             slots[index].item.sprite = sprite;
@@ -63,6 +93,13 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Adds an item to a slot.
+    /// </summary>
+    /// <param name="index">the index of the slot where the item will be added</param>
+    /// <param name="sprite">a sprite of he item which will be displayed in the slot</param>
+    /// <param name="ammo">current value of ammunition</param>
+    /// <param name="maxAmmo">current max value of ammunition</param>
     public void AddItemToSlot(int index, Sprite sprite, int ammo, int maxAmmo){
         if(slots.Count > index && index >= 0){
             slots[index].item.sprite = sprite;
@@ -72,6 +109,10 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Deletes an item from a slot.
+    /// </summary>
+    /// <param name="index">the index of the slot from which the item should be removed</param>
     public void DeleteItemFromSlot(int index){
         if(slots.Count > index && index >= 0){
             slots[index].item.gameObject.SetActive(false);
@@ -80,6 +121,10 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Selects a slot, making it highlighted.
+    /// </summary>
+    /// <param name="index">the index of the slot to select.</param>
     public void ChooseSlot(int index){
 
         if(index != currentSelectedWeaponIndex){
@@ -94,6 +139,12 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Sets the ammunition of an item in a slot.
+    /// </summary>
+    /// <param name="index">the index of the slot</param>
+    /// <param name="ammo">current value of ammunition</param>
+    /// <param name="maxAmmo">current max value of ammunition</param>
     public void SetAmmo(int index, int ammo, int maxAmmo){
         if(slots.Count > index && index >= 0){
             if(maxAmmo > slots[index].currentMaxAmmo){

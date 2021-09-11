@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Enumeration of the enemy states.
+/// </summary>
 public enum EnemyStates
 {
     UNDETECTED,
@@ -10,17 +13,54 @@ public enum EnemyStates
     SEARCHING
 }
 
+/// <summary>
+/// A class controlling the enemy's movement.
+/// </summary>
 public abstract class EnemyMovement : MonoBehaviour
 {
+    /// <summary>
+    /// An object marking the point where the enemy holds a weapon.
+    /// </summary>
     [SerializeField] public GameObject weaponGrip;
+
+    /// <summary>
+    /// Waypoints for the enemy.
+    /// </summary>
     [SerializeField] public EnemyWaypoints waypointSystem;
+
+    /// <summary>
+    /// A manager for enemy's timers.
+    /// </summary>
     protected TimerManager timerManager;
+
+    /// <summary>
+    /// NavMeshAgent controlling the enemy's movement.
+    /// </summary>
     protected NavMeshAgent navMeshAgent;
+
+    /// <summary>
+    /// Enemy's RigidBody.
+    /// </summary>
     protected Rigidbody rigidbody;
 
+    /// <summary>
+    /// Enemy's EnemyMelee component.
+    /// </summary>
     protected EnemyMelee enemyMelee;
+
+    /// <summary>
+    /// Enemy's EnemyShooting component.
+    /// </summary>
     protected EnemyShooting enemyShooting;
+
+    /// <summary>
+    /// Enemy's Health component.
+    /// </summary>
     private Health health;
+
+    /// <summary>
+    /// Enemy's Lootable component.
+    /// </summary>
     private Loottable loottable;
     [SerializeField] private float attackCooldownTime;
     [SerializeField] private LayerMask detectMask;
@@ -35,20 +75,35 @@ public abstract class EnemyMovement : MonoBehaviour
     [SerializeField] public GameObject player;
     [SerializeField] protected float playerDetectRange;
     [SerializeField] protected float playerMaxCloseDistance = 3f;
+
+    /// <summary>
+    /// State of the enemy.
+    /// </summary>
     protected EnemyStates state;
 
     Collider collider;
     Animator animator;
 
     protected float timerToDetect;
+
+    /// <summary>
+    /// Last position of the player.
+    /// </summary>
     protected Vector3 lastPositionOfPlayer;
 
+    /// <summary>
+    /// Gets the component references and initializes some values.
+    /// </summary>
     void Start()
     {
         GetTheComponents();
         InitValues();
     }
 
+    /// <summary>
+    /// Changes the enemy's state.
+    /// </summary>
+    /// <param name="newstate">new state to set.</param>
 	protected void SetState(EnemyStates newstate)
 	{
 
@@ -76,6 +131,10 @@ public abstract class EnemyMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Tells if the enemy can see the player.
+    /// </summary>
+    /// <returns>true if the enemy can see the player.</returns>
     protected bool CanSeePlayer() {
 
         if (player == null) {
@@ -99,6 +158,9 @@ public abstract class EnemyMovement : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Enemy's Update.
+    /// </summary>
     void Update() {
         if (!health.IsAlive())
         {
@@ -137,6 +199,9 @@ public abstract class EnemyMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the references to the enemy's components.
+    /// </summary>
     private void GetTheComponents()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -152,7 +217,9 @@ public abstract class EnemyMovement : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Initializes enemy values.
+    /// </summary>
     private void InitValues() {
         myWaypointSystemID = 0;
         state = EnemyStates.UNDETECTED;
@@ -177,20 +244,35 @@ public abstract class EnemyMovement : MonoBehaviour
         SetDestination(waypointSystem.GetWaypoint(myWaypointSystemID));
     }
 
+    /// <summary>
+    /// Method called when the enemy enters the DETECTED state.
+    /// </summary>
     protected abstract void SetStateDetectedValues();
+
+    /// <summary>
+    /// Method called when the enemy exits the DETECTED state.
+    /// </summary>
     protected abstract void UnsetStateDetectedValues();
 
+    /// <summary>
+    /// Method called when the enemy enters the UNDETECTED state.
+    /// </summary>
     private void SetStateUndetectedValues() {
         
     }
+
+    /// <summary>
+    /// Method called when the enemy exits the UNDETECTED state.
+    /// </summary>
     private void UnsetStateUndetectedValues() {
         timerManager.SetLock("DRC", true);
         timerManager.ResetTimer("DRC");
     }
 
-
-
-
+    /// <summary>
+    /// Sets the enemy's destination (the point where the enemy will walk).
+    /// </summary>
+    /// <param name="waypoint">The destination of the enemy.</param>
     protected void SetDestination(EnemyWaypoint waypoint)
     {
         if(waypoint != null && navMeshAgent != null && navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh)
@@ -200,8 +282,9 @@ public abstract class EnemyMovement : MonoBehaviour
         }
     }
 
-
-
+    /// <summary>
+    /// Enemy's behavior in the UNDETECTED state. The method is called in every Update if the enemy's state is UNDETECTED.
+    /// </summary>
     protected void Undetected() {
         if(
             waypointSystem.IsWaypointInReach(myWaypointSystemID, this.transform, waypointReachDistance) &&
@@ -227,8 +310,14 @@ public abstract class EnemyMovement : MonoBehaviour
             SetState(EnemyStates.DETECTED);
     }
 
+    /// <summary>
+    /// Enemy's behavior in the DETECTED state. The method is called in every Update if the enemy's state is DETECTED.
+    /// </summary>
     protected abstract void Detected();
 
+    /// <summary>
+    /// Enemy's behavior in the SEARCHING state. The method is called in every Update if the enemy's state is SEARCHING.
+    /// </summary>
     protected void Searching() {
 
         timerToDetect += Time.deltaTime;
@@ -244,7 +333,16 @@ public abstract class EnemyMovement : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// When set to true, the gizmos will be shown in debug mode.
+    /// </summary>
     [SerializeField] protected bool debugGizmos;
+
+    /// <summary>
+    /// Draws some wire sphere gizmos.
+    /// One has radius equal to waypointReachDistance
+    /// and the other one has a radius equal to playerDetectRange.
+    /// </summary>
     protected virtual void OnDrawGizmos() {
         if(debugGizmos)
 		{
