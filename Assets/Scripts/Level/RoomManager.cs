@@ -4,34 +4,96 @@ using UnityEngine;
 using UnityEngine.AI;
 using static RoomDirection;
 
+/// <summary>
+/// Class for room management, and level generation.
+/// </summary>
 public class RoomManager : MonoBehaviour
 {
-    private List<GameObject> rooms;
-    public List<RoomMatrixStatus[]> roomSpawnArray; //Matrix of rooms to spawn
-    private Vector2Int entryPos;
-    private Vector2Int endingPos;
+    /// <summary>
+    /// Number of rooms to spawn.
+    /// </summary>
+    [SerializeField] private int roomAmount = 15;
+    /// <summary>
+    /// Max distance (in rooms) from entry room to room to spawn.
+    /// </summary>
+    [SerializeField] private int maxRPathDepth = 4;
+    /// <summary>
+    /// Defines the type of rooms that will be spawned in the level
+    /// 0 - mix of all types
+    /// 1 - rooms of type 1
+    /// 2 - rooms of type 2
+    /// 3 - rooms of type 3
+    /// 4 - rooms of type 4
+    /// 5 - rooms of type 5
+    /// </summary>
+    [SerializeField] private int reqRoomType = 0;
+    /// <summary>
+    /// Reference to EntryRoom as a GameObject.
+    /// </summary>
     [SerializeField] private GameObject entryRoom;
-    
-    private RoomBuilder roomBuilder;   //Builder for getting templates of appropriate room
-    [SerializeField] private int roomAmount = 15; //Number of rooms to spawn
-    private int[] roomPerBranchAmount;
-    [SerializeField] private int maxRPathDepth = 4; //Max distance from entry room for room to spawn
-
-    private const int spawnPointProximity = 50;
-    private List<Vector2Int> mxPosRooms;
-    private GameObject endingRoom;
-    [SerializeField] private List<GameObject> collectibles;
-    [SerializeField] private int reqRoomType = 0; //What type of rooms will be spawned (0 means MIX of types)
-
+    /// <summary>
+    /// List of collectibles that can spawn in fixed places.
+    /// </summary>
+    [SerializeField] private List<GameObject> collectibles;   
+    /// <summary>
+    /// GameObject that contains objects of all spawned rooms in level (container).
+    /// </summary>
     [SerializeField] private GameObject levelRoomsContainter;
-    private NavMeshSurface surface;
-
+    /// <summary>
+    /// Reference to minimap, used to determine the location of the player and some other
+    /// useful information. 
+    /// </summary>
     [SerializeField] Minimap minimap;
 
+    /// <summary>
+    /// List of GameObject's of all spawned rooms in the level.
+    /// </summary>
+    private List<GameObject> rooms;
+    /// <summary>
+    /// A matrix reflecting the level structure to be generated on its basis.
+    /// </summary>
+    private List<RoomMatrixStatus[]> roomSpawnArray;
+    /// <summary>
+    /// Entry room position in a helpful format (0...maxDepth*2, 0...maxDepth*2).
+    /// </summary>
+    private Vector2Int entryPos;
+    /// <summary>
+    /// Ending room position in a helpful format (0...maxDepth*2, 0...maxDepth*2).
+    /// </summary>
+    private Vector2Int endingPos;  
+    /// <summary>
+    /// Builder for finding and getting templates of appropriate room.
+    /// </summary>
+    private RoomBuilder roomBuilder; 
+    /// <summary>
+    /// Number of rooms that will spawn from each branch (there are 4 branches - top, bottom, left and right).
+    /// </summary>
+    private int[] roomPerBranchAmount;
+    /// <summary>
+    /// Number that determines a distance between rooms that are next to each other.
+    /// </summary>
+    private const int spawnPointProximity = 50;
+    /// <summary>
+    /// Contains positions of already spawned rooms (helpful with checking if that room is already spawned).
+    /// </summary>
+    private List<Vector2Int> mxPosRooms;
+    /// <summary>
+    /// Reference to endingRoom's GameObject.
+    /// </summary>
+    private GameObject endingRoom; 
+    /// <summary>
+    /// Surface that contains a information of "enemy walkable" areas.
+    /// </summary>
+    private NavMeshSurface surface;
+    /// <summary>
+    /// Reference to player's GameObject
+    /// </summary>
     private GameObject player;
 
-
-    // Start is called before the first frame update
+    /// <summary>
+    /// Function that starts room generation for a level. 
+    /// Function checks passed arguments, initializes them and starts level generation.
+    /// </summary>
     public void Generate()
     {
         CheckArguments();
@@ -39,15 +101,12 @@ public class RoomManager : MonoBehaviour
         GenerateSpawnMatrix();
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Is checking a validity of passed arguments
+    /// </summary>
     private void CheckArguments() {
         //Checking possibility of spawning max number of rooms (DepthCheck)
-        int matrixSize = maxRPathDepth*2 + 1; // +1 because of entry room
+        int matrixSize = maxRPathDepth*2 + 1; // +1 because of the entry room
         int possibleRoomSpawns = (matrixSize*matrixSize) - 1;
         if (possibleRoomSpawns < roomAmount) {
             int minDepth;
@@ -71,6 +130,9 @@ public class RoomManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Initializes given parameters, counts and randomises appropriate values
+    /// </summary>
     private void InitializeParamaters() {
         roomSpawnArray = new List<RoomMatrixStatus[]>();
         int matrixLength = 2 * maxRPathDepth + 1;
@@ -87,7 +149,9 @@ public class RoomManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    //Creates room per branch counters
+    /// <summary>
+    /// Creates rooms per branch counters
+    /// </summary>
     private void InitRPerBAmount() {
         roomPerBranchAmount = new int[4];   //All elements are 0
         roomPerBranchAmount[(int)top]++;
@@ -128,6 +192,11 @@ public class RoomManager : MonoBehaviour
         Debug.Log("Sum: " + (roomPerBranchAmount[(int)right] + roomPerBranchAmount[(int)top] + roomPerBranchAmount[(int)bottom] + roomPerBranchAmount[(int)left]));
     }
 
+    /// <summary>
+    /// Main function that generates new level design. Firstly it randomises all paths, after that 
+    /// all paths are being validated, if there is a change needed - it does it, and 
+    /// on the end it instantiates rooms.
+    /// </summary>
     private void GenerateSpawnMatrix(){
         List<int> randomNumbers = new List<int>();
         randomNumbers.Add((int)top);
@@ -144,8 +213,6 @@ public class RoomManager : MonoBehaviour
                 (entryChecked[(int)left] ? 0:1) +
                 (entryChecked[(int)right] ? 0:1);
             if (entrancesLeft != 0) {
-                //TODO maybe convert to RoomDir enum
-                //int randomValue = Random.Range(1, entrancesLeft) - 1;
                 int randomIndex = Random.Range(0, randomNumbers.Count);
                 int randomValue = randomNumbers[randomIndex];
                 randomNumbers.RemoveAt(randomIndex);
@@ -176,57 +243,17 @@ public class RoomManager : MonoBehaviour
             }
         } while (entrancesLeft > 0);
         
-        DebugList();
         ValidateMatrix();
         SpawnRooms();
-        TellMeWhichOnesAreMissing();
         FindAndSelectEndingRoom();
-        DebugList2();
         GenerateNavMeshForLevel();
         minimap.ConfigureMinimap(roomSpawnArray, player, maxRPathDepth, entryPos, endingPos);
     }
 
-    private void DebugList() {
-        
-        List<string> rmsFromList = new List<string>();
-        foreach (RoomMatrixStatus[] x in roomSpawnArray)
-        {
-            foreach (RoomMatrixStatus y in x)
-            {
-                if (y != null) {
-                    string info = "Type: " + y.getTemplate().name + ", pos: " + y.mxPos;
-                    rmsFromList.Add(info);
-                }
-                else {
-                    Debug.Log("null?");
-                }
-            }
-        }
-        Debug.Log("Pos that are not null: " + rmsFromList.Count);
-    }
-
-    private void DebugList2() {
-        
-        List<string> rmsFromList = new List<string>();
-        foreach (RoomMatrixStatus[] x in roomSpawnArray)
-        {
-            foreach (RoomMatrixStatus y in x)
-            {
-                if (y != null) {
-                    string info = "Type: " + y.getTemplate().name + ", pos: " + y.mxPos;
-                    rmsFromList.Add(info);
-                }
-                else {
-                    Debug.Log("null?");
-                }
-            }
-        }
-        
-        for(int i = 0 ; i < rmsFromList.Count ; i++) {
-            Debug.Log(rmsFromList[i]);
-        }
-    }
-
+    /// <summary>
+    /// Function that validates room matrix, by checking if all entrances are correct to each other.
+    /// If there is a missing entrances, or one more - it corrects it by replacing room with valid one.
+    /// </summary>
     private void ValidateMatrix() {
         int matrixLength = 2 * maxRPathDepth + 1;
         for(int x=0; x<matrixLength; x++) {
@@ -237,9 +264,7 @@ public class RoomManager : MonoBehaviour
                     Room curRoom = roomGameObj.GetComponent<Room>();
                     bool[] entryExists = curRoom.getEntryExistArray();
                     bool[] entryStats = curRoom.getEntryStatusArray();
-
-                    bool[] rEntry = new bool[4];    //Entry statuses for replacement room
-                    
+                    bool[] rEntry = new bool[4];    //Entry statuses for replacement room                    
                     //Checking entrances for a new room - if necessary
                     //When equal means there is an open entry (not attached to any room) 
                     rEntry[(int)top] = (entryExists[(int)top] == entryStats[(int)top]) ? false : true;
@@ -274,6 +299,16 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Functions that fills roomSpawnArray with appropriate data (template of the room, entrances etc.).
+    /// roomSpawnArray is the basis of the level generation. It contains all data needed to spawn chosen objects.
+    /// </summary>
+    /// <param name="prevRoom">GameObject of the previous spawned room</param>
+    /// <param name="entryDir">Direction (top, bottom, left, right) from where the room starts</param>
+    /// <param name="originBranch">To what branch (from entry room) this room is alligned to</param>
+    /// <param name="curDepth">Number that indicates the depth of the room (depth from entry room)</param>
+    /// <param name="pos">Position of the room in roomSpawnMatrix</param>
+    /// <param name="entryChecked">Array that indicates what branches are fully completed</param>
     private void FillMatrix(GameObject prevRoom, RoomDirection entryDir, RoomDirection originBranch, int curDepth, Vector2Int pos, bool[] entryChecked) {
         //Check if there is anything left to spawn        
         if (roomAmount <= 0){
@@ -394,6 +429,16 @@ public class RoomManager : MonoBehaviour
         }  
     }
 
+    /// <summary>
+    /// Function that invokes a methods to complete a generation of a room by 
+    /// fullfilling all entrances based on the direction of the room entrance.
+    /// </summary>
+    /// <param name="prevEntry">Defines from which direction this room is being generated</param>
+    /// <param name="roomInfo">Class that contains all needed information about this particular room</param>
+    /// <param name="rmTemplate">Template of the room GameObject of what entrances are being checked</param>
+    /// <param name="originBranch">To what branch (from entry room) this room is alligned to</param>
+    /// <param name="pos">Position of the room in roomSpawnMatrix</param>
+    /// <param name="entryChecked">Array that indicates what branches are fully completed</param>
     private void CheckSpawnedEntrances(RoomDirection prevEntry, Room roomInfo, GameObject rmTemplate, RoomDirection originBranch, Vector2Int pos, bool[] entryChecked) {
         if (prevEntry == top) {
             FillSpawnedEntrances(roomInfo, rmTemplate, top, originBranch, pos, entryChecked);
@@ -416,6 +461,16 @@ public class RoomManager : MonoBehaviour
             FillSpawnedEntrances(roomInfo, rmTemplate, right, originBranch, pos, entryChecked);
         }
     }
+
+    /// <summary>
+    /// Calculates next position of room to spawn based on direction of the room entrance.
+    /// </summary>
+    /// <param name="roomInfo">Class that contains all needed information about this particular room</param>
+    /// <param name="rmTemplate">Template of the room GameObject of what entrances are being checked</param>
+    /// <param name="eDir">Defines from which direction this room is being generated</param>
+    /// <param name="originBranch">To what branch (from entry room) this room is alligned to</param>
+    /// <param name="pos">Position of the room in roomSpawnMatrix</param>
+    /// <param name="entryChecked">Array that indicates what branches are fully completed</param>
     private void FillSpawnedEntrances(Room roomInfo, GameObject rmTemplate, RoomDirection eDir, RoomDirection originBranch, Vector2Int pos, bool[] entryChecked) {
         if (roomInfo.getEntryExist(eDir)) {
             Vector2Int nextPos = new Vector2Int(); // Must be assigned because of CS0165 error
@@ -444,6 +499,10 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Choose an obstacle for a room and spawn it in it.
+    /// </summary>
+    /// <param name="roomTemplate">GameObject of a room where an obstacle is going to be spawned</param>
     private void ChooseObstacleForRoom(GameObject roomTemplate) {
         if (roomTemplate == null) {
             Debug.LogError("RoomTemplate was null when choosing an obstacle for it!");
@@ -471,6 +530,12 @@ public class RoomManager : MonoBehaviour
      
     }
 
+    /// <summary>
+    /// Spawns items in the given room (obstacle GameObject) with a random chance.
+    /// Item has a 50% probability of being spawn in the spawn point.
+    /// </summary>
+    /// <param name="obstacleGO">GameObject of an obstacle which is in the room</param>
+    /// <returns>A list of spawned items in the room - list of GameObject's</returns>
     private List<GameObject> SpawnItemsInTheRoom(GameObject obstacleGO) {     
         GameObject itemSpawnPts = null;
         Transform parent = obstacleGO.transform;
@@ -506,6 +571,10 @@ public class RoomManager : MonoBehaviour
         return spawnedCollectibles;
     }
 
+    /// <summary>
+    /// Spawns rooms in the level based on the roomSpawnArray, which is previously prepared
+    /// matrix of rooms to spawn. The matrix is properly generated and checked before spawning.
+    /// </summary>
     private void SpawnRooms() {
         int matrixLength = 2 * maxRPathDepth + 1;
         for(int x=0; x<matrixLength; x++) {
@@ -540,6 +609,12 @@ public class RoomManager : MonoBehaviour
         Debug.Log("Rooms:" + rooms.Count);              
     }
 
+    /// <summary>
+    /// Checks if the given position is in the given list.
+    /// </summary>
+    /// <param name="pos">Position to check</param>
+    /// <param name="mxPos">List of positions that are going to be checked</param>
+    /// <returns>Check result</returns>
     private bool IsPositionInTheList(Vector2Int pos, List<Vector2Int> mxPos) {
         if(mxPos == null)
             return false;
@@ -551,6 +626,12 @@ public class RoomManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Checks if one branch does not interfere with other branch
+    /// </summary>
+    /// <param name="pos">Position that is being checked</param>
+    /// <param name="originBranch">Branch of the room</param>
+    /// <returns>Information if spawn is available for this position</returns>
     private bool CheckBranch(Vector2Int pos, RoomDirection originBranch) {
         bool rSpawnAvailable = true;
 
@@ -584,35 +665,14 @@ public class RoomManager : MonoBehaviour
         return rSpawnAvailable;
     }
 
-    private void TellMeWhichOnesAreMissing() {
-        int matrixLength = 2 * maxRPathDepth + 1;
-        List<Vector2Int> missingRooms = new List<Vector2Int>();
-        for(int x=0; x<matrixLength; x++) {
-            for(int y=0; y<matrixLength; y++) {
-                if (roomSpawnArray[x][y] != null) {
-                    Vector2Int curPos = new Vector2Int(x,y);
-                    bool isFound = false;
-                    foreach (Vector2Int pos in mxPosRooms)
-                    {
-                        if (curPos.x == pos.x && curPos.y == pos.y) {
-                            isFound = true;
-                            break;
-                        }
-                    }
-                    if (isFound == false) {
-                        missingRooms.Add(curPos);
-                    }
-                }
-            }
-        }
-        string mRPositions = "";
-        foreach (Vector2Int pos in missingRooms)  
-        {
-            mRPositions += pos + ", ";
-        }
-        Debug.Log("MissRoomPos: " + mRPositions);    
-    }
-
+    /// <summary>
+    /// Selects an ending room from all rooms that are in roomSpawnMatrix and prepares it properly.
+    /// Ending room is being chosen by the following algorithm:
+    /// 1. Count max depth
+    /// 2. Add rooms from max depth to one list with condition check (that it must be one entrance's room)
+    /// 3. Randomly choose one from the list
+    /// 4. Change it to the equivalent of the portal room by its entry direction
+    /// </summary>    
     private void FindAndSelectEndingRoom() {
         List<RoomMatrixStatus> mxRooms = new List<RoomMatrixStatus>();
 
@@ -692,9 +752,9 @@ public class RoomManager : MonoBehaviour
         //Spawning a proper template for ending room (with portal)
         Vector3 endRoomPos = endingRoom.transform.position;
         RoomDirection roomDir = roomBuilder.GetDirOfSingleRoom(endingRoom);
-        GameObject endingRoomTmpl = roomBuilder.GetEndingRoom(roomDir, endRoomPos);
+        GameObject endingRoomTmpl = roomBuilder.GetEndingRoom(roomDir, endRoomPos); //Instantiates object
         Destroy(endingRoom);
-        endingRoom = endingRoomTmpl;    //TODO: Reassign this template in room list
+        endingRoom = endingRoomTmpl;
         endingRoom.transform.SetParent(levelRoomsContainter.transform);
 
         rooms.Add(endingRoom);
@@ -702,6 +762,11 @@ public class RoomManager : MonoBehaviour
         Debug.Log("RoomsAdded: " + roomsAdded + " ChosenOneCords: " + mxRooms[iChosenRoom].mxPos);        
     }
 
+    /// <summary>
+    /// Checks if the room's can be a ending room's - ending room must have only one entrance.
+    /// </summary>
+    /// <param name="mxRooms">List of room's that are going to be checked</param>
+    /// <returns>List of the room's that can be an ending room's</returns>
     private List<RoomMatrixStatus> CheckEndRoomPossibility(List<RoomMatrixStatus> mxRooms) {
         List<RoomMatrixStatus> newMxRooms = new List<RoomMatrixStatus>();
         foreach (RoomMatrixStatus mxElement in mxRooms)
@@ -713,8 +778,81 @@ public class RoomManager : MonoBehaviour
         return newMxRooms;
     }
 
+    /// <summary>
+    /// Generates a "enemy walkable" surface in runtime.
+    /// </summary>
     private void GenerateNavMeshForLevel() {
         surface = levelRoomsContainter.GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
     }
+
+    // private void DebugList() {
+        
+    //     List<string> rmsFromList = new List<string>();
+    //     foreach (RoomMatrixStatus[] x in roomSpawnArray)
+    //     {
+    //         foreach (RoomMatrixStatus y in x)
+    //         {
+    //             if (y != null) {
+    //                 string info = "Type: " + y.getTemplate().name + ", pos: " + y.mxPos;
+    //                 rmsFromList.Add(info);
+    //             }
+    //             else {
+    //                 Debug.Log("null?");
+    //             }
+    //         }
+    //     }
+    //     Debug.Log("Pos that are not null: " + rmsFromList.Count);
+    // }
+
+    // private void DebugList2() {
+        
+    //     List<string> rmsFromList = new List<string>();
+    //     foreach (RoomMatrixStatus[] x in roomSpawnArray)
+    //     {
+    //         foreach (RoomMatrixStatus y in x)
+    //         {
+    //             if (y != null) {
+    //                 string info = "Type: " + y.getTemplate().name + ", pos: " + y.mxPos;
+    //                 rmsFromList.Add(info);
+    //             }
+    //             else {
+    //                 Debug.Log("null?");
+    //             }
+    //         }
+    //     }
+        
+    //     for(int i = 0 ; i < rmsFromList.Count ; i++) {
+    //         Debug.Log(rmsFromList[i]);
+    //     }
+    // }
+
+    // private void TellMeWhichOnesAreMissing() {
+    //     int matrixLength = 2 * maxRPathDepth + 1;
+    //     List<Vector2Int> missingRooms = new List<Vector2Int>();
+    //     for(int x=0; x<matrixLength; x++) {
+    //         for(int y=0; y<matrixLength; y++) {
+    //             if (roomSpawnArray[x][y] != null) {
+    //                 Vector2Int curPos = new Vector2Int(x,y);
+    //                 bool isFound = false;
+    //                 foreach (Vector2Int pos in mxPosRooms)
+    //                 {
+    //                     if (curPos.x == pos.x && curPos.y == pos.y) {
+    //                         isFound = true;
+    //                         break;
+    //                     }
+    //                 }
+    //                 if (isFound == false) {
+    //                     missingRooms.Add(curPos);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     string mRPositions = "";
+    //     foreach (Vector2Int pos in missingRooms)  
+    //     {
+    //         mRPositions += pos + ", ";
+    //     }
+    //     Debug.Log("MissRoomPos: " + mRPositions);    
+    // }
 }
