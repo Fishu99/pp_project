@@ -141,4 +141,16 @@ public class LevelsController : MonoBehaviour{
         AfterChangeLevel?.Invoke();
     }
 
+    public int GetLevelCount() {
+        return levels.Count;
+    }
+
+    public int GetCurrentLevelID() {
+        return level;
+    }
+
+    public void BonusLevelFailure() {
+        level++;
+    }
+
 }

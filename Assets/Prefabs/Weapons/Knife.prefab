@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDuration: 1.25
   attackDistance: 3
-  healthDamage: 40
+  healthDamage: 45
   ignoredTags: []
   hitSound: {fileID: 8300000, guid: 20d4076ec80bb634cab31bfa79ff0249, type: 3}
   missSound: {fileID: 8300000, guid: 6c36180b3f437084ea1bd4b7237de8be, type: 3}
