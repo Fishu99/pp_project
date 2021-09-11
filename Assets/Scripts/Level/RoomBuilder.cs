@@ -2,18 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class used for storage of the templates of the rooms.
+/// </summary>
 public class RoomBuilder : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> tS_singleRooms;   //Templates of single entry rooms
-    [SerializeField] private List<GameObject> tS_doubleRooms;   //Templates of double entry rooms
-    [SerializeField] private List<GameObject> tS_tripleRooms;   //Templates of triple entry rooms
-    [SerializeField] private List<GameObject> tS_entryRooms;   //Template of the entry room
-    [SerializeField] private List<GameObject> tS_obstacles;   //Templates of obstacles for single rooms
-    [SerializeField] private List<GameObject> tS_endingRoom;  //Template of the ending room
+    /// <summary>
+    /// Templates of single entry rooms
+    /// </summary>
+    [SerializeField] private List<GameObject> tS_singleRooms;
+    /// <summary>
+    /// Templates of double entry rooms
+    /// </summary>
+    [SerializeField] private List<GameObject> tS_doubleRooms;
+    /// <summary>
+    /// Templates of triple entry rooms
+    /// </summary>
+    [SerializeField] private List<GameObject> tS_tripleRooms;
+    /// <summary>
+    /// Template of the entry room
+    /// </summary>
+    [SerializeField] private List<GameObject> tS_entryRooms;
+    /// <summary>
+    /// Templates of obstacles for single rooms
+    /// </summary>
+    [SerializeField] private List<GameObject> tS_obstacles;
+    /// <summary>
+    /// Template of the ending room
+    /// </summary>
+    [SerializeField] private List<GameObject> tS_endingRoom;
 
-
+    /// <summary>
+    /// Probability of particular type of the room spawn array.
+    /// </summary>
+    /// <value>Probability array</value>
     private float[,] probabilityTable {get;set;}
 
+    /// <summary>
+    /// Initializes probability array values.
+    /// </summary>
     private void Awake() {
         /*  4 steps of probability which scales with maxDepth
             1# Beggining depth: {single, double, triple} x 'Rooms'
@@ -29,10 +56,18 @@ public class RoomBuilder : MonoBehaviour
         };
     }
 
+    /// <summary>
+    /// Gets a GameObject templates of the possible rooms, which contains required parameters.
+    /// </summary>
+    /// <param name="curDepth">Current depth of the room (starting from the entryRoom)</param>
+    /// <param name="maxDepth">Maximum depth of the level rooms</param>
+    /// <param name="reqDir">Required opening direction of the room</param>
+    /// <param name="reqRoomType">Required room type</param>
+    /// <returns>List of the rooms that matches the requirements</returns>
     public List<GameObject> GetRoomTemplates(int curDepth, int maxDepth, RoomDirection reqDir, int reqRoomType) {
         List<GameObject> roomTemplates = null;
         
-        //TODO functionality - add handle to different maxDepth than 4
+        //RFU functionality - adding handle to different maxDepth than 4
         if (maxDepth != 4)
             return null;
         //Assuming that maxDepth is equal to 4
@@ -70,6 +105,11 @@ public class RoomBuilder : MonoBehaviour
         return roomTemplates;
     }
 
+    /// <summary>
+    /// Gets an obstacle GameObject for a particular room type.
+    /// </summary>
+    /// <param name="roomType">Type of the room</param>
+    /// <returns>Template of the obstacle for a room</returns>
     public GameObject GetObstacle(int roomType) {
         if (roomType < 1 || roomType > 5) {
             Debug.LogError("There is no such type of the room");
@@ -94,6 +134,13 @@ public class RoomBuilder : MonoBehaviour
         return validObstacles[idOfChosenObst];
     }
 
+    /// <summary>
+    /// Filters given templates against the required direction of entry and the required room type
+    /// </summary>
+    /// <param name="roomTemplates">List of the tempaltes to filter</param>
+    /// <param name="reqDir">Required entrance direction</param>
+    /// <param name="reqRoomType">Required room type</param>
+    /// <returns>List of the GameObject room templates that matches requirements</returns>
     private List<GameObject> FilterListOfRooms(List<GameObject> roomTemplates, RoomDirection reqDir, int reqRoomType) {
         List<GameObject> filteredList = new List<GameObject>();
         foreach (GameObject room in roomTemplates)
@@ -105,17 +152,14 @@ public class RoomBuilder : MonoBehaviour
                     filteredList.Add(room);
             }            
         }
-
-        // for(int i = roomTemplates.Count - 1; i >= 0; i--) {
-        //     Room roomInfo = roomTemplates[i].GetComponent<Room>();
-        //     if(roomInfo.entryExist[(int)reqDir] == false) {
-        //         roomTemplates.Remove(roomTemplates[i]);
-        //     }
-        // }
-
         return filteredList;
     }
 
+    /// <summary>
+    /// Randomly selects a room from the list, spawns it and returns.
+    /// </summary>
+    /// <param name="roomTemplates">List of the templates</param>
+    /// <returns>Selected and spawned room GameObject</returns>
     public GameObject GetTemplateFromList(List<GameObject> roomTemplates) {
         int rand = Random.Range(0, roomTemplates.Count);
 
@@ -126,6 +170,15 @@ public class RoomBuilder : MonoBehaviour
         return chosenRoom;
     }
 
+    /// <summary>
+    /// Gets a template of the room with required parameters.
+    /// </summary>
+    /// <param name="top">Is top entrance needed</param>
+    /// <param name="bottom">Is the bottom entrance needed</param>
+    /// <param name="left">Is left entrance needed</param>
+    /// <param name="right">Is right entrance needed</param>
+    /// <param name="reqRoomType">Required room type</param>
+    /// <returns>GameObject room template</returns>
     public GameObject GetChosenTemplate(bool top, bool bottom, bool left, bool right, int reqRoomType) {
         int nbOfEntrances = (top ? 1:0) + (bottom ? 1:0) + (left ? 1:0) + (right ? 1:0);
         List<GameObject> validTemplates;
@@ -165,6 +218,16 @@ public class RoomBuilder : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Filters GameObject templates list of rooms on the condition to be compatible with given parameters.
+    /// </summary>
+    /// <param name="top">Is top entrance needed</param>
+    /// <param name="bottom">Is bottom entrance needed</param>
+    /// <param name="left">Is left entrance needed</param>
+    /// <param name="right">Is right entrance needed</param>
+    /// <param name="roomTemplates">List of rooms to be filtered</param>
+    /// <param name="reqRoomType">Required room type</param>
+    /// <returns>List of compatible room GameObject templates</returns>
     private List<GameObject> GetCompatibleRooms(bool top, bool bottom, bool left, bool right, List<GameObject> roomTemplates, int reqRoomType) {
         List<GameObject> validTemplates = new List<GameObject>();
         foreach (GameObject room in roomTemplates)
@@ -180,12 +243,23 @@ public class RoomBuilder : MonoBehaviour
         return validTemplates;
     }
 
+    /// <summary>
+    /// Choses and spawns an ending room.
+    /// </summary>
+    /// <param name="dir">Required entrance direction</param>
+    /// <param name="pos">Position of the ending room</param>
+    /// <returns>Spawned ending room GameObject</returns>
     public GameObject GetEndingRoom(RoomDirection dir, Vector3 pos) {
         GameObject endRoomT = Instantiate(tS_endingRoom[(int)dir], pos, Quaternion.identity);
         endRoomT.name = tS_endingRoom[(int)dir].name + "/Portal";
         return endRoomT;
     }
 
+    /// <summary>
+    /// Returns a direction of a single entrance room.
+    /// </summary>
+    /// <param name="room">GameObject template of the room to check</param>
+    /// <returns>RoomDirection of the entrance</returns>
     public RoomDirection GetDirOfSingleRoom(GameObject room) {
         Room roomInfo = room.GetComponent<Room>();
         if(roomInfo.getEntryAmount() != 1) {
