@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A script of a single room. Each level consists of several rooms conected by some passages.
+/// </summary>
 public class Room : MonoBehaviour
 {
     [SerializeField] private int entryAmount;

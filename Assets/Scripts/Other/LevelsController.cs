@@ -63,6 +63,9 @@ public class LevelsController : MonoBehaviour{
         StartLevel();
     }
 
+    /// <summary>
+    /// Starts the first level.
+    /// </summary>
     public void StartLevel() {
         int level = 0;
         Scene sceneP = SceneManager.GetSceneByName(playerScene);
@@ -76,6 +79,9 @@ public class LevelsController : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Loads next level.
+    /// </summary>
     public void GoLevelUp() {
         level++;
         if (level < levels.Count) {
@@ -141,14 +147,25 @@ public class LevelsController : MonoBehaviour{
         AfterChangeLevel?.Invoke();
     }
 
+    /// <summary>
+    /// Returns the number of levels in the game.
+    /// </summary>
+    /// <returns>the number of levels in the game</returns>
     public int GetLevelCount() {
         return levels.Count;
     }
 
+    /// <summary>
+    /// Returns the number of the current level.
+    /// </summary>
+    /// <returns>the number of the current level</returns>
     public int GetCurrentLevelID() {
         return level;
     }
 
+    /// <summary>
+    /// Loads next level.
+    /// </summary>
     public void BonusLevelFailure() {
         level++;
     }

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// An enemy for testing purposes. It does not move and it attacks periodically with its knife and gun.
+/// </summary>
 public class DummyEnemy : MonoBehaviour
 {
     [SerializeField] private Gun gun;

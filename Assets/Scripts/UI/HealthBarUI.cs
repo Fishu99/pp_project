@@ -68,6 +68,9 @@ public class HealthBarUI : MonoBehaviour{
         healthBar.rectTransform.sizeDelta = new Vector2(healthBarStatus * startWidth, healthBar.rectTransform.sizeDelta.y);
     }
 
+    /// <summary>
+    /// Sets the health bar to 50%.
+    /// </summary>
     [ContextMenu("Test")]
     public void Set50PercentDamage(){
         SetHealth(50, 100);

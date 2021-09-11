@@ -1,3 +1,6 @@
+/// <summary>
+/// An enumeration specifying the direction of a room.
+/// </summary>
 public enum RoomDirection
 {
     top,

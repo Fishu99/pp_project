@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// A script for a portal. Portals are placed at the end of each level and allow the player to go to the next level.
+/// </summary>
 public class Portal : MonoBehaviour
 {
     //Portal Statuses for next level (causes a different look of the portal)
@@ -65,14 +68,26 @@ public class Portal : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Gets the information if the portal leads to a regular next level.
+    /// </summary>
+    /// <returns>true if the portal leads to a regular next level</returns>
     public bool isNormalLevNext() {
         return toNormalLevel;
     }
-    
+
+    /// <summary>
+    /// Gets the information if the portal leads to a bonus level.
+    /// </summary>
+    /// <returns>true if the portal leads to a bonus level</returns>
     public bool isBonusLevelNext() {
         return toBonusLevel;
     }
 
+    /// <summary>
+    /// Gets the information if the portal leads to an ending level.
+    /// </summary>
+    /// <returns>true if the portal leads to an ending level</returns>
     public bool isEndingLevelNext() {
         return toEndingLevel;
     }

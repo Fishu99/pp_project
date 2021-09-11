@@ -216,10 +216,18 @@ public class Gun : MonoBehaviour
         ammunition += (int)(amount * difficultyAmmunition);
     }
 
+    /// <summary>
+    /// Gets the ammunition of the gun.
+    /// </summary>
+    /// <returns>current ammunition of the gun.</returns>
     public int GetAmmunition() {
         return ammunition;
     }
 
+    /// <summary>
+    /// Returns the ammunition sifficulty of the gun.
+    /// </summary>
+    /// <returns>the ammunition sifficulty of the gun</returns>
     public float GetDifficultyAmmunition() {
         return difficultyAmmunition;
     }

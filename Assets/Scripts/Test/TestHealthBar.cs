@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Enemy's health bar. It displays the enemy's health from the related Health component.
+/// </summary>
 public class TestHealthBar : MonoBehaviour
 {
     [SerializeField] private Health monitoredHealth;
@@ -13,6 +16,9 @@ public class TestHealthBar : MonoBehaviour
         SetBarFill(1f);
     }
 
+    /// <summary>
+    /// In each Update the enemy's health is checked. If it changed, the health bar is updated.
+    /// </summary>
     void Update()
     {
         if(monitoredHealth.CurrentHealth != previousHealth)
@@ -28,6 +34,10 @@ public class TestHealthBar : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the fill of the health bar.
+    /// </summary>
+    /// <param name="fill">a number between 0 and 1 describing how much of the bar should be filled.</param>
     private void SetBarFill(float fill)
     {
         //Debug.Log(fill);

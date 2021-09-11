@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class for building a room.
+/// </summary>
 public class RoomBuilder : MonoBehaviour
 {
     [SerializeField] private List<GameObject> tS_singleRooms;   //Templates of single entry rooms
