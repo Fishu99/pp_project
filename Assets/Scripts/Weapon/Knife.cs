@@ -133,7 +133,8 @@ public class Knife : MonoBehaviour
             }
             audioSource.PlayOneShot(hitSound);
             Health healthComponent = FindHealthOfHitObject(hitInfo);
-            healthComponent.Damage(healthDamage);
+            if(healthComponent)
+                healthComponent.Damage(healthDamage);
         }else{
             audioSource.PlayOneShot(missSound);
         }

@@ -37,6 +37,10 @@ public class PlayerShooting : MonoBehaviour
     /// Type of the active weapon.
     /// </summary>
     public Weapon weapon;
+    /// <summary>
+    /// Health of the player
+    /// </summary>
+    Health health;
 
     /// <summary>
     /// Gets the PlayerMovement component
@@ -44,6 +48,7 @@ public class PlayerShooting : MonoBehaviour
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        health = GetComponent<Health>();
     }
 
     /// <summary>
@@ -59,6 +64,9 @@ public class PlayerShooting : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (!health.IsAlive() || Time.timeScale <= 0.9f)
+            return;
+
         if (Input.GetMouseButton(0))
         {
             Attack();

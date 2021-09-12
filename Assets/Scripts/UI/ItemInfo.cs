@@ -11,17 +11,38 @@ public class ItemInfo : MonoBehaviour
 {
 
     [SerializeField]
+    /// <summary>
+    /// Reference to canvas
+    /// </summary>
     Canvas canvas;
 
     [SerializeField]
+    /// <summary>
+    /// Reference to mainCamera
+    /// </summary>
     Camera mainCamera;
 
+    /// <summary>
+    /// Reference to canvasGroup
+    /// </summary>
     CanvasGroup canvasGroup;
 
+    /// <summary>
+    /// Reference to TextMeshProUGUI to show name of the weapon
+    /// </summary>
     TextMeshProUGUI textMesh;
 
+    /// <summary>
+    /// Current position of the weapon in the world space
+    /// </summary>
     Vector3 currentPosition;
+    /// <summary>
+    /// Position of ui element on the canvas
+    /// </summary>
     Vector2 pos;
+    /// <summary>
+    /// Position on the screen of the weapon
+    /// </summary>
     Vector2 screenPos;
     
     /// <summary>

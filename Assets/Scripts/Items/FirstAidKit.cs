@@ -8,11 +8,6 @@ using UnityEngine;
 public class FirstAidKit : MonoBehaviour
 {
 
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// Picks the first aid kit.
     /// </summary>

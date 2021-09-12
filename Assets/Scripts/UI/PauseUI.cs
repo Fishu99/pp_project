@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -24,6 +25,12 @@ public class PauseUI : MonoBehaviour{
 
     [SerializeField]
     RectTransform winScreen;
+
+    [SerializeField]
+    TextMeshProUGUI resultText;
+
+    [SerializeField]
+    GameTimer gameTimer;
 
     [SerializeField]
     float timeToShowDeathScreen = 2f;
@@ -127,6 +134,30 @@ public class PauseUI : MonoBehaviour{
         foreach(RectTransform t in uiInGame){
             t.gameObject.SetActive(false);
         }
+        string result = "";
+        string bestResultString = "";
+        float bestResult = float.MaxValue;
+        string currentResultText = gameTimer.GetSTRINGgameTime();
+        float currentResult = gameTimer.GetRAWgameTime();
+
+        if (PlayerPrefs.HasKey("result_float") && PlayerPrefs.HasKey("result_text")) {
+            bestResult = PlayerPrefs.GetFloat("result_float");
+            bestResultString = PlayerPrefs.GetString("result_text");
+        }
+
+        if (bestResult > currentResult) {
+            bestResult = currentResult;
+            bestResultString = currentResultText;
+        }
+
+        PlayerPrefs.SetFloat("result_float", bestResult);
+        PlayerPrefs.SetString("result_text", bestResultString);
+
+        result += "your best time: " + bestResultString + "\n";
+        result += "current time: " + currentResultText;
+
+        resultText.text = result;
+  
         menuAfterDead.gameObject.SetActive(false);
         winScreen.gameObject.SetActive(true);
     }
